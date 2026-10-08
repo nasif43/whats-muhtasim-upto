@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's Muhtasim Upto?</title>
+  <style>
+    :root {
+      --bg: #f5f5f3;
+      --surface: #ffffff;
+      --border: #e5e5e1;
+      --text: #111111;
+      --muted: #6b6b6b;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --green: #16a34a;
+      --green-light: #f0fdf4;
+      --amber: #d97706;
+      --amber-light: #fffbeb;
+      --gray: #6b7280;
+      --gray-light: #f3f4f6;
+      --purple: #7c3aed;
+      --purple-light: #f5f3ff;
+      --red: #dc2626;
+      --red-light: #fef2f2;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.09);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 40px 22px;
+    }
+    header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+    header h1 span { color: var(--accent); }
+    header p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .header-meta { display: flex; align-items: center; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 600; padding: 3px 11px; border-radius: 20px;
+    }
+    .pill-green { background: var(--green-light); color: var(--green); }
+    .pill-green::before { content: '●'; font-size: 8px; }
+    .pill-gray { background: var(--gray-light); color: var(--gray); }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex; gap: 2px;
+    }
+    nav button {
+      background: none; border: none;
+      border-bottom: 2px solid transparent;
+      padding: 12px 16px;
+      font-size: 14px; font-weight: 500;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+    }
+    nav button:hover { color: var(--text); }
+    nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    main { max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── STAT ROW ── */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 12px; margin-bottom: 30px;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow);
+    }
+    .stat-card .num { font-size: 26px; font-weight: 700; }
+    .stat-card .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--muted); margin: 28px 0 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── PROJECT CARD (new design) ── */
+    .pcard {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      margin-bottom: 14px; overflow: hidden;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .pcard:hover { box-shadow: var(--shadow-md); border-color: #d0d0cc; }
+
+    .pcard-top {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      padding: 18px 20px 14px;
+      align-items: start;
+    }
+    .pcard-icon {
+      width: 40px; height: 40px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .pcard-main {}
+    .pcard-title {
+      font-size: 15px; font-weight: 600;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .pcard-subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
+    .pcard-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
+
+    /* status badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px;
+      white-space: nowrap;
+    }
+    .b-done    { background: var(--green-light); color: var(--green); }
+    .b-ongoing { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .b-paused  { background: var(--gray-light); color: var(--gray); }
+    .b-shipped { background: var(--purple-light); color: var(--purple); }
+
+    /* tech tags */
+    .tag {
+      font-size: 11px; font-weight: 500; padding: 2px 7px;
+      border-radius: 4px; background: var(--gray-light); color: var(--gray);
+    }
+    .tag.ts  { background: #dbeafe; color: #1d4ed8; }
+    .tag.py  { background: #fef9c3; color: #854d0e; }
+    .tag.go  { background: #d1fae5; color: #065f46; }
+    .tag.oo  { background: #f3e8ff; color: #6b21a8; }
+    .tag.ans { background: #fee2e6; color: #9f1239; }
+
+    /* toggle button */
+    .pcard-toggle {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 500; color: var(--accent);
+      background: var(--accent-light); border: none; border-radius: 6px;
+      padding: 5px 11px; cursor: pointer; white-space: nowrap;
+      transition: background 0.15s;
+      align-self: start; margin-top: 2px;
+    }
+    .pcard-toggle:hover { background: #dbeafe; }
+    .pcard.open .pcard-toggle { background: #dbeafe; }
+    .chevron { display: inline-block; transition: transform 0.2s; }
+    .pcard.open .chevron { transform: rotate(180deg); }
+
+    /* key wins strip */
+    .pcard-wins {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding: 0 20px 16px;
+    }
+    .win-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; font-size: 12px; padding: 3px 10px;
+      color: var(--text);
+    }
+    .win-chip::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+    /* expandable body */
+    .pcard-body {
+      display: none; border-top: 1px solid var(--border);
+      background: #fafaf8;
+    }
+    .pcard.open .pcard-body { display: block; }
+
+    .body-section { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+    .body-section:last-child { border-bottom: none; }
+    .body-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px;
+    }
+
+    /* changelog */
+    .cl { list-style: none; }
+    .cl li {
+      display: flex; gap: 10px; padding: 7px 0;
+      border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .cl li:last-child { border-bottom: none; }
+    .cl-date { color: var(--muted); font-size: 11px; white-space: nowrap; min-width: 56px; padding-top: 2px; }
+    .cl-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      margin-top: 7px; flex-shrink: 0; background: var(--accent);
+    }
+    .cl-dot.g { background: var(--green); }
+    .cl-dot.a { background: var(--amber); }
+    .cl-dot.r { background: var(--red); }
+    .cl-dot.p { background: var(--purple); }
+    .cl-msg { color: var(--text); line-height: 1.45; }
+
+    /* highlight box */
+    .hbox {
+      background: var(--accent-light); border-left: 3px solid var(--accent);
+      border-radius: 4px; padding: 11px 14px;
+      font-size: 13px; color: #1e40af; line-height: 1.55;
+    }
+    .hbox.amber { background: var(--amber-light); border-color: var(--amber); color: #78350f; }
+    .hbox.red   { background: var(--red-light); border-color: var(--red); color: #991b1b; }
+    .hbox.green { background: var(--green-light); border-color: var(--green); color: #14532d; }
+
+    /* next steps */
+    .next-steps { list-style: none; }
+    .next-steps li {
+      display: flex; gap: 8px; padding: 6px 0;
+      border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .next-steps li:last-child { border-bottom: none; }
+    .next-steps li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+    /* finding cards */
+    .finding {
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 12px 14px; margin-bottom: 10px; font-size: 13px;
+    }
+    .finding:last-child { margin-bottom: 0; }
+    .finding-title {
+      font-weight: 600; font-size: 13px; margin-bottom: 5px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .finding p { color: var(--muted); line-height: 1.5; }
+
+    /* ── TIMETABLE ── */
+    .tt-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .tt-head { padding: 20px 24px 14px; border-bottom: 1px solid var(--border); }
+    .tt-head h2 { font-size: 17px; font-weight: 600; }
+    .tt-head p { font-size: 13px; color: var(--muted); margin-top: 3px; }
+    table.tt { width: 100%; border-collapse: collapse; }
+    table.tt th {
+      background: var(--gray-light); font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 10px 16px; text-align: left; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    table.tt td {
+      padding: 11px 16px; font-size: 13px;
+      border-bottom: 1px solid var(--border); vertical-align: middle;
+    }
+    table.tt tr:last-child td { border-bottom: none; }
+    table.tt tr:hover td { background: var(--bg); }
+    .tt-time { font-weight: 600; white-space: nowrap; }
+    .cc {
+      display: inline-block; padding: 3px 9px; border-radius: 5px;
+      font-size: 12px; font-weight: 600; margin: 2px 0;
+    }
+    .cc-cmn   { background: #dbeafe; color: #1d4ed8; }
+    .cc-c430  { background: #d1fae5; color: #065f46; }
+    .cc-c445  { background: #fef9c3; color: #854d0e; }
+    .cc-c425  { background: #f3e8ff; color: #6b21a8; }
+    .cc-empty { color: var(--muted); font-size: 12px; }
+
+    .today-box {
+      background: var(--accent-light); border: 1px solid #bfdbfe;
+      border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
+      font-size: 13px; color: #1e40af;
+    }
+    .today-box.inclass { background: #fef9c3; border-color: #fbbf24; color: #92400e; }
+
+    /* ── ABOUT ── */
+    .about-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px;
+    }
+    .about-card h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+    .about-card p { font-size: 14px; color: var(--muted); margin-bottom: 14px; line-height: 1.7; }
+    .about-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .about-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--gray-light); color: var(--text); text-decoration: none;
+      font-size: 13px; font-weight: 500; padding: 7px 14px;
+      border-radius: 7px; border: 1px solid var(--border); transition: all 0.15s;
+    }
+    .about-link:hover { background: var(--accent-light); color: var(--accent); }
+
+    /* ── CHANNEL STATUS GRID ── */
+    .channel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: 10px;
+    }
+    .ch-item {
+      border: 1px solid var(--border); border-radius: 9px;
+      padding: 13px 13px 10px; display: flex; flex-direction: column; gap: 4px;
+    }
+    .ch-live   { border-color: #86efac; background: #f0fdf4; }
+    .ch-broken { border-color: #fca5a5; background: #fef2f2; }
+    .ch-next   { border-color: #bfdbfe; background: #eff6ff; }
+    .ch-blocked{ border-color: #e9d5ff; background: #f5f3ff; }
+
+    .ch-icon { font-size: 20px; margin-bottom: 2px; }
+    .ch-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .ch-badge {
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700; padding: 2px 7px;
+      border-radius: 20px; width: fit-content; margin-top: 2px;
+    }
+    .ch-badge-live    { background: #dcfce7; color: #15803d; }
+    .ch-badge-broken  { background: #fee2e2; color: #b91c1c; }
+    .ch-badge-next    { background: #dbeafe; color: #1d4ed8; }
+    .ch-badge-blocked { background: #ede9fe; color: #6d28d9; }
+    .ch-note { font-size: 11px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+
+    /* ── FEATURE STATUS GRID ── */
+    .feat-grid { display: flex; flex-direction: column; gap: 0; }
+    .feat-row {
+      display: grid;
+      grid-template-columns: 10px 140px 100px 1fr;
+      align-items: center; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .feat-row:last-child { border-bottom: none; }
+    .feat-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .feat-live    { background: var(--green); }
+    .feat-inprog  { background: var(--red); }
+    .feat-next    { background: var(--accent); }
+    .feat-blocked { background: var(--purple); }
+
+    .feat-name   { font-weight: 600; color: var(--text); font-size: 13px; }
+    .feat-status {
+      font-size: 11px; font-weight: 600; padding: 2px 8px;
+      border-radius: 20px; white-space: nowrap; width: fit-content;
+    }
+    .feat-status.live    { background: var(--green-light); color: var(--green); }
+    .feat-status.inprog  { background: var(--red-light);   color: var(--red); }
+    .feat-status.next    { background: var(--accent-light); color: var(--accent); }
+    .feat-status.blocked { background: var(--purple-light); color: var(--purple); }
+    .feat-desc   { font-size: 12px; color: var(--muted); }
+
+    /* ── DEVLOG TOGGLE (reuses older-toggle style) ── */
+    .devlog-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: transparent; border: none;
+      border-top: 1px dashed var(--border);
+      padding: 12px 0 0; margin-top: 4px;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      cursor: pointer; transition: color 0.15s;
+    }
+    .devlog-toggle:hover { color: var(--text); }
+
+    /* ── OLDER PROJECTS TOGGLE ── */
+    .older-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: var(--surface);
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      padding: 13px 18px; margin: 8px 0 4px;
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .older-toggle:hover { background: var(--gray-light); color: var(--text); border-color: #ccc; }
+    .older-chevron { font-size: 13px; transition: transform 0.2s; }
+    .older-chevron.open { transform: rotate(180deg); }
+
+    @media (max-width: 640px) {
+      header, nav { padding-left: 16px; padding-right: 16px; }
+      main { padding: 20px 12px; }
+      .pcard-top { grid-template-columns: auto 1fr; }
+      .pcard-toggle { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>What's <span>Muhtasim</span> Upto?</h1>
+  <p>Muhtasim Hossain · AI/ML Engineer at Metamorphosis Ltd</p>
+  <div class="header-meta">
+    <span class="pill pill-green">Active — June 2026 to now</span>
+    <span class="pill pill-gray">10 work items · June → October 2026</span>
+  </div>
+</header>
+
+<nav>
+  <button class="active" onclick="switchTab('work',this)">💼 Work</button>
+  <button onclick="switchTab('classes',this)">🎓 Class Schedule</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════ TAB 1 — WORK ═══════════════ -->
+<div id="tab-work" class="tab-content active">
+
+  <!-- ══ ONGOING ══ -->
+  <div class="section-label">🔵 Ongoing — October 2026</div>
+
+  <!-- Meta Omnichannel -->
+  <div class="pcard open" id="card-omni">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#dbeafe;">💬</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Meta Omnichannel Platform
+          <span class="badge b-ongoing">● Ongoing</span>
+        </div>
+        <div class="pcard-subtitle">Unified messaging platform connecting WhatsApp, Messenger, Telegram, and Slack into one agent inbox — with live analytics, AI e-com assistant, and human-takeover system. Took over from a colleague in August and have been the sole developer since.</div>
+        <div class="pcard-tags">
+          <span class="tag ts">TypeScript / Next.js</span>
+          <span class="tag go">Go</span>
+          <span class="tag">NestJS</span>
+          <span class="tag py">LiteLLM</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Aug 10 – Present · GitHub (private)</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-omni')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-body">
+
+      <!-- ── CHANNEL STATUS ROW ── -->
+      <div class="body-section">
+        <div class="body-label">Channel Status</div>
+        <div class="channel-grid">
+          <div class="ch-item ch-live">
+            <div class="ch-icon">📘</div>
+            <div class="ch-name">Messenger</div>
+            <div class="ch-badge ch-badge-live">✓ Live</div>
+            <div class="ch-note">Historical sync + echo filtering done</div>
+          </div>
+          <div class="ch-item ch-live">
+            <div class="ch-icon">✈️</div>
+            <div class="ch-name">Telegram</div>
+            <div class="ch-badge ch-badge-live">✓ Live</div>
+            <div class="ch-note">Webhook with secret path verification</div>
+          </div>
+          <div class="ch-item ch-live">
+            <div class="ch-icon">💼</div>
+            <div class="ch-name">Slack</div>
+            <div class="ch-badge ch-badge-live">✓ Live</div>
+            <div class="ch-note">Signing secret verified</div>
+          </div>
+          <div class="ch-item ch-next">
+            <div class="ch-icon">🎵</div>
+            <div class="ch-name">TikTok</div>
+            <div class="ch-badge ch-badge-next">→ Up next</div>
+            <div class="ch-note">DSPR review scoped; architecture ready</div>
+          </div>
+          <div class="ch-item ch-next">
+            <div class="ch-icon">💙</div>
+            <div class="ch-name">Meta Comments</div>
+            <div class="ch-badge ch-badge-next">→ Planned</div>
+            <div class="ch-note">Reuses existing Meta webhook infra</div>
+          </div>
+          <div class="ch-item ch-blocked">
+            <div class="ch-icon">🟣</div>
+            <div class="ch-name">Viber</div>
+            <div class="ch-badge ch-badge-blocked">⚑ Pending budget</div>
+            <div class="ch-note">~$100/mo API access cost</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FEATURE STATUS GRID ── -->
+      <div class="body-section">
+        <div class="body-label">Platform Features</div>
+        <div class="feat-grid">
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">Team Inbox</span>
+            <span class="feat-status live">Live</span>
+            <span class="feat-desc">Unified inbox for all channels; conversations assigned to agents</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">Live Analytics</span>
+            <span class="feat-status live">Live</span>
+            <span class="feat-desc">Real-time message stats and e-com session counts</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">Human Takeover</span>
+            <span class="feat-status live">Live</span>
+            <span class="feat-desc">Agent can claim and reply to any session; AI pauses automatically</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">E-com Chat Widget</span>
+            <span class="feat-status live">Live</span>
+            <span class="feat-desc">Embeddable customer chat widget with real-time polling</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">Odoo Sync</span>
+            <span class="feat-status live">Live</span>
+            <span class="feat-desc">Contacts and CRM leads synced from Odoo (Go bridge)</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-inprog"></span>
+            <span class="feat-name">AI Auto-Reply</span>
+            <span class="feat-status inprog">Being removed</span>
+            <span class="feat-desc">Client requirement changed — shifting to human-only inbox</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-next"></span>
+            <span class="feat-name">TikTok Channel</span>
+            <span class="feat-status next">Up next</span>
+            <span class="feat-desc">Integration scoped; pending TikTok developer app approval</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-blocked"></span>
+            <span class="feat-name">Viber Channel</span>
+            <span class="feat-status blocked">Pending budget</span>
+            <span class="feat-desc">Technically ready; awaiting client decision on $100/mo API cost</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DEV LOG (COLLAPSIBLE) ── -->
+      <div class="body-section" style="padding-bottom:0;">
+        <button class="devlog-toggle" id="devlog-btn" onclick="toggleDevlog()">
+          <span>📋 Developer log — milestones &amp; R&amp;D findings</span>
+          <span class="older-chevron" id="devlog-chevron">▾</span>
+        </button>
+      </div>
+      <div id="devlog-panel" style="display:none;">
+
+        <div class="body-section">
+          <div class="body-label">Key milestones</div>
+          <ul class="cl">
+            <li><span class="cl-date">Aug 10–15</span><span class="cl-dot g"></span><span class="cl-msg">Onboarded: local dev setup, fixed auth issues, documented system, produced diff report with deployment recommendations</span></li>
+            <li><span class="cl-date">Aug 20</span><span class="cl-dot g"></span><span class="cl-msg">Switched AI backend to LiteLLM proxy with model routing; added conversation reopen; migrated to GitHub Actions CI/CD</span></li>
+            <li><span class="cl-date">Sep 8–9</span><span class="cl-dot g"></span><span class="cl-msg">Added agent dashboard for live session monitoring and human takeover; AI renders markdown; e-com widget public; live analytics hooked up</span></li>
+            <li><span class="cl-date">Sep 13</span><span class="cl-dot g"></span><span class="cl-msg">Major refactor — migrated Odoo sync from Java to Go, removed Kafka &amp; ClickHouse, bridged gateway to NestJS via HTTP; v2 UI merged</span></li>
+            <li><span class="cl-date">Oct 1–8</span><span class="cl-dot a"></span><span class="cl-msg">Channel expansion R&amp;D: scoped Viber ($100/mo), TikTok (DSPR review required), Meta Comments (reuses existing infra); AI removal decision made</span></li>
+          </ul>
+        </div>
+
+        <div class="body-section">
+          <div class="body-label">R&amp;D Findings — Channel Expansion (Oct 2026)</div>
+          <div class="finding">
+            <div class="finding-title">🟣 Viber</div>
+            <p>~$100/month for API key via Viber Business partner programme. Webhook uses HMAC-SHA256, rate limit 500 req/10s. Defer until client confirms budget.</p>
+          </div>
+          <div class="finding">
+            <div class="finding-title">🎵 TikTok Messaging + Comments</div>
+            <p>Possible but requires TikTok Developer App approval + DSPR maturity review (data inventory, privacy notice, subprocessor list). LLMs must be declared as subprocessors. Reply window 48h. Architecture already supports it — next step is to connect the channel.</p>
+          </div>
+          <div class="finding">
+            <div class="finding-title">💙 Meta Post Comments</div>
+            <p>Can reuse existing Meta webhook infrastructure. Comments on posts already trigger events our Meta App is approved for. Needs a new handler and "reply to comment" outbound path.</p>
+          </div>
+          <div class="finding" style="border-color:#fca5a5;">
+            <div class="finding-title">🔴 AI Agent Removal</div>
+            <p>Per latest client requirements the AI auto-reply agent is being <strong>removed</strong>. Platform shifts to a fully human-operated inbox. LiteLLM proxy and e-com session handling will be stripped out.</p>
+          </div>
+        </div>
+
+        <div class="body-section">
+          <div class="body-label">Next steps</div>
+          <ul class="next-steps">
+            <li>Connect TikTok channel (messaging + comments) — approval pipeline scoped</li>
+            <li>Add Meta Post Comments handler to existing webhook infrastructure</li>
+            <li>Remove AI auto-reply agent; switch to human-only inbox</li>
+            <li>Decide on Viber based on client budget (~$100/mo)</li>
+          </ul>
+        </div>
+
+      </div><!-- /devlog-panel -->
+
+    </div>
+  </div>
+
+  <!-- ══ OLDER PROJECTS COLLAPSIBLE ══ -->
+  <button class="older-toggle" id="older-btn" onclick="toggleOlder()">
+    <span>📁 View older projects</span>
+    <span class="older-chevron" id="older-chevron">▾</span>
+  </button>
+
+  <div id="older-projects" style="display:none;">
+
+  <div class="section-label">✅ Completed — August 2026</div>
+
+  <!-- Odoo 18→19 Migration -->
+  <div class="pcard" id="card-migration">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#f3e8ff;">⚙️</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Odoo 18 → 19 Module Migration
+          <span style="background:#fee2e2;color:#b91c1c;font-size:11px;padding:2px 7px;border-radius:4px;font-weight:700;">127 modules</span>
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">Converted 127 Odoo Enterprise Edition modules from v18 to v19 compatibility. Built a dedicated upgrade validator tool to automate future compatibility checks.</div>
+        <div class="pcard-tags">
+          <span class="tag py">Python</span>
+          <span class="tag oo">Odoo 19</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Jul 16 – Aug 8 · GitHub</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-migration')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">127 EE modules converted</span>
+      <span class="win-chip">Upgrade validator tool built</span>
+      <span class="win-chip">CE/EE addon classifier</span>
+      <span class="win-chip">Smoke test suite</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Sat with Rabbi, Zihad, Niaj and Suja bhais to scope the migration. Converted all 127 modules overnight — work taken home to complete. Then built the <strong>Odoo 19 Upgrade Validator</strong> as a standalone tool to automate compatibility checks, classify CE/EE addons using manifestoo-core, parse installer logs, and run smoke tests. Went through a feedback loop with Rabbi bhai and Marzan apu via Loom video review.</div>
+      </div>
+      <div class="body-section">
+        <div class="body-label">Progress</div>
+        <ul class="cl">
+          <li><span class="cl-date">Jul 16–18</span><span class="cl-dot g"></span><span class="cl-msg">All 127 modules converted — scoped in a team meeting, completed overnight at home</span></li>
+          <li><span class="cl-date">Jul 22</span><span class="cl-dot g"></span><span class="cl-msg">Bug fixes from Rabbi bhai's Loom video review pushed to GitHub</span></li>
+          <li><span class="cl-date">Aug 8</span><span class="cl-dot g"></span><span class="cl-msg">Odoo 19 Upgrade Validator published — installer log parsing, CE/EE classification, smoke tests</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- General Takaful -->
+  <div class="pcard" id="card-takaful">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#fef9c3;">🛡️</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          General Takaful Management Module
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">Full Odoo 19 demo module covering the Islamic insurance operating cycle — quotations, policies, claims, and retakaful — built for the Amãna Takaful prospect.</div>
+        <div class="pcard-tags">
+          <span class="tag oo">Odoo 19</span>
+          <span class="tag py">Python</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">August · Local</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-takaful')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">9 Odoo models</span>
+      <span class="win-chip">Full claim lifecycle</span>
+      <span class="win-chip">Certificate PDF generation</span>
+      <span class="win-chip">Retakaful cession engine</span>
+      <span class="win-chip">~1,450 lines of code</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Built as a lean POC from the Amãna Takaful cost estimate. Covers: product setup with rating factors and Wakala fee, quotation with loading/discount/NCD, policy issuance with certificate PDF, full claim workflow (intimation → assessment → approval → settlement), automatic retakaful cession against treaties, and multi-company security. Comes with a 12-minute demo script for client presentations.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COMPLETED — JULY ══ -->
+  <div class="section-label">✅ Completed — July 2026</div>
+
+  <!-- BDJobs Scraper -->
+  <div class="pcard" id="card-scraper">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#ffe4e6;">📋</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          BDJobs &amp; e-GP Tender Scraper
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">Scrapes bdjobs.com and egp.gov.bd daily for ERP/software tenders. Deployed live with a web dashboard at tender.metamorphosis.com.bd.</div>
+        <div class="pcard-tags">
+          <span class="tag py">Python</span>
+          <span class="tag">FastAPI</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Jul 11–22 · GitHub · Live on VPS</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-scraper')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">2 sources scraped daily</span>
+      <span class="win-chip">Keyword filtering + auto-archive</span>
+      <span class="win-chip">GitHub Actions CI/CD</span>
+      <span class="win-chip">Live at tender.metamorphosis.com.bd</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Built a scraper suite targeting bdjobs.com and egp.gov.bd, filtered for ERP/software keywords. Served via FastAPI with a web dashboard supporting merging, tagging, grouping, and background scraping. Deployed from Render → bare VPS → domain with full GitHub Actions CI/CD. Password-gated, mobile-responsive. Signed off as production-ready on Day 10.</div>
+      </div>
+      <div class="body-section">
+        <div class="body-label">Progress</div>
+        <ul class="cl">
+          <li><span class="cl-date">Jul 11</span><span class="cl-dot g"></span><span class="cl-msg">Initial scraper + FastAPI dashboard built; deployed to Render</span></li>
+          <li><span class="cl-date">Jul 13</span><span class="cl-dot g"></span><span class="cl-msg">VM hosting configured; GitHub Actions CI/CD set up; password gate added</span></li>
+          <li><span class="cl-date">Jul 15</span><span class="cl-dot g"></span><span class="cl-msg">Mobile-first UI rewrite; smart filters; expired tender archiving — signed off as done</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- UniWatch -->
+  <div class="pcard" id="card-uni">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#fef9c3;">🎓</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          UniWatch — University Deadline Monitor
+          <span class="badge b-shipped">⬆ Shipped to client</span>
+        </div>
+        <div class="pcard-subtitle">Monitors 5+ Australian university websites for application deadline and content changes. Alerts when a page updates. Built initially as a standalone app, then rebuilt as a native Odoo 19 module for the RICO client.</div>
+        <div class="pcard-tags">
+          <span class="tag py">Python</span>
+          <span class="tag oo">Odoo 19</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Jul 5–19 · Local · RICO client</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-uni')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">5+ uni sites monitored</span>
+      <span class="win-chip">Change diff with timestamps</span>
+      <span class="win-chip">Rebuilt as Odoo 19 module</span>
+      <span class="win-chip">Shipped to RICO client</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Received brief to monitor 10 pages across 5 top Australian universities for international student application deadline changes. Built a Streamlit web app first, then rebuilt as a native Odoo 19 module (UniWatch) with full chatter logging, a built-in scheduler, and a diff view with timestamps. Shipped to Suja bhai for the RICO client. Also activated the associated RICO custom Odoo feature after diagnosing a CE/EE database conflict.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Odoo Short URL -->
+  <div class="pcard" id="card-url">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#dbeafe;">🔗</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Odoo Short URL Maker
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">URL shortener and redirect system for Odoo e-commerce. Deployed to tender.metamorphosis.com.bd/web the same day it was built.</div>
+        <div class="pcard-tags">
+          <span class="tag py">Python</span>
+          <span class="tag oo">Odoo</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Jul 20–22 · GitHub</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-url')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">R&D to deployment in 2 days</span>
+      <span class="win-chip">Live on Metamorphosis VPS</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Quick R&D task from Sadiq bhai. Designed and implemented an Odoo-native short URL redirect system. Pushed to GitHub and deployed to the production VPS on the same day.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COMPLETED — JUNE/JULY ══ -->
+  <div class="section-label">✅ Completed — June / Early July 2026</div>
+
+  <!-- Odoo Agentic Installer -->
+  <div class="pcard" id="card-installer">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#d1fae5;">🤖</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Odoo Agentic Installer
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">An AI-driven Python + Ansible agent that installs Odoo Community on any Linux server with zero manual steps and no Docker dependency. Also patched Odoo's default AI to use OpenRouter instead of hardcoded OpenAI/Gemini.</div>
+        <div class="pcard-tags">
+          <span class="tag py">Python</span>
+          <span class="tag ans">Ansible</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Jun 29 – Jul 22 · GitHub</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-installer')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Zero-touch Odoo install</span>
+      <span class="win-chip">Tested on WSL Debian 13</span>
+      <span class="win-chip">OpenRouter AI integration</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Day 1 task: install Odoo without running any commands manually. Built a Python + Ansible AI agent using Nemotron LLM for orchestration. Tested end-to-end on WSL Debian 13. Additionally patched Odoo's built-in AI provider from hardcoded OpenAI/Gemini to OpenRouter API, making it model-agnostic.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JARVIS -->
+  <div class="pcard" id="card-jarvis">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#f3e8ff;">🧠</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          J.A.R.V.I.S. R&amp;D
+          <span class="badge b-paused">⏸ Paused</span>
+        </div>
+        <div class="pcard-subtitle">Research into LLM memory architectures for a persistent internal AI assistant. Architecture drafted, codebase initialized — backgrounded pending further direction.</div>
+        <div class="pcard-tags">
+          <span class="tag py">Python</span>
+          <span class="tag">Research</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Jul 1–4 · Local</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-jarvis')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Memory architecture research done</span>
+      <span class="win-chip">ADR document produced</span>
+      <span class="win-chip">Codebase initialized</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Evaluated Hermes AI, Vellum AI, and HuggingFace smolagents for LLM memory and recall. Produced an architectural decision record. Initialized the JARVIS codebase with backend tests and a minimal frontend connection. Paused and backgrounded — no recent activity.</div>
+      </div>
+    </div>
+  </div>
+
+  </div> <!-- /older-projects -->
+
+</div>
+
+<!-- ═══════════════ TAB 2 — CLASSES ═══════════════ -->
+<div id="tab-classes" class="tab-content">
+
+  <div class="today-box" id="today-box">
+    📅 <span id="today-text">Loading...</span>
+  </div>
+
+  <div class="tt-wrap">
+    <div class="tt-head">
+      <h2>Autumn 2026 Class Schedule</h2>
+      <p>North South University · Muhtasim Hossain</p>
+    </div>
+    <table class="tt">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Sunday</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tt-time">1:00 – 2:30 PM</td>
+          <td><span class="cc cc-cmn">CMN419 Sec 1</span></td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc cc-cmn">CMN419 Sec 1</span></td>
+          <td><span class="cc-empty">—</span></td>
+        </tr>
+        <tr>
+          <td class="tt-time">2:30 – 4:20 PM</td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc-empty">—</span></td>
+        </tr>
+        <tr>
+          <td class="tt-time">4:20 – 5:50 PM</td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc cc-c430">CSC430 Sec 3</span></td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc cc-c430">CSC430 Sec 3</span></td>
+        </tr>
+        <tr>
+          <td class="tt-time">5:50 – 6:30 PM</td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc-empty">—</span></td>
+        </tr>
+        <tr>
+          <td class="tt-time">6:30 – 8:00 PM</td>
+          <td><span class="cc cc-c430">CSC430L Sec 3</span></td>
+          <td><span class="cc cc-c445">CSC445 Sec 4</span></td>
+          <td><span class="cc cc-c430">CSC430L Sec 3</span></td>
+          <td><span class="cc cc-c425">CSC425 Sec 4</span></td>
+        </tr>
+        <tr>
+          <td class="tt-time">8:00 – 9:30 PM</td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc cc-c445">CSC445 Sec 4</span></td>
+          <td><span class="cc-empty">—</span></td>
+          <td><span class="cc cc-c425">CSC425 Sec 4</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);">
+    <div class="body-label" style="margin-bottom:12px;">Course Legend</div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:13px;">
+      <div><span class="cc cc-cmn">CMN419</span> &nbsp;Communication</div>
+      <div><span class="cc cc-c430">CSC430 / CSC430L</span> &nbsp;CS core + Lab</div>
+      <div><span class="cc cc-c445">CSC445</span> &nbsp;CS elective</div>
+      <div><span class="cc cc-c425">CSC425</span> &nbsp;CS elective</div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;">⚠️ No classes Thursday – Saturday. NSU runs a Sun–Wed schedule.</p>
+  </div>
+
+</div>
+
+</main>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleOlder() {
+    const panel = document.getElementById('older-projects');
+    const chevron = document.getElementById('older-chevron');
+    const btn = document.getElementById('older-btn');
+    const isOpen = panel.style.display !== 'none';
+    panel.style.display = isOpen ? 'none' : 'block';
+    chevron.classList.toggle('open', !isOpen);
+    btn.querySelector('span').textContent = isOpen ? '📁 View older projects' : '📂 Hide older projects';
+  }
+
+  function toggleDevlog() {
+    const panel = document.getElementById('devlog-panel');
+    const chevron = document.getElementById('devlog-chevron');
+    const isOpen = panel.style.display !== 'none';
+    panel.style.display = isOpen ? 'none' : 'block';
+    chevron.classList.toggle('open', !isOpen);
+  }
+
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+    const btn = card.querySelector('.pcard-toggle');
+    btn.textContent = card.classList.contains('open') ? '' : '';
+    // re-render chevron
+    const ch = document.createElement('span');
+    ch.className = 'chevron';
+    ch.textContent = '▾';
+    btn.textContent = card.classList.contains('open') ? 'Hide ' : 'Details ';
+    btn.appendChild(ch);
+  }
+
+  function updateTodayBanner() {
+    const now = new Date();
+    const bd = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Dhaka'}));
+    const day = bd.getDay(); // 0=Sun
+    const h = bd.getHours(), m = bd.getMinutes();
+    const nowMins = h * 60 + m;
+    const timeStr = bd.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true});
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    const schedule = {
+      0: [{s:[13,0],e:[14,30],l:'CMN419 Sec 1'},{s:[18,30],e:[20,0],l:'CSC430L Sec 3'}],
+      1: [{s:[16,20],e:[17,50],l:'CSC430 Sec 3'},{s:[18,30],e:[20,0],l:'CSC445 Sec 4'},{s:[20,0],e:[21,30],l:'CSC445 Sec 4'}],
+      2: [{s:[13,0],e:[14,30],l:'CMN419 Sec 1'},{s:[18,30],e:[20,0],l:'CSC430L Sec 3'}],
+      3: [{s:[16,20],e:[17,50],l:'CSC430 Sec 3'},{s:[18,30],e:[20,0],l:'CSC425 Sec 4'},{s:[20,0],e:[21,30],l:'CSC425 Sec 4'}],
+    };
+
+    const box = document.getElementById('today-box');
+    const txt = document.getElementById('today-text');
+    box.classList.remove('inclass');
+
+    if (day >= 4) {
+      txt.innerHTML = `Today is <strong>${dayNames[day]}</strong> — no classes. University runs Sun–Wed.`;
+      return;
+    }
+    const classes = schedule[day] || [];
+    let cur = null, nxt = null;
+    for (const c of classes) {
+      const s = c.s[0]*60+c.s[1], e = c.e[0]*60+c.e[1];
+      if (nowMins >= s && nowMins < e) { cur = c; break; }
+      if (nowMins < s && !nxt) nxt = c;
+    }
+    if (cur) {
+      box.classList.add('inclass');
+      txt.innerHTML = `📚 <strong>In class right now:</strong> ${cur.l} &nbsp;·&nbsp; ${timeStr} (BD)`;
+    } else if (nxt) {
+      txt.innerHTML = `Today is <strong>${dayNames[day]}</strong>. Next class: <strong>${nxt.l}</strong> &nbsp;·&nbsp; ${timeStr} (BD)`;
+    } else {
+      txt.innerHTML = `Today is <strong>${dayNames[day]}</strong> — classes done for the day. ${timeStr} (BD) 🌙`;
+    }
+  }
+
+  updateTodayBanner();
+  setInterval(updateTodayBanner, 60000);
+</script>
+</body>
+</html>
