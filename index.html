@@ -163,6 +163,21 @@
     .chevron { display: inline-block; transition: transform 0.2s; }
     .pcard.open .chevron { transform: rotate(180deg); }
 
+    .demo-link-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600; color: #ffffff;
+      background: var(--accent); border: none; border-radius: 6px;
+      padding: 4px 10px; text-decoration: none; transition: background 0.15s;
+    }
+    .demo-link-btn:hover { background: #1d4ed8; }
+    .demo-link-secondary {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600; color: var(--accent);
+      background: var(--accent-light); border: 1px solid #bfdbfe; border-radius: 6px;
+      padding: 3px 9px; text-decoration: none; transition: background 0.15s;
+    }
+    .demo-link-secondary:hover { background: #dbeafe; }
+
     /* key wins strip */
     .pcard-wins {
       display: flex; gap: 6px; flex-wrap: wrap;
@@ -456,12 +471,20 @@
           <span class="tag go">Go</span>
           <span class="tag">NestJS</span>
           <span class="tag py">LiteLLM</span>
+          <a class="demo-link-btn" href="http://203.82.194.35:3001/panel/dashboard" target="_blank" rel="noopener noreferrer">
+            🚀 Live Demo Panel ↗
+          </a>
+          <a class="demo-link-secondary" href="http://203.82.194.35:3001/demo.html" target="_blank" rel="noopener noreferrer">
+            🛍️ Storefront &amp; Chat Widget ↗
+          </a>
           <span style="font-size:11px;color:var(--muted);align-self:center;">Aug 10 – Present · GitHub (private)</span>
         </div>
       </div>
-      <button class="pcard-toggle" onclick="toggleCard('card-omni')">
-        Details <span class="chevron">▾</span>
-      </button>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
+        <button class="pcard-toggle" onclick="toggleCard('card-omni')">
+          Details <span class="chevron">▾</span>
+        </button>
+      </div>
     </div>
     <div class="pcard-body">
 
