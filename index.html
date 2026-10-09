@@ -374,11 +374,46 @@
     .older-chevron { font-size: 13px; transition: transform 0.2s; }
     .older-chevron.open { transform: rotate(180deg); }
 
+    .tt-table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     @media (max-width: 640px) {
-      header, nav { padding-left: 16px; padding-right: 16px; }
-      main { padding: 20px 12px; }
+      body {
+        overflow-x: auto;
+        min-width: 100%;
+      }
+      header, nav {
+        padding-left: 16px;
+        padding-right: 16px;
+        min-width: fit-content;
+      }
+      main {
+        padding: 20px 12px;
+        min-width: fit-content;
+      }
       .pcard-top { grid-template-columns: auto 1fr; }
       .pcard-toggle { display: none; }
+      .channel-grid {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+      }
+      .ch-item {
+        min-width: 140px;
+        flex-shrink: 0;
+      }
+      .feat-grid {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+      }
+      .feat-row {
+        min-width: 520px;
+      }
     }
   </style>
 </head>
@@ -452,17 +487,17 @@
             <div class="ch-badge ch-badge-live">✓ Live</div>
             <div class="ch-note">Signing secret verified</div>
           </div>
+          <div class="ch-item ch-live">
+            <div class="ch-icon">💙</div>
+            <div class="ch-name">Meta Comments</div>
+            <div class="ch-badge ch-badge-live">✓ Done</div>
+            <div class="ch-note">Facebook/Instagram post comment webhook &amp; reply handler added (Oct 8)</div>
+          </div>
           <div class="ch-item ch-next">
             <div class="ch-icon">🎵</div>
             <div class="ch-name">TikTok</div>
             <div class="ch-badge ch-badge-next">→ Up next</div>
             <div class="ch-note">DSPR review scoped; architecture ready</div>
-          </div>
-          <div class="ch-item ch-next">
-            <div class="ch-icon">💙</div>
-            <div class="ch-name">Meta Comments</div>
-            <div class="ch-badge ch-badge-next">→ Planned</div>
-            <div class="ch-note">Reuses existing Meta webhook infra</div>
           </div>
           <div class="ch-item ch-blocked">
             <div class="ch-icon">🟣</div>
@@ -482,6 +517,12 @@
             <span class="feat-name">Team Inbox</span>
             <span class="feat-status live">Live</span>
             <span class="feat-desc">Unified inbox for all channels; conversations assigned to agents</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">Meta Comments</span>
+            <span class="feat-status live">Done</span>
+            <span class="feat-desc">Post comment ingestion &amp; reply dispatch integrated into omnichannel (Oct 8)</span>
           </div>
           <div class="feat-row">
             <span class="feat-dot feat-live"></span>
@@ -544,7 +585,8 @@
             <li><span class="cl-date">Aug 20</span><span class="cl-dot g"></span><span class="cl-msg">Switched AI backend to LiteLLM proxy with model routing; added conversation reopen; migrated to GitHub Actions CI/CD</span></li>
             <li><span class="cl-date">Sep 8–9</span><span class="cl-dot g"></span><span class="cl-msg">Added agent dashboard for live session monitoring and human takeover; AI renders markdown; e-com widget public; live analytics hooked up</span></li>
             <li><span class="cl-date">Sep 13</span><span class="cl-dot g"></span><span class="cl-msg">Major refactor — migrated Odoo sync from Java to Go, removed Kafka &amp; ClickHouse, bridged gateway to NestJS via HTTP; v2 UI merged</span></li>
-            <li><span class="cl-date">Oct 1–8</span><span class="cl-dot a"></span><span class="cl-msg">Channel expansion R&amp;D: scoped Viber ($100/mo), TikTok (DSPR review required), Meta Comments (reuses existing infra); AI removal decision made</span></li>
+            <li><span class="cl-date">Oct 1–7</span><span class="cl-dot a"></span><span class="cl-msg">Channel expansion R&amp;D: scoped Viber ($100/mo), TikTok (DSPR review required), architecture prepared for post comment handling; AI removal decision made</span></li>
+            <li><span class="cl-date">Oct 8</span><span class="cl-dot g"></span><span class="cl-msg">Completed Meta comments integration: post comments ingestion and reply workflow added to omnichannel</span></li>
           </ul>
         </div>
 
@@ -560,7 +602,7 @@
           </div>
           <div class="finding">
             <div class="finding-title">💙 Meta Post Comments</div>
-            <p>Can reuse existing Meta webhook infrastructure. Comments on posts already trigger events our Meta App is approved for. Needs a new handler and "reply to comment" outbound path.</p>
+            <p><strong>Implemented (Oct 8):</strong> Leveraged Meta webhook infrastructure to ingest page post comments and deliver responses directly through omnichannel.</p>
           </div>
           <div class="finding" style="border-color:#fca5a5;">
             <div class="finding-title">🔴 AI Agent Removal</div>
@@ -572,7 +614,6 @@
           <div class="body-label">Next steps</div>
           <ul class="next-steps">
             <li>Connect TikTok channel (messaging + comments) — approval pipeline scoped</li>
-            <li>Add Meta Post Comments handler to existing webhook infrastructure</li>
             <li>Remove AI auto-reply agent; switch to human-only inbox</li>
             <li>Decide on Viber based on client budget (~$100/mo)</li>
           </ul>
@@ -867,6 +908,7 @@
       <h2>Autumn 2026 Class Schedule</h2>
       <p>North South University · Muhtasim Hossain</p>
     </div>
+    <div class="tt-table-scroll">
     <table class="tt">
       <thead>
         <tr>
@@ -922,6 +964,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 
   <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);">
