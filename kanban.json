@@ -35,7 +35,7 @@
     "cat": "mobile",
     "tag": "Flutter · v1.0.3",
     "tagClass": "fl",
-    "stage": "active",
+    "stage": "testing",
     "date": "Nov 25",
     "note": "Live POS session binding, Android 15+ SafeArea fix, latent offline mode & thermal printing."
   },
@@ -45,7 +45,7 @@
     "cat": "web",
     "tag": "Next.js · Go",
     "tagClass": "ts",
-    "stage": "active",
+    "stage": "testing",
     "date": "Nov 4",
     "note": "Full dark mode overhaul, Meta Comments, API keys UI, stress tests & launch video."
   },
@@ -85,7 +85,7 @@
     "cat": "mobile",
     "tag": "APK Released",
     "tagClass": "fl",
-    "stage": "shipped",
+    "stage": "testing",
     "date": "Oct 31",
     "note": "Dual-role Flutter app + Odoo 19 REST API deployed on 24/7 tender-server."
   },
@@ -115,7 +115,7 @@
     "cat": "odoo",
     "tag": "Python CLI",
     "tagClass": "py",
-    "stage": "shipped",
+    "stage": "active",
     "date": "Oct 12",
     "note": "Autonomous 18→19+ AST/XML upgrade CLI + portable AI coding agent skills."
   },
