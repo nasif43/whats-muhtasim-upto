@@ -5,84 +5,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>What's Muhtasim Upto?</title>
   <style>
+    /* ── DESIGN TOKENS (shadcn-inspired, tighter system) ── */
     :root {
-      --bg: #f5f5f3;
-      --surface: #ffffff;
-      --border: #e5e5e1;
-      --text: #111111;
-      --muted: #6b6b6b;
-      --accent: #2563eb;
-      --accent-light: #eff6ff;
-      --green: #16a34a;
-      --green-light: #f0fdf4;
-      --amber: #d97706;
-      --amber-light: #fffbeb;
-      --gray: #6b7280;
-      --gray-light: #f3f4f6;
-      --purple: #7c3aed;
-      --purple-light: #f5f3ff;
-      --red: #dc2626;
-      --red-light: #fef2f2;
-      --radius: 10px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.09);
+      /* Core */
+      --bg:           #f8f8f7;
+      --surface:      #ffffff;
+      --surface-2:    #f4f4f2;
+      --border:       #e4e4e0;
+      --border-strong:#ccc9c3;
+      --text:         #0f0f0e;
+      --text-2:       #3c3c3a;
+      --muted:        #6b6967;
+
+      /* Accent */
+      --accent:       #2563eb;
+      --accent-h:     #1d4ed8;
+      --accent-bg:    #eff6ff;
+      --accent-ring:  #bfdbfe;
+
+      /* Semantic */
+      --green:        #16a34a;
+      --green-bg:     #f0fdf4;
+      --amber:        #d97706;
+      --amber-bg:     #fffbeb;
+      --red:          #dc2626;
+      --red-bg:       #fef2f2;
+      --purple:       #7c3aed;
+      --purple-bg:    #f5f3ff;
+      --gray:         #6b7280;
+      --gray-bg:      #f3f4f6;
+      --orange:       #c2410c;
+      --orange-bg:    #fff7ed;
+
+      /* Radius */
+      --r-sm: 6px;
+      --r:    10px;
+      --r-lg: 14px;
+      --r-xl: 18px;
+
+      /* Shadows */
+      --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.04);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.05);
+
+      /* Type */
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'SFMono-Regular', Consolas, monospace;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: var(--font);
       background: var(--bg);
       color: var(--text);
       font-size: 15px;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ── HEADER ── */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 28px 40px 22px;
+      padding: 24px 40px 20px;
     }
-    header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+    .header-inner { max-width: 1200px; margin: 0 auto; }
+    header h1 {
+      font-size: 22px; font-weight: 700; letter-spacing: -0.4px;
+      color: var(--text);
+    }
     header h1 span { color: var(--accent); }
-    header p { color: var(--muted); font-size: 14px; margin-top: 4px; }
-    .header-meta { display: flex; align-items: center; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+    header .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .header-meta { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
     .pill {
       display: inline-flex; align-items: center; gap: 5px;
-      font-size: 12px; font-weight: 600; padding: 3px 11px; border-radius: 20px;
+      font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+      letter-spacing: 0.01em;
     }
-    .pill-green { background: var(--green-light); color: var(--green); }
-    .pill-green::before { content: '●'; font-size: 8px; }
-    .pill-gray { background: var(--gray-light); color: var(--gray); }
+    .pill-green {
+      background: var(--green-bg); color: var(--green);
+      border: 1px solid #bbf7d0;
+    }
+    .pill-green::before { content: '●'; font-size: 7px; }
+    .pill-muted {
+      background: var(--surface-2); color: var(--muted);
+      border: 1px solid var(--border);
+    }
 
     /* ── NAV ── */
     nav {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 0 40px;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
       display: flex; gap: 2px;
     }
     nav button {
       background: none; border: none;
       border-bottom: 2px solid transparent;
-      padding: 12px 16px;
-      font-size: 14px; font-weight: 500;
-      color: var(--muted); cursor: pointer; transition: all 0.15s;
-      white-space: nowrap;
+      padding: 11px 15px;
+      font-size: 13.5px; font-weight: 500;
+      color: var(--muted); cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap; letter-spacing: 0.01em;
     }
-    nav button:hover { color: var(--text); }
-    nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+    nav button:hover { color: var(--text-2); }
+    nav button.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 
     /* ── LAYOUT ── */
-    main { max-width: 860px; margin: 0 auto; padding: 32px 24px; transition: max-width 0.2s; }
-    main.wide { max-width: 1180px; }
+    main {
+      max-width: 900px; margin: 0 auto;
+      padding: 32px 24px;
+      transition: max-width 0.2s;
+    }
+    main.wide { max-width: 1200px; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
     /* ── SECTION LABEL ── */
     .section-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.09em; color: var(--muted); margin: 28px 0 12px;
-      display: flex; align-items: center; gap: 8px;
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--muted); margin: 32px 0 14px;
+      display: flex; align-items: center; gap: 10px;
     }
     .section-label:first-child { margin-top: 0; }
     .section-label::after {
@@ -91,49 +138,54 @@
 
     /* ── PROJECT CARD ── */
     .pcard {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow);
-      margin-bottom: 14px; overflow: hidden;
-      transition: box-shadow 0.15s, border-color 0.15s;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 12px; overflow: hidden;
+      transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
     }
-    .pcard:hover { box-shadow: var(--shadow-md); border-color: #d0d0cc; }
-
+    .pcard:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
     .pcard-top {
       display: grid;
       grid-template-columns: auto 1fr auto;
       gap: 14px;
-      padding: 18px 20px 14px;
+      padding: 16px 20px 12px;
       align-items: start;
     }
     .pcard-icon {
-      width: 40px; height: 40px; border-radius: 9px;
+      width: 38px; height: 38px; border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; flex-shrink: 0;
+      font-size: 19px; flex-shrink: 0;
     }
-    .pcard-main {}
     .pcard-title {
-      font-size: 15px; font-weight: 600;
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      font-size: 14.5px; font-weight: 600; color: var(--text);
+      display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+      line-height: 1.4;
     }
-    .pcard-subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
-    .pcard-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
+    .pcard-subtitle { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.55; }
+    .pcard-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
 
-    /* status badges */
+    /* badges */
     .badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px;
-      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
+      white-space: nowrap; letter-spacing: 0.01em;
     }
-    .b-done    { background: var(--green-light); color: var(--green); }
-    .b-ongoing { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
-    .b-review  { background: var(--accent-light); color: var(--accent); border: 1px solid #bfdbfe; }
-    .b-paused  { background: var(--gray-light); color: var(--gray); }
-    .b-shipped { background: var(--purple-light); color: var(--purple); }
+    .b-done    { background: var(--green-bg); color: var(--green); border: 1px solid #bbf7d0; }
+    .b-ongoing { background: var(--orange-bg); color: var(--orange); border: 1px solid #fed7aa; }
+    .b-review  { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-ring); }
+    .b-paused  { background: var(--gray-bg); color: var(--gray); border: 1px solid #d1d5db; }
+    .b-shipped { background: var(--purple-bg); color: var(--purple); border: 1px solid #ddd6fe; }
 
     /* tech tags */
     .tag {
-      font-size: 11px; font-weight: 500; padding: 2px 7px;
-      border-radius: 4px; background: var(--gray-light); color: var(--gray);
+      font-size: 10.5px; font-weight: 500; padding: 2px 7px;
+      border-radius: 4px; background: var(--gray-bg); color: var(--gray);
     }
     .tag.ts  { background: #dbeafe; color: #1d4ed8; }
     .tag.py  { background: #fef9c3; color: #854d0e; }
@@ -146,57 +198,56 @@
     /* toggle button */
     .pcard-toggle {
       display: flex; align-items: center; gap: 5px;
-      font-size: 12px; font-weight: 500; color: var(--accent);
-      background: var(--accent-light); border: none; border-radius: 6px;
-      padding: 5px 11px; cursor: pointer; white-space: nowrap;
-      transition: background 0.15s;
-      align-self: start; margin-top: 2px;
+      font-size: 11.5px; font-weight: 500; color: var(--accent);
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-ring);
+      border-radius: var(--r-sm);
+      padding: 4px 10px; cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      align-self: start; white-space: nowrap; margin-top: 2px;
     }
-    .pcard-toggle:hover { background: #dbeafe; }
+    .pcard-toggle:hover { background: #dbeafe; border-color: #93c5fd; }
     .pcard.open .pcard-toggle { background: #dbeafe; }
-    .chevron { display: inline-block; transition: transform 0.2s; }
+    .chevron { display: inline-block; transition: transform 0.2s; font-size: 11px; }
     .pcard.open .chevron { transform: rotate(180deg); }
 
+    /* demo link */
     .demo-link-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; color: #ffffff;
-      background: var(--accent); border: none; border-radius: 6px;
-      padding: 5px 12px; text-decoration: none; transition: background 0.15s, transform 0.15s;
-      animation: pulse-glow 2s infinite ease-in-out;
-      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 700; color: #fff;
+      background: var(--accent); border: none; border-radius: var(--r-sm);
+      padding: 4px 10px; text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+      animation: pulse-glow 2.5s infinite ease-in-out;
     }
-    .demo-link-btn:hover {
-      background: #1d4ed8;
-      transform: translateY(-1px);
-    }
+    .demo-link-btn:hover { background: var(--accent-h); transform: translateY(-1px); }
     .pulse-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #4ade80;
-      box-shadow: 0 0 6px #4ade80;
-      animation: dot-blink 1.2s infinite ease-in-out;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #4ade80; box-shadow: 0 0 5px #4ade80;
+      animation: dot-blink 1.4s infinite ease-in-out;
     }
     @keyframes pulse-glow {
-      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.6); }
-      70% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+      0%   { box-shadow: 0 0 0 0 rgba(37,99,235,0.6); }
+      70%  { box-shadow: 0 0 0 7px rgba(37,99,235,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
     }
     @keyframes dot-blink {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.35; }
+      50% { opacity: 0.3; }
     }
 
     /* key wins strip */
     .pcard-wins {
-      display: flex; gap: 6px; flex-wrap: wrap;
-      padding: 0 20px 16px;
+      display: flex; gap: 5px; flex-wrap: wrap;
+      padding: 0 20px 14px;
     }
     .win-chip {
       display: inline-flex; align-items: center; gap: 5px;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 20px; font-size: 12px; padding: 3px 10px;
-      color: var(--text);
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 20px; font-size: 11.5px; padding: 2px 10px;
+      color: var(--text-2);
     }
-    .win-chip::before { content: '✓'; color: var(--green); font-weight: 700; }
+    .win-chip::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 10px; }
 
     /* expandable body */
     .pcard-body {
@@ -204,19 +255,18 @@
       background: #fafaf8;
     }
     .pcard.open .pcard-body { display: block; }
-
-    .body-section { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+    .body-section { padding: 16px 20px; border-bottom: 1px solid var(--border); }
     .body-section:last-child { border-bottom: none; }
     .body-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px;
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--muted); margin-bottom: 10px;
     }
 
     /* changelog */
     .cl { list-style: none; }
     .cl li {
       display: flex; gap: 10px; padding: 7px 0;
-      border-bottom: 1px solid var(--border); font-size: 13px;
+      border-bottom: 1px solid var(--border); font-size: 12.5px;
     }
     .cl li:last-child { border-bottom: none; }
     .cl-date { color: var(--muted); font-size: 11px; white-space: nowrap; min-width: 56px; padding-top: 2px; }
@@ -228,31 +278,31 @@
     .cl-dot.a { background: var(--amber); }
     .cl-dot.r { background: var(--red); }
     .cl-dot.p { background: var(--purple); }
-    .cl-msg { color: var(--text); line-height: 1.45; }
+    .cl-msg { color: var(--text-2); line-height: 1.45; }
 
     /* highlight box */
     .hbox {
-      background: var(--accent-light); border-left: 3px solid var(--accent);
-      border-radius: 4px; padding: 11px 14px;
-      font-size: 13px; color: #1e40af; line-height: 1.55;
+      background: var(--accent-bg); border-left: 3px solid var(--accent);
+      border-radius: 4px; padding: 10px 13px;
+      font-size: 12.5px; color: #1e40af; line-height: 1.6;
     }
-    .hbox.amber { background: var(--amber-light); border-color: var(--amber); color: #78350f; }
-    .hbox.red   { background: var(--red-light); border-color: var(--red); color: #991b1b; }
-    .hbox.green { background: var(--green-light); border-color: var(--green); color: #14532d; }
+    .hbox.amber { background: var(--amber-bg); border-color: var(--amber); color: #78350f; }
+    .hbox.red   { background: var(--red-bg);   border-color: var(--red);   color: #991b1b; }
+    .hbox.green { background: var(--green-bg); border-color: var(--green); color: #14532d; }
 
     /* next steps */
     .next-steps { list-style: none; }
     .next-steps li {
       display: flex; gap: 8px; padding: 6px 0;
-      border-bottom: 1px solid var(--border); font-size: 13px;
+      border-bottom: 1px solid var(--border); font-size: 12.5px;
     }
     .next-steps li:last-child { border-bottom: none; }
     .next-steps li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
-    /* finding cards */
+    /* findings */
     .finding {
-      border: 1px solid var(--border); border-radius: 8px;
-      padding: 12px 14px; margin-bottom: 10px; font-size: 13px;
+      border: 1px solid var(--border); border-radius: var(--r);
+      padding: 11px 14px; margin-bottom: 10px; font-size: 12.5px;
     }
     .finding:last-child { margin-bottom: 0; }
     .finding-title {
@@ -264,24 +314,23 @@
     /* ── CHANNEL STATUS GRID ── */
     .channel-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
       gap: 10px;
     }
     .ch-item {
-      border: 1px solid var(--border); border-radius: 9px;
-      padding: 13px 13px 10px; display: flex; flex-direction: column; gap: 4px;
+      border: 1px solid var(--border); border-radius: var(--r);
+      padding: 12px 12px 10px; display: flex; flex-direction: column; gap: 4px;
     }
-    .ch-live   { border-color: #86efac; background: #f0fdf4; }
-    .ch-broken { border-color: #fca5a5; background: #fef2f2; }
-    .ch-next   { border-color: #bfdbfe; background: #eff6ff; }
-    .ch-blocked{ border-color: #e9d5ff; background: #f5f3ff; }
-
-    .ch-icon { font-size: 20px; margin-bottom: 2px; }
-    .ch-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .ch-live    { border-color: #86efac; background: var(--green-bg); }
+    .ch-broken  { border-color: #fca5a5; background: var(--red-bg); }
+    .ch-next    { border-color: var(--accent-ring); background: var(--accent-bg); }
+    .ch-blocked { border-color: #ddd6fe; background: var(--purple-bg); }
+    .ch-icon  { font-size: 19px; margin-bottom: 2px; }
+    .ch-name  { font-size: 12.5px; font-weight: 600; color: var(--text); }
     .ch-badge {
       display: inline-flex; align-items: center;
       font-size: 10px; font-weight: 700; padding: 2px 7px;
-      border-radius: 20px; width: fit-content; margin-top: 2px;
+      border-radius: 20px; width: fit-content; margin-top: 1px;
     }
     .ch-badge-live    { background: #dcfce7; color: #15803d; }
     .ch-badge-broken  { background: #fee2e2; color: #b91c1c; }
@@ -295,27 +344,24 @@
       display: grid;
       grid-template-columns: 10px 140px 100px 1fr;
       align-items: center; gap: 10px;
-      padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+      padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12.5px;
     }
     .feat-row:last-child { border-bottom: none; }
-    .feat-dot {
-      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-    }
+    .feat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
     .feat-live    { background: var(--green); }
     .feat-inprog  { background: var(--red); }
     .feat-next    { background: var(--accent); }
     .feat-blocked { background: var(--purple); }
-
-    .feat-name   { font-weight: 600; color: var(--text); font-size: 13px; }
+    .feat-name   { font-weight: 600; color: var(--text); font-size: 12.5px; }
     .feat-status {
-      font-size: 11px; font-weight: 600; padding: 2px 8px;
+      font-size: 10.5px; font-weight: 600; padding: 2px 8px;
       border-radius: 20px; white-space: nowrap; width: fit-content;
     }
-    .feat-status.live    { background: var(--green-light); color: var(--green); }
-    .feat-status.inprog  { background: var(--red-light);   color: var(--red); }
-    .feat-status.next    { background: var(--accent-light); color: var(--accent); }
-    .feat-status.blocked { background: var(--purple-light); color: var(--purple); }
-    .feat-desc   { font-size: 12px; color: var(--muted); }
+    .feat-status.live    { background: var(--green-bg); color: var(--green); }
+    .feat-status.inprog  { background: var(--red-bg);   color: var(--red); }
+    .feat-status.next    { background: var(--accent-bg); color: var(--accent); }
+    .feat-status.blocked { background: var(--purple-bg); color: var(--purple); }
+    .feat-desc   { font-size: 11.5px; color: var(--muted); }
 
     /* ── DEVLOG & OLDER TOGGLE ── */
     .devlog-toggle {
@@ -323,49 +369,50 @@
       width: 100%; background: transparent; border: none;
       border-top: 1px dashed var(--border);
       padding: 12px 0 0; margin-top: 4px;
-      font-size: 13px; font-weight: 500; color: var(--muted);
+      font-size: 12.5px; font-weight: 500; color: var(--muted);
       cursor: pointer; transition: color 0.15s;
     }
-    .devlog-toggle:hover { color: var(--text); }
-
+    .devlog-toggle:hover { color: var(--text-2); }
     .older-toggle {
       display: flex; align-items: center; justify-content: space-between;
       width: 100%; background: var(--surface);
-      border: 1px dashed var(--border); border-radius: var(--radius);
+      border: 1px dashed var(--border); border-radius: var(--r-lg);
       padding: 13px 18px; margin: 16px 0 4px;
-      font-size: 14px; font-weight: 500; color: var(--muted);
+      font-size: 13.5px; font-weight: 500; color: var(--muted);
       cursor: pointer; transition: all 0.15s;
     }
-    .older-toggle:hover { background: var(--gray-light); color: var(--text); border-color: #ccc; }
-    .older-chevron { font-size: 13px; transition: transform 0.2s; }
+    .older-toggle:hover { background: var(--surface-2); color: var(--text-2); border-color: var(--border-strong); }
+    .older-chevron { font-size: 12px; transition: transform 0.2s; }
     .older-chevron.open { transform: rotate(180deg); }
 
     /* ── KANBAN BOARD ── */
     .kb-toolbar {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; flex-wrap: wrap; margin-bottom: 18px;
+      gap: 12px; flex-wrap: wrap; margin-bottom: 16px;
     }
-    .kb-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .kb-filters { display: flex; gap: 5px; flex-wrap: wrap; }
     .kb-filter {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 5px 13px;
+      border-radius: 20px; padding: 4px 12px;
       font-size: 12px; font-weight: 500; color: var(--muted);
       cursor: pointer; transition: all 0.15s;
     }
-    .kb-filter:hover { color: var(--text); border-color: #cfcfca; }
+    .kb-filter:hover { color: var(--text-2); border-color: var(--border-strong); }
     .kb-filter.active {
-      background: var(--accent); color: #ffffff; border-color: var(--accent);
+      background: var(--accent); color: #fff; border-color: var(--accent);
+      font-weight: 600;
     }
     .kb-reset {
       background: none; border: 1px solid var(--border);
-      border-radius: 6px; padding: 5px 11px;
+      border-radius: var(--r-sm); padding: 4px 10px;
       font-size: 12px; color: var(--muted); cursor: pointer;
+      transition: all 0.15s;
     }
-    .kb-reset:hover { background: var(--gray-light); color: var(--text); }
-    .kb-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .kb-reset:hover { background: var(--surface-2); color: var(--text-2); }
+    .kb-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
     .kb-save-btn {
-      background: var(--green); color: #ffffff; border: none;
-      border-radius: 6px; padding: 5px 12px;
+      background: var(--green); color: #fff; border: none;
+      border-radius: var(--r-sm); padding: 4px 11px;
       font-size: 12px; font-weight: 600; cursor: pointer;
       display: inline-flex; align-items: center; gap: 5px;
       transition: background 0.15s, opacity 0.15s;
@@ -377,118 +424,143 @@
       display: none; align-items: center; justify-content: space-between;
       gap: 10px; flex-wrap: wrap;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;
+      border-radius: var(--r); padding: 10px 14px; margin-bottom: 14px;
       font-size: 12px;
     }
     .kb-auth-bar.open { display: flex; }
     .kb-auth-input {
-      flex: 1; min-width: 220px; padding: 6px 10px;
-      border: 1px solid var(--border); border-radius: 6px;
-      font-size: 12px; font-family: monospace;
+      flex: 1; min-width: 220px; padding: 5px 9px;
+      border: 1px solid var(--border); border-radius: var(--r-sm);
+      font-size: 12px; font-family: var(--font-mono);
+      transition: border-color 0.15s;
     }
-    .kb-status-msg { font-size: 12px; color: var(--muted); }
-    .kb-status-msg.ok { color: var(--green); font-weight: 500; }
-    .kb-status-msg.err { color: var(--red); font-weight: 500; }
+    .kb-auth-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-ring); }
+    .kb-status-msg { font-size: 11.5px; color: var(--muted); }
+    .kb-status-msg.ok  { color: var(--green); font-weight: 500; }
+    .kb-status-msg.err { color: var(--red);   font-weight: 500; }
 
     .kb-scroll {
-      width: 100%;
-      overflow-x: auto;
+      width: 100%; overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      padding-bottom: 10px;
+      padding-bottom: 8px;
+      /* custom scrollbar */
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-strong) transparent;
     }
+    .kb-scroll::-webkit-scrollbar { height: 5px; }
+    .kb-scroll::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
+
     .kb-board {
       display: grid;
-      grid-template-columns: repeat(4, minmax(250px, 1fr));
-      gap: 14px;
-      min-width: 1020px;
+      grid-template-columns: repeat(4, minmax(252px, 1fr));
+      gap: 12px;
+      min-width: 1040px;
       align-items: start;
     }
+
+    /* Column color accents */
     .kb-col {
-      background: #ededeb;
+      background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--r-lg);
       padding: 12px;
-      min-height: 360px;
+      min-height: 340px;
       transition: background 0.15s, border-color 0.15s;
     }
+    .kb-col[data-stage="scoping"]  { border-top: 3px solid var(--gray); }
+    .kb-col[data-stage="active"]   { border-top: 3px solid var(--accent); }
+    .kb-col[data-stage="testing"]  { border-top: 3px solid var(--amber); }
+    .kb-col[data-stage="shipped"]  { border-top: 3px solid var(--green); }
     .kb-col.drag-over {
-      background: var(--accent-light);
+      background: var(--accent-bg);
       border-color: var(--accent);
     }
     .kb-col-head {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px; padding: 0 2px;
+      margin-bottom: 10px; padding: 0 2px;
     }
     .kb-col-title {
-      font-size: 12px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; color: var(--text);
-      display: flex; align-items: center; gap: 6px;
+      font-size: 11.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--text-2);
+      display: flex; align-items: center; gap: 5px;
     }
     .kb-count {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1px 8px;
-      font-size: 11px; font-weight: 600; color: var(--muted);
+      border-radius: 12px; padding: 1px 7px;
+      font-size: 10.5px; font-weight: 600; color: var(--muted);
     }
-    .kb-cards { display: flex; flex-direction: column; gap: 10px; }
+    .kb-cards { display: flex; flex-direction: column; gap: 8px; }
 
     .kb-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 13px;
-      box-shadow: var(--shadow);
+      border-radius: var(--r);
+      padding: 11px 12px;
+      box-shadow: var(--shadow-xs);
       cursor: grab;
       transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
     }
-    .kb-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-    .kb-card.dragging { opacity: 0.45; cursor: grabbing; }
+    .kb-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .kb-card.dragging { opacity: 0.4; cursor: grabbing; }
     .kb-card-top {
       display: flex; align-items: flex-start; justify-content: space-between;
       gap: 8px; margin-bottom: 5px;
     }
-    .kb-card-title { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.35; }
-    .kb-card-note { font-size: 12px; color: var(--muted); line-height: 1.45; margin-bottom: 9px; }
+    .kb-card-title { font-size: 12.5px; font-weight: 600; color: var(--text); line-height: 1.35; }
+    .kb-card-note  { font-size: 11.5px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
     .kb-card-foot {
       display: flex; align-items: center; justify-content: space-between;
       gap: 6px; flex-wrap: wrap;
+      padding-top: 8px; border-top: 1px solid var(--border);
     }
-    .kb-card-date { font-size: 11px; color: var(--muted); }
+    .kb-card-left { display: flex; align-items: center; gap: 6px; }
+    .kb-card-date { font-size: 10.5px; color: var(--muted); }
+
+    /* "View in Work" link on kanban cards */
+    .kb-view-btn {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 10.5px; font-weight: 600; color: var(--accent);
+      background: var(--accent-bg); border: 1px solid var(--accent-ring);
+      border-radius: 4px; padding: 2px 7px; cursor: pointer;
+      text-decoration: none; transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .kb-view-btn:hover { background: #dbeafe; }
+
     .kb-move-select {
       font-size: 11px; color: var(--muted);
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: 5px; padding: 2px 5px; cursor: pointer;
+      border-radius: 4px; padding: 2px 5px; cursor: pointer;
+      transition: border-color 0.15s;
     }
+    .kb-move-select:focus { outline: none; border-color: var(--accent); }
 
     /* ── TIMETABLE ── */
     .tt-wrap {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+      border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden;
     }
-    .tt-head { padding: 20px 24px 14px; border-bottom: 1px solid var(--border); }
-    .tt-head h2 { font-size: 17px; font-weight: 600; }
-    .tt-head p { font-size: 13px; color: var(--muted); margin-top: 3px; }
-    .tt-table-scroll {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+    .tt-head { padding: 18px 24px 12px; border-bottom: 1px solid var(--border); }
+    .tt-head h2 { font-size: 16px; font-weight: 600; }
+    .tt-head p { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .tt-table-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     table.tt { width: 100%; border-collapse: collapse; }
     table.tt th {
-      background: var(--gray-light); font-size: 12px; font-weight: 700;
+      background: var(--surface-2); font-size: 11.5px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.06em;
-      padding: 10px 16px; text-align: left; color: var(--muted);
+      padding: 9px 16px; text-align: left; color: var(--muted);
       border-bottom: 1px solid var(--border);
     }
     table.tt td {
-      padding: 11px 16px; font-size: 13px;
+      padding: 10px 16px; font-size: 12.5px;
       border-bottom: 1px solid var(--border); vertical-align: middle;
     }
     table.tt tr:last-child td { border-bottom: none; }
-    table.tt tr:hover td { background: var(--bg); }
-    .tt-time { font-weight: 600; white-space: nowrap; }
+    table.tt tr:hover td { background: var(--surface-2); }
+    .tt-time { font-weight: 600; white-space: nowrap; color: var(--text-2); }
     .cc {
-      display: inline-block; padding: 3px 9px; border-radius: 5px;
-      font-size: 12px; font-weight: 600; margin: 2px 0;
+      display: inline-block; padding: 3px 8px; border-radius: 4px;
+      font-size: 11.5px; font-weight: 600; margin: 2px 0;
     }
     .cc-cmn   { background: #dbeafe; color: #1d4ed8; }
     .cc-c430  { background: #d1fae5; color: #065f46; }
@@ -497,55 +569,119 @@
     .cc-empty { color: var(--muted); font-size: 12px; }
 
     .today-box {
-      background: var(--accent-light); border: 1px solid #bfdbfe;
-      border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
-      font-size: 13px; color: #1e40af;
+      background: var(--accent-bg); border: 1px solid var(--accent-ring);
+      border-radius: var(--r); padding: 11px 15px; margin-bottom: 18px;
+      font-size: 12.5px; color: #1e40af;
     }
-    .today-box.inclass { background: #fef9c3; border-color: #fbbf24; color: #92400e; }
+    .today-box.inclass { background: var(--amber-bg); border-color: #fbbf24; color: #92400e; }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      header, nav { padding-left: 16px; padding-right: 16px; }
-      nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      header { padding: 16px 16px 14px; }
+      nav { padding: 0 16px; overflow-x: auto; }
       main { padding: 20px 12px; }
       .pcard-top { grid-template-columns: auto 1fr; }
       .pcard-toggle { display: none; }
       .channel-grid {
-        display: flex;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 6px;
+        display: flex; overflow-x: auto;
+        -webkit-overflow-scrolling: touch; padding-bottom: 6px;
       }
-      .ch-item { min-width: 140px; flex-shrink: 0; }
-      .feat-grid {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 6px;
-      }
-      .feat-row { min-width: 520px; }
+      .ch-item { min-width: 136px; flex-shrink: 0; }
+      .feat-grid { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+      .feat-row { min-width: 500px; }
+      .kb-toolbar { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>What's <span>Muhtasim</span> Upto?</h1>
-  <p>Muhtasim Hossain · AI/ML Engineer at Metamorphosis Ltd</p>
-  <div class="header-meta">
-    <span class="pill pill-green">Active — June 2026 to now</span>
-    <span class="pill pill-gray">17 work items · June → November 2026</span>
+  <div class="header-inner">
+    <h1>What's <span>Muhtasim</span> Upto?</h1>
+    <p class="sub">Muhtasim Hossain · AI/ML Engineer at Metamorphosis Ltd</p>
+    <div class="header-meta">
+      <span class="pill pill-green">Active — June 2026 to now</span>
+      <span class="pill pill-muted">19 items · June → November 2026</span>
+    </div>
   </div>
 </header>
 
 <nav>
-  <button class="active" onclick="switchTab('work',this)">💼 Work</button>
-  <button onclick="switchTab('kanban',this)">📋 Kanban</button>
-  <button onclick="switchTab('classes',this)">🎓 Class Schedule</button>
+  <div class="nav-inner">
+    <button onclick="switchTab('kanban',this)" class="active">📋 Kanban</button>
+    <button onclick="switchTab('work',this)">💼 Work</button>
+    <button onclick="switchTab('classes',this)">🎓 Class Schedule</button>
+  </div>
 </nav>
 
-<main id="main-container">
+<main id="main-container" class="wide">
 
-<!-- ═══════════════ TAB 1 — WORK ═══════════════ -->
-<div id="tab-work" class="tab-content active">
+<!-- ═══════════════ TAB 1 — KANBAN (default) ═══════════════ -->
+<div id="tab-kanban" class="tab-content active">
+  <div class="kb-toolbar">
+    <div class="kb-filters">
+      <button class="kb-filter active" onclick="filterKanban('all', this)">All</button>
+      <button class="kb-filter" onclick="filterKanban('mobile', this)">📱 Mobile Apps</button>
+      <button class="kb-filter" onclick="filterKanban('odoo', this)">⚙️ Odoo</button>
+      <button class="kb-filter" onclick="filterKanban('web', this)">🌐 Web / Platform</button>
+      <button class="kb-filter" onclick="filterKanban('rnd', this)">🧪 R&amp;D</button>
+    </div>
+    <div class="kb-actions">
+      <span class="kb-status-msg" id="kb-status-msg"></span>
+      <button class="kb-save-btn" id="kb-save-btn" style="display:none;" onclick="saveToGitHub()">💾 Save to GitHub</button>
+      <button class="kb-reset" id="kb-unlock-btn" onclick="toggleAuthBar()">🔒 Unlock Sync</button>
+      <button class="kb-reset" onclick="resetKanban()" title="Reload board from GitHub">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="kb-auth-bar" id="kb-auth-bar">
+    <span style="color:var(--muted);">Paste a fine-grained GitHub PAT (<code>whats-muhtasim-upto</code> · Contents: Read &amp; write):</span>
+    <div style="display:flex;gap:6px;flex:1;min-width:240px;">
+      <input type="password" class="kb-auth-input" id="kb-pat-input" placeholder="github_pat_..." />
+      <button class="kb-save-btn" onclick="savePat()">Unlock</button>
+      <button class="kb-reset" id="kb-logout-btn" style="display:none;" onclick="clearPat()">Clear Token</button>
+    </div>
+  </div>
+
+  <div class="kb-scroll">
+    <div class="kb-board" id="kb-board">
+      <div class="kb-col" data-stage="scoping" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'scoping')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">📝 Scoping / R&amp;D</span>
+          <span class="kb-count" id="count-scoping">0</span>
+        </div>
+        <div class="kb-cards" id="col-scoping"></div>
+      </div>
+
+      <div class="kb-col" data-stage="active" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'active')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">🔨 In Development</span>
+          <span class="kb-count" id="count-active">0</span>
+        </div>
+        <div class="kb-cards" id="col-active"></div>
+      </div>
+
+      <div class="kb-col" data-stage="testing" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'testing')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">🧪 Testing / Review</span>
+          <span class="kb-count" id="count-testing">0</span>
+        </div>
+        <div class="kb-cards" id="col-testing"></div>
+      </div>
+
+      <div class="kb-col" data-stage="shipped" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'shipped')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">🚀 Shipped / Done</span>
+          <span class="kb-count" id="count-shipped">0</span>
+        </div>
+        <div class="kb-cards" id="col-shipped"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 2 — WORK ═══════════════ -->
+<div id="tab-work" class="tab-content">
 
   <!-- ══ NOVEMBER 2026 ══ -->
   <div class="section-label">🔵 Active &amp; Recent — October – November 2026</div>
@@ -557,7 +693,7 @@
       <div class="pcard-main">
         <div class="pcard-title">
           MetaPOS — Mobile Point of Sale
-          <span style="background:#dbeafe;color:#1d4ed8;font-size:11px;padding:2px 7px;border-radius:4px;font-weight:700;">v1.0.3</span>
+          <span style="background:#dbeafe;color:#1d4ed8;font-size:10.5px;padding:2px 7px;border-radius:4px;font-weight:700;">v1.0.3</span>
           <span class="badge b-ongoing">● Ongoing</span>
         </div>
         <div class="pcard-subtitle">Offline-first bilingual (Bengali &amp; English) Flutter POS app engineered for Amar Ekushey Boi Mela &amp; high-throughput retail, synced with Odoo 19 via JSON-RPC.</div>
@@ -584,7 +720,7 @@
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Built and hardened MetaPOS from v1.0.0 through v1.0.3+2004: multi-cart tabs, hardware camera scanning (`mobile_scanner`), full Odoo 19 returns/refunds, interactive KPI drill-down dashboard, Bluetooth ESC/POS thermal receipt printing, and automatic offline SQLite queuing. Purged all mock presets/devices and connected live Odoo 19 sale-details telemetry.</div>
+        <div class="hbox">Built and hardened MetaPOS from v1.0.0 through v1.0.3+2004: multi-cart tabs, hardware camera scanning (<code>mobile_scanner</code>), full Odoo 19 returns/refunds, interactive KPI drill-down dashboard, Bluetooth ESC/POS thermal receipt printing, and automatic offline SQLite queuing. Purged all mock presets/devices and connected live Odoo 19 sale-details telemetry.</div>
       </div>
       <div class="body-section">
         <div class="body-label">Recent releases</div>
@@ -628,13 +764,13 @@
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Set up the automated Play Store CD pipeline (`staging-playstore` → signed `.aab` + `mapping.txt`), wired Firebase Cloud Messaging (`PushNotificationService`), authored the Google Play publishing guide &amp; foreground service location demo video, and conducted a full code &amp; security audit (`REVIEW.md`).</div>
+        <div class="hbox">Set up the automated Play Store CD pipeline (<code>staging-playstore</code> → signed <code>.aab</code> + <code>mapping.txt</code>), wired Firebase Cloud Messaging (<code>PushNotificationService</code>), authored the Google Play publishing guide &amp; foreground service location demo video, and conducted a full code &amp; security audit (<code>REVIEW.md</code>).</div>
       </div>
       <div class="body-section">
         <div class="body-label">Progress &amp; next steps</div>
         <ul class="cl">
           <li><span class="cl-date">Nov 11–12</span><span class="cl-dot g"></span><span class="cl-msg">Configured AAB artifact upload, Play Console publishing guide, and foreground service storyboard</span></li>
-          <li><span class="cl-date">Nov 25</span><span class="cl-dot a"></span><span class="cl-msg">Wired FCM push notifications, configured `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` secret, documented Play Store CD runbook</span></li>
+          <li><span class="cl-date">Nov 25</span><span class="cl-dot a"></span><span class="cl-msg">Wired FCM push notifications, configured <code>GOOGLE_PLAY_SERVICE_ACCOUNT_JSON</code> secret, documented Play Store CD runbook</span></li>
         </ul>
       </div>
     </div>
@@ -671,7 +807,7 @@
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Architected and built both the Flutter warehouse client (`mobile/`) and the `meta_wms_api` Odoo 19 connector (`odoo/`). Includes a modular GS1 scanner package, receipts/deliveries operations, physical inventory counting with offline sync, OpenAPI 3.0 spec, physical device verification, and onboarding documentation (`SETUP.md`) with screen recordings.</div>
+        <div class="hbox">Architected and built both the Flutter warehouse client (<code>mobile/</code>) and the <code>meta_wms_api</code> Odoo 19 connector (<code>odoo/</code>). Includes a modular GS1 scanner package, receipts/deliveries operations, physical inventory counting with offline sync, OpenAPI 3.0 spec, physical device verification, and onboarding documentation (<code>SETUP.md</code>) with screen recordings.</div>
       </div>
       <div class="body-section">
         <div class="body-label">Key milestones</div>
@@ -713,7 +849,7 @@
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Authored the Field Service Mobile App Design Document for Odoo 19 Enterprise, built the `metafsm_mobile` companion Odoo module + `metafsm_app` Flutter client (camera, QR scanner, secure storage), and ran automated E2E verification (`run_all_tests.py` / `run_e2e_tests.sh`) with all 23 tests passing on `metafsm_dev`.</div>
+        <div class="hbox">Authored the Field Service Mobile App Design Document for Odoo 19 Enterprise, built the <code>metafsm_mobile</code> companion Odoo module + <code>metafsm_app</code> Flutter client (camera, QR scanner, secure storage), and ran automated E2E verification (<code>run_all_tests.py</code> / <code>run_e2e_tests.sh</code>) with all 23 tests passing on <code>metafsm_dev</code>.</div>
       </div>
     </div>
   </div>
@@ -734,7 +870,7 @@
           <span class="tag">NestJS</span>
           <span class="tag py">LiteLLM</span>
           <a class="demo-link-btn" href="http://203.82.194.35:3001/panel/dashboard" target="_blank" rel="noopener noreferrer">
-            <span class="pulse-dot"></span> live demo link ↗
+            <span class="pulse-dot"></span> live demo ↗
           </a>
           <span style="font-size:11px;color:var(--muted);align-self:center;">Aug 10 – Nov 4 · GitHub (private)</span>
         </div>
@@ -928,7 +1064,7 @@
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Built a complete Flutter mobile suite and native Odoo 19 REST API module (`helpdesk_mobile_api`). Features strict team stage workflow steppers, `hr.employee` assignment, human-friendly chatter/audit logs, and permanent deployment pointing to `https://tender.metamorphosis.com.bd` with `helpdeskapp_311026_v1.apk` published.</div>
+        <div class="hbox">Built a complete Flutter mobile suite and native Odoo 19 REST API module (<code>helpdesk_mobile_api</code>). Features strict team stage workflow steppers, <code>hr.employee</code> assignment, human-friendly chatter/audit logs, and permanent deployment pointing to <code>https://tender.metamorphosis.com.bd</code> with <code>helpdeskapp_311026_v1.apk</code> published.</div>
       </div>
     </div>
   </div>
@@ -996,7 +1132,7 @@
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Developed `rico_meta_ads_crm` for Odoo 19: captures Instant Form leads with attribution, hashes PII with SHA-256, transmits CRM stage conversions back to Meta Dataset with deduplication safeguards, and includes an interactive lead simulator wizard + Meta API setup guide for client demos.</div>
+        <div class="hbox">Developed <code>rico_meta_ads_crm</code> for Odoo 19: captures Instant Form leads with attribution, hashes PII with SHA-256, transmits CRM stage conversions back to Meta Dataset with deduplication safeguards, and includes an interactive lead simulator wizard + Meta API setup guide for client demos.</div>
       </div>
     </div>
   </div>
@@ -1030,7 +1166,7 @@
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Evolved the earlier validator into a full portable CLI + AI coding agent skill package (`./install.sh`) supporting Antigravity, Claude Code, Gemini CLI, and Cursor—automating `&lt;tree&gt;` → `&lt;list&gt;`, `models.Constraint`, and OWL migration with diagnostic reporting.</div>
+        <div class="hbox">Evolved the earlier validator into a full portable CLI + AI coding agent skill package (<code>./install.sh</code>) supporting Antigravity, Claude Code, Gemini CLI, and Cursor—automating <code>&lt;tree&gt;</code> → <code>&lt;list&gt;</code>, <code>models.Constraint</code>, and OWL migration with diagnostic reporting.</div>
       </div>
     </div>
   </div>
@@ -1083,7 +1219,7 @@
       <div class="pcard-main">
         <div class="pcard-title">
           Odoo 18 → 19 Module Migration
-          <span style="background:#fee2e2;color:#b91c1c;font-size:11px;padding:2px 7px;border-radius:4px;font-weight:700;">127 modules</span>
+          <span style="background:#fee2e2;color:#b91c1c;font-size:10.5px;padding:2px 7px;border-radius:4px;font-weight:700;">127 modules</span>
           <span class="badge b-done">✓ Done</span>
         </div>
         <div class="pcard-subtitle">Converted 127 Odoo Enterprise Edition modules from v18 to v19 compatibility. Built a dedicated upgrade validator tool to automate future compatibility checks.</div>
@@ -1336,70 +1472,6 @@
 
 </div>
 
-<!-- ═══════════════ TAB 2 — KANBAN ═══════════════ -->
-<div id="tab-kanban" class="tab-content">
-  <div class="kb-toolbar">
-    <div class="kb-filters">
-      <button class="kb-filter active" onclick="filterKanban('all', this)">All</button>
-      <button class="kb-filter" onclick="filterKanban('mobile', this)">📱 Mobile Apps</button>
-      <button class="kb-filter" onclick="filterKanban('odoo', this)">⚙️ Odoo</button>
-      <button class="kb-filter" onclick="filterKanban('web', this)">🌐 Web / Platform</button>
-      <button class="kb-filter" onclick="filterKanban('rnd', this)">🧪 R&amp;D</button>
-    </div>
-    <div class="kb-actions">
-      <span class="kb-status-msg" id="kb-status-msg"></span>
-      <button class="kb-save-btn" id="kb-save-btn" style="display:none;" onclick="saveToGitHub()">💾 Save to GitHub</button>
-      <button class="kb-reset" id="kb-unlock-btn" onclick="toggleAuthBar()">🔒 Unlock Sync</button>
-      <button class="kb-reset" onclick="resetKanban()" title="Reload board from GitHub">↺ Reset</button>
-    </div>
-  </div>
-
-  <div class="kb-auth-bar" id="kb-auth-bar">
-    <span style="color:var(--muted);">Paste a fine-grained GitHub PAT (<code>whats-muhtasim-upto</code> · Contents: Read &amp; write) to save changes for everyone:</span>
-    <div style="display:flex;gap:6px;flex:1;min-width:240px;">
-      <input type="password" class="kb-auth-input" id="kb-pat-input" placeholder="github_pat_..." />
-      <button class="kb-save-btn" onclick="savePat()">Unlock</button>
-      <button class="kb-reset" id="kb-logout-btn" style="display:none;" onclick="clearPat()">Clear Token</button>
-    </div>
-  </div>
-
-  <div class="kb-scroll">
-    <div class="kb-board" id="kb-board">
-      <div class="kb-col" data-stage="scoping" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'scoping')">
-        <div class="kb-col-head">
-          <span class="kb-col-title">📝 Scoping / R&amp;D</span>
-          <span class="kb-count" id="count-scoping">0</span>
-        </div>
-        <div class="kb-cards" id="col-scoping"></div>
-      </div>
-
-      <div class="kb-col" data-stage="active" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'active')">
-        <div class="kb-col-head">
-          <span class="kb-col-title">🔨 In Development</span>
-          <span class="kb-count" id="count-active">0</span>
-        </div>
-        <div class="kb-cards" id="col-active"></div>
-      </div>
-
-      <div class="kb-col" data-stage="testing" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'testing')">
-        <div class="kb-col-head">
-          <span class="kb-col-title">🧪 Testing / Review</span>
-          <span class="kb-count" id="count-testing">0</span>
-        </div>
-        <div class="kb-cards" id="col-testing"></div>
-      </div>
-
-      <div class="kb-col" data-stage="shipped" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'shipped')">
-        <div class="kb-col-head">
-          <span class="kb-col-title">🚀 Shipped / Done</span>
-          <span class="kb-count" id="count-shipped">0</span>
-        </div>
-        <div class="kb-cards" id="col-shipped"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ═══════════════ TAB 3 — CLASSES ═══════════════ -->
 <div id="tab-classes" class="tab-content">
 
@@ -1471,7 +1543,7 @@
     </div>
   </div>
 
-  <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);">
+  <div style="margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 20px;box-shadow:var(--shadow-sm);">
     <div class="body-label" style="margin-bottom:12px;">Course Legend</div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:13px;">
       <div><span class="cc cc-cmn">CMN419</span> &nbsp;Communication</div>
@@ -1479,7 +1551,7 @@
       <div><span class="cc cc-c445">CSC445</span> &nbsp;CS elective</div>
       <div><span class="cc cc-c425">CSC425</span> &nbsp;CS elective</div>
     </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:12px;">ℹ️ Personal schedule covers Sunday through Wednesday. No scheduled classes on Thursday, Friday, or Saturday.</p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:12px;">ℹ️ Personal schedule covers Sunday through Wednesday. No scheduled classes on Thursday, Friday, or Saturday.</p>
   </div>
 
 </div>
@@ -1487,12 +1559,31 @@
 </main>
 
 <script>
+  /* ── TAB SWITCHING ── */
   function switchTab(id, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
+    // Kanban needs wide layout; Work needs narrow
     document.getElementById('main-container').classList.toggle('wide', id === 'kanban');
+  }
+
+  /* ── Navigate from kanban card to Work tab + scroll + expand ── */
+  function viewInWork(cardId) {
+    const workBtn = document.querySelector('nav button:nth-child(2)');
+    switchTab('work', workBtn);
+    // Open older-projects if the card is inside it
+    const card = document.getElementById(cardId);
+    if (card) {
+      const older = document.getElementById('older-projects');
+      if (older && older.contains(card) && older.style.display === 'none') {
+        toggleOlder();
+      }
+      // If card isn't expanded yet, open it
+      if (!card.classList.contains('open')) toggleCard(cardId);
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
   }
 
   function toggleOlder() {
@@ -1502,7 +1593,9 @@
     const isOpen = panel.style.display !== 'none';
     panel.style.display = isOpen ? 'none' : 'block';
     chevron.classList.toggle('open', !isOpen);
-    btn.querySelector('span').textContent = isOpen ? '📁 View older projects (June – Early October 2026)' : '📂 Hide older projects';
+    btn.querySelector('span').textContent = isOpen
+      ? '📁 View older projects (June – Early October 2026)'
+      : '📂 Hide older projects';
   }
 
   function toggleDevlog() {
@@ -1526,210 +1619,184 @@
 
   /* ── KANBAN LOGIC (GitHub-backed kanban.json + local draft) ── */
   const KB_STORAGE_KEY = 'muhtasim_kanban_v1';
-  const KB_PAT_KEY = 'muhtasim_gh_pat';
+  const KB_PAT_KEY     = 'muhtasim_gh_pat';
   const GH_OWNER = 'nasif43';
-  const GH_REPO = 'whats-muhtasim-upto';
-  const GH_PATH = 'kanban.json';
+  const GH_REPO  = 'whats-muhtasim-upto';
+  const GH_PATH  = 'kanban.json';
 
   const DEFAULT_KB_ITEMS = [
-    { id: 'kb-tiktok', title: 'Omnichannel — TikTok Channel', cat: 'web', tag: 'Omnichannel', tagClass: 'ts', stage: 'scoping', date: 'Oct–Nov', note: 'DSPR maturity review & developer app approval scoped; architecture ready.' },
-    { id: 'kb-viber', title: 'Omnichannel — Viber Channel', cat: 'web', tag: 'Pending Budget', tagClass: 'oo', stage: 'scoping', date: 'Oct', note: 'Webhook spec mapped; awaiting client approval on ~$100/mo API key cost.' },
-    { id: 'kb-jarvis', title: 'J.A.R.V.I.S. R&D', cat: 'rnd', tag: 'AI / Memory', tagClass: 'py', stage: 'scoping', date: 'Jul 4', note: 'LLM memory architecture ADR drafted & codebase initialized (paused).' },
-    { id: 'kb-metapos', title: 'MetaPOS (Mobile POS)', cat: 'mobile', tag: 'Flutter · v1.0.3', tagClass: 'fl', stage: 'active', date: 'Nov 25', note: 'Live POS session binding, Android 15+ SafeArea fix, latent offline mode & thermal printing.' },
-    { id: 'kb-omni', title: 'Meta Omnichannel Platform', cat: 'web', tag: 'Next.js · Go', tagClass: 'ts', stage: 'active', date: 'Nov 4', note: 'Full dark mode overhaul, Meta Comments, API keys UI, stress tests & launch video.' },
-    { id: 'kb-gdfl', title: 'GDFL Shokti+ Secondary Sales', cat: 'mobile', tag: 'Play Console', tagClass: 'fl', stage: 'testing', date: 'Nov 25', note: 'v1.1.0 in 14-day Play Store Closed Testing; FCM wired & staging-playstore CD ready for v1.3.0.' },
-    { id: 'kb-fsm', title: 'MetaFSM Field Service App', cat: 'mobile', tag: 'Flutter · Odoo 19', tagClass: 'oo', stage: 'testing', date: 'Nov 14', note: '23/23 Odoo 19 backend E2E tests passing on metafsm_dev; Flutter POC ready.' },
-    { id: 'kb-wms', title: 'Mobile WMS App for Odoo 19', cat: 'mobile', tag: 'Flutter · GS1', tagClass: 'fl', stage: 'testing', date: 'Nov 19', note: 'Offline physical inventory count & GS1 scanner verified on device; ready for team handover.' },
-    { id: 'kb-helpdesk', title: 'Odoo Helpdesk Mobile Suite', cat: 'mobile', tag: 'APK Released', tagClass: 'fl', stage: 'shipped', date: 'Oct 31', note: 'Dual-role Flutter app + Odoo 19 REST API deployed on 24/7 tender-server.' },
-    { id: 'kb-portfolio', title: 'M M Mahbub Hasan Portfolio CMS', cat: 'web', tag: 'Cloudflare', tagClass: 'cf', stage: 'shipped', date: 'Oct 24', note: 'Next.js 16 + Payload CMS on Cloudflare Workers, D1 & R2 with live inquiry alerts.' },
-    { id: 'kb-capi', title: 'Rico Meta Ads & CRM (CAPI)', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Oct 15', note: 'Bi-directional Meta Lead Ads + CAPI module with SHA-256 PII hashing & demo simulator.' },
-    { id: 'kb-upgrader', title: 'Odoo Upgrader Framework', cat: 'odoo', tag: 'Python CLI', tagClass: 'py', stage: 'shipped', date: 'Oct 12', note: 'Autonomous 18→19+ AST/XML upgrade CLI + portable AI coding agent skills.' },
-    { id: 'kb-ai4bt', title: 'AI4BT Global Summit Site', cat: 'web', tag: 'Web', tagClass: 'ts', stage: 'shipped', date: 'Oct 1', note: 'About AI4BT pages, cleanUrls routing & media partner logo wall.' },
-    { id: 'kb-migration', title: 'Odoo 18 → 19 Migration (127)', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Aug 8', note: 'Converted 127 Odoo EE modules & built compatibility validator.' },
-    { id: 'kb-takaful', title: 'General Takaful Module', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Aug', note: '9-model Odoo 19 POC for Amãna Takaful prospect with PDF certificates.' },
-    { id: 'kb-scraper', title: 'BDJobs & e-GP Tender Scraper', cat: 'web', tag: 'FastAPI', tagClass: 'py', stage: 'shipped', date: 'Jul 22', note: 'Live at tender.metamorphosis.com.bd with GitHub Actions CI/CD.' },
-    { id: 'kb-uniwatch', title: 'UniWatch Deadline Monitor', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Jul 19', note: 'Australian uni program change monitor shipped to RICO client.' },
-    { id: 'kb-shorturl', title: 'Odoo Short URL Maker', cat: 'odoo', tag: 'Odoo', tagClass: 'oo', stage: 'shipped', date: 'Jul 22', note: 'URL shortener & redirect system deployed on tender-server.' },
-    { id: 'kb-installer', title: 'Odoo Agentic Installer', cat: 'rnd', tag: 'Ansible', tagClass: 'ans', stage: 'shipped', date: 'Jul 22', note: 'Zero-touch Python + Ansible Odoo installer + OpenRouter AI patch.' }
+    { id: 'kb-tiktok',   title: 'Omnichannel — TikTok Channel',       cat: 'web',    tag: 'Omnichannel',      tagClass: 'ts', stage: 'scoping',  date: 'Oct–Nov', note: 'DSPR maturity review & developer app approval scoped; architecture ready.' },
+    { id: 'kb-viber',    title: 'Omnichannel — Viber Channel',         cat: 'web',    tag: 'Pending Budget',   tagClass: 'oo', stage: 'scoping',  date: 'Oct',     note: 'Webhook spec mapped; awaiting client approval on ~$100/mo API key cost.' },
+    { id: 'kb-jarvis',   title: 'J.A.R.V.I.S. R&D',                   cat: 'rnd',    tag: 'AI / Memory',      tagClass: 'py', stage: 'scoping',  date: 'Jul 4',   note: 'LLM memory architecture ADR drafted & codebase initialized (paused).' },
+    { id: 'kb-metapos',  title: 'MetaPOS (Mobile POS)',                 cat: 'mobile', tag: 'Flutter · v1.0.3', tagClass: 'fl', stage: 'active',   date: 'Nov 25',  note: 'Live POS session binding, Android 15+ SafeArea fix, latent offline mode & thermal printing.' },
+    { id: 'kb-omni',     title: 'Meta Omnichannel Platform',            cat: 'web',    tag: 'Next.js · Go',     tagClass: 'ts', stage: 'active',   date: 'Nov 4',   note: 'Full dark mode overhaul, Meta Comments, API keys UI, stress tests & launch video.' },
+    { id: 'kb-gdfl',     title: 'GDFL Shokti+ Secondary Sales',         cat: 'mobile', tag: 'Play Console',     tagClass: 'fl', stage: 'testing',  date: 'Nov 25',  note: 'v1.1.0 in 14-day Play Store Closed Testing; FCM wired & staging-playstore CD ready for v1.3.0.' },
+    { id: 'kb-fsm',      title: 'MetaFSM Field Service App',            cat: 'mobile', tag: 'Flutter · Odoo 19',tagClass: 'oo', stage: 'testing',  date: 'Nov 14',  note: '23/23 Odoo 19 backend E2E tests passing on metafsm_dev; Flutter POC ready.' },
+    { id: 'kb-wms',      title: 'Mobile WMS App for Odoo 19',           cat: 'mobile', tag: 'Flutter · GS1',    tagClass: 'fl', stage: 'testing',  date: 'Nov 19',  note: 'Offline physical inventory count & GS1 scanner verified on device; ready for team handover.' },
+    { id: 'kb-helpdesk', title: 'Odoo Helpdesk Mobile Suite',           cat: 'mobile', tag: 'APK Released',     tagClass: 'fl', stage: 'testing',  date: 'Oct 31',  note: 'Dual-role Flutter app + Odoo 19 REST API deployed on 24/7 tender-server.' },
+    { id: 'kb-portfolio',title: 'M M Mahbub Hasan Portfolio CMS',       cat: 'web',    tag: 'Cloudflare',       tagClass: 'cf', stage: 'shipped',  date: 'Oct 24',  note: 'Next.js 16 + Payload CMS on Cloudflare Workers, D1 & R2 with live inquiry alerts.' },
+    { id: 'kb-capi',     title: 'Rico Meta Ads & CRM (CAPI)',           cat: 'odoo',   tag: 'Odoo 19',          tagClass: 'oo', stage: 'shipped',  date: 'Oct 15',  note: 'Bi-directional Meta Lead Ads + CAPI module with SHA-256 PII hashing & demo simulator.' },
+    { id: 'kb-upgrader', title: 'Odoo Upgrader Framework',              cat: 'odoo',   tag: 'Python CLI',       tagClass: 'py', stage: 'active',   date: 'Oct 12',  note: 'Autonomous 18→19+ AST/XML upgrade CLI + portable AI coding agent skills.' },
+    { id: 'kb-ai4bt',    title: 'AI4BT Global Summit Site',             cat: 'web',    tag: 'Web',              tagClass: 'ts', stage: 'shipped',  date: 'Oct 1',   note: 'About AI4BT pages, cleanUrls routing & media partner logo wall.' },
+    { id: 'kb-migration',title: 'Odoo 18 → 19 Migration (127)',         cat: 'odoo',   tag: 'Odoo 19',          tagClass: 'oo', stage: 'shipped',  date: 'Aug 8',   note: 'Converted 127 Odoo EE modules & built compatibility validator.' },
+    { id: 'kb-takaful',  title: 'General Takaful Module',               cat: 'odoo',   tag: 'Odoo 19',          tagClass: 'oo', stage: 'shipped',  date: 'Aug',     note: '9-model Odoo 19 POC for Amãna Takaful prospect with PDF certs & retakaful.' },
+    { id: 'kb-scraper',  title: 'BDJobs & e-GP Tender Scraper',         cat: 'web',    tag: 'Python · FastAPI', tagClass: 'py', stage: 'shipped',  date: 'Jul 22',  note: 'Live scraper dashboard on VPS; GitHub Actions CD.' },
+    { id: 'kb-uni',      title: 'UniWatch — University Deadline Monitor',cat: 'odoo',   tag: 'Odoo 19',          tagClass: 'oo', stage: 'shipped',  date: 'Jul 19',  note: 'Monitor 5+ Australian uni pages for deadline changes; shipped to RICO client.' },
+    { id: 'kb-url',      title: 'Odoo Short URL Maker',                  cat: 'odoo',   tag: 'Odoo',             tagClass: 'oo', stage: 'shipped',  date: 'Jul 22',  note: 'URL shortener built & deployed to VPS same day.' },
+    { id: 'kb-installer',title: 'Odoo Agentic Installer',                cat: 'odoo',   tag: 'Ansible',          tagClass: 'ans',stage: 'shipped',  date: 'Jul 22',  note: 'Zero-touch Odoo install agent; OpenRouter AI integration.' },
   ];
 
+  /* Map kb-id → card-id in Work tab (strip "kb-" → "card-") */
+  function kbIdToCardId(kbId) {
+    return 'card-' + kbId.replace(/^kb-/, '');
+  }
+
+  let kbItems = [];
   let kbFilter = 'all';
   let draggedId = null;
-  let kbItems = DEFAULT_KB_ITEMS.map(x => ({...x}));
   let hasUnsavedChanges = false;
-  let lastKnownSha = null;
+  let ghSha = null;
 
-  function setStatusMsg(text, cls) {
+  function setStatusMsg(msg, type) {
     const el = document.getElementById('kb-status-msg');
-    el.textContent = text;
-    el.className = 'kb-status-msg' + (cls ? ' ' + cls : '');
+    el.textContent = msg;
+    el.className = 'kb-status-msg' + (type ? ' ' + type : '');
   }
 
-  function getPat() {
-    try { return localStorage.getItem(KB_PAT_KEY) || ''; } catch { return ''; }
-  }
-
-  function updateSyncUI() {
-    const hasPat = !!getPat();
-    const saveBtn = document.getElementById('kb-save-btn');
-    const unlockBtn = document.getElementById('kb-unlock-btn');
-    const logoutBtn = document.getElementById('kb-logout-btn');
-
-    saveBtn.style.display = hasPat ? 'inline-flex' : 'none';
-    saveBtn.classList.toggle('unsaved', hasPat && hasUnsavedChanges);
-    unlockBtn.textContent = hasPat ? '🔓 Sync Unlocked' : '🔒 Unlock Sync';
-    logoutBtn.style.display = hasPat ? 'inline-block' : 'none';
+  function saveKbLocalDraft() {
+    try { localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(kbItems)); } catch {}
+    hasUnsavedChanges = true;
+    const btn = document.getElementById('kb-save-btn');
+    btn.style.display = '';
+    btn.classList.add('unsaved');
+    setStatusMsg('Unsaved local changes', '');
   }
 
   function toggleAuthBar() {
     const bar = document.getElementById('kb-auth-bar');
     bar.classList.toggle('open');
-    if (bar.classList.contains('open')) {
-      document.getElementById('kb-pat-input').value = getPat();
-    }
   }
 
   function savePat() {
     const val = document.getElementById('kb-pat-input').value.trim();
     if (!val) return;
     try { localStorage.setItem(KB_PAT_KEY, val); } catch {}
+    document.getElementById('kb-pat-input').value = '';
     document.getElementById('kb-auth-bar').classList.remove('open');
-    updateSyncUI();
-    setStatusMsg('Sync unlocked. Move cards and click Save to GitHub.', 'ok');
+    document.getElementById('kb-logout-btn').style.display = '';
+    document.getElementById('kb-unlock-btn').textContent = '🔓 Sync Unlocked';
+    setStatusMsg('Token saved. Click Save to sync.', 'ok');
   }
 
   function clearPat() {
     try { localStorage.removeItem(KB_PAT_KEY); } catch {}
-    document.getElementById('kb-pat-input').value = '';
-    document.getElementById('kb-auth-bar').classList.remove('open');
-    updateSyncUI();
+    document.getElementById('kb-logout-btn').style.display = 'none';
+    document.getElementById('kb-unlock-btn').textContent = '🔒 Unlock Sync';
     setStatusMsg('Token cleared.', '');
   }
 
   async function initKanban() {
-    let baseItems = DEFAULT_KB_ITEMS.map(x => ({...x}));
+    // Check for saved PAT
+    let pat = '';
+    try { pat = localStorage.getItem(KB_PAT_KEY) || ''; } catch {}
+    if (pat) {
+      document.getElementById('kb-logout-btn').style.display = '';
+      document.getElementById('kb-unlock-btn').textContent = '🔓 Sync Unlocked';
+    }
+
+    // Try local draft first
+    let localDraft = null;
     try {
-      const res = await fetch(`./${GH_PATH}?t=${Date.now()}`);
-      if (res.ok) {
-        const remoteItems = await res.json();
-        if (Array.isArray(remoteItems) && remoteItems.length) {
-          baseItems = remoteItems;
-        }
-      }
+      const raw = localStorage.getItem(KB_STORAGE_KEY);
+      if (raw) localDraft = JSON.parse(raw);
     } catch {}
 
-    // Overlay any local unsaved stage edits
-    try {
-      const saved = localStorage.getItem(KB_STORAGE_KEY);
-      if (saved) {
-        const map = JSON.parse(saved);
-        kbItems = baseItems.map(item => ({
-          ...item,
-          stage: map[item.id] || item.stage
-        }));
-        hasUnsavedChanges = true;
-      } else {
-        kbItems = baseItems;
-        hasUnsavedChanges = false;
-      }
-    } catch {
-      kbItems = baseItems;
+    if (localDraft && Array.isArray(localDraft)) {
+      kbItems = localDraft;
+      hasUnsavedChanges = true;
+      document.getElementById('kb-save-btn').style.display = '';
+      document.getElementById('kb-save-btn').classList.add('unsaved');
+      setStatusMsg('Showing local draft.', '');
+    } else {
+      await fetchFromGitHub();
     }
-
-    // Grab current SHA quietly if unlocked
-    if (getPat()) {
-      fetchRemoteSha().then(sha => { lastKnownSha = sha; }).catch(() => {});
-    }
-
-    updateSyncUI();
     renderKanban();
   }
 
-  async function fetchRemoteSha() {
-    const pat = getPat();
-    if (!pat) return null;
-    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}?t=${Date.now()}`, {
-      headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.sha || null;
-  }
-
-  async function saveToGitHub() {
-    const pat = getPat();
-    if (!pat) { toggleAuthBar(); return; }
-    const saveBtn = document.getElementById('kb-save-btn');
-    saveBtn.disabled = true;
-    saveBtn.textContent = 'Saving...';
-    setStatusMsg('Syncing to GitHub...', '');
-
+  async function fetchFromGitHub() {
+    setStatusMsg('Loading from GitHub…', '');
     try {
-      const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}?t=${Date.now()}`, {
-        headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
-      });
-      if (!getRes.ok) {
-        throw new Error(`GitHub auth/fetch failed (${getRes.status}). Check your PAT.`);
-      }
-      const fileData = await getRes.json();
-      if (lastKnownSha && fileData.sha !== lastKnownSha) {
-        const proceed = confirm('kanban.json was updated on GitHub since you loaded this page. Overwrite with your local board?');
-        if (!proceed) {
-          saveBtn.disabled = false;
-          saveBtn.textContent = '💾 Save to GitHub';
-          setStatusMsg('Save cancelled.', '');
-          return;
-        }
-      }
-
-      const contentStr = JSON.stringify(kbItems, null, 2) + '\n';
-      const contentB64 = btoa(unescape(encodeURIComponent(contentStr)));
-
-      const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${pat}`,
-          Accept: 'application/vnd.github+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: 'chore: update kanban board from web',
-          content: contentB64,
-          sha: fileData.sha
-        })
-      });
-
-      if (!putRes.ok) {
-        const errBody = await putRes.json().catch(() => ({}));
-        throw new Error(errBody.message || `Save failed (${putRes.status})`);
-      }
-
-      const putData = await putRes.json();
-      lastKnownSha = putData.content?.sha || null;
-      hasUnsavedChanges = false;
-      try { localStorage.removeItem(KB_STORAGE_KEY); } catch {}
-      updateSyncUI();
-      setStatusMsg('✓ Saved to GitHub! Live in ~30s.', 'ok');
-    } catch (err) {
-      setStatusMsg(err.message || 'Failed to save to GitHub.', 'err');
-    } finally {
-      saveBtn.disabled = false;
-      saveBtn.textContent = '💾 Save to GitHub';
+      const r = await fetch(
+        `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`,
+        { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' }
+      );
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const data = await r.json();
+      ghSha = data.sha;
+      kbItems = JSON.parse(atob(data.content));
+      setStatusMsg('Synced from GitHub.', 'ok');
+    } catch (e) {
+      kbItems = DEFAULT_KB_ITEMS;
+      setStatusMsg('Using defaults (GitHub unavailable).', '');
     }
   }
 
-  function saveKbLocalDraft() {
-    const map = {};
-    kbItems.forEach(i => { map[i.id] = i.stage; });
-    try { localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(map)); } catch {}
-    hasUnsavedChanges = true;
-    updateSyncUI();
-    if (getPat()) setStatusMsg('Unsaved changes — click Save to GitHub.', '');
+  async function saveToGitHub() {
+    let pat = '';
+    try { pat = localStorage.getItem(KB_PAT_KEY) || ''; } catch {}
+    if (!pat) { toggleAuthBar(); return; }
+
+    const btn = document.getElementById('kb-save-btn');
+    btn.disabled = true;
+    setStatusMsg('Saving to GitHub…', '');
+
+    try {
+      // Get current SHA if we don't have it
+      if (!ghSha) {
+        const r = await fetch(
+          `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`,
+          { headers: { Accept: 'application/vnd.github+json', Authorization: `token ${pat}` } }
+        );
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const d = await r.json();
+        ghSha = d.sha;
+      }
+
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(kbItems, null, 2))));
+      const r2 = await fetch(
+        `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`,
+        {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: `token ${pat}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: 'chore: update kanban board from web', content, sha: ghSha }),
+        }
+      );
+      if (!r2.ok) {
+        const err = await r2.json().catch(() => ({}));
+        throw new Error(err.message || 'HTTP ' + r2.status);
+      }
+      const d2 = await r2.json();
+      ghSha = d2.content.sha;
+      try { localStorage.removeItem(KB_STORAGE_KEY); } catch {}
+      hasUnsavedChanges = false;
+      btn.classList.remove('unsaved');
+      btn.style.display = 'none';
+      setStatusMsg('Saved to GitHub ✓', 'ok');
+    } catch (e) {
+      setStatusMsg('Save failed: ' + e.message, 'err');
+    } finally {
+      btn.disabled = false;
+    }
   }
 
+  const STAGES = ['scoping', 'active', 'testing', 'shipped'];
+
   function renderKanban() {
-    const stages = ['scoping', 'active', 'testing', 'shipped'];
-    stages.forEach(st => {
+    STAGES.forEach(st => {
       const col = document.getElementById('col-' + st);
       const filtered = kbItems.filter(i => i.stage === st && (kbFilter === 'all' || i.cat === kbFilter));
       document.getElementById('count-' + st).textContent = filtered.length;
@@ -1750,6 +1817,12 @@
           document.querySelectorAll('.kb-col').forEach(c => c.classList.remove('drag-over'));
         });
 
+        const cardId = kbIdToCardId(item.id);
+        const workCard = document.getElementById(cardId);
+        const viewLink = workCard
+          ? `<button class="kb-view-btn" onclick="viewInWork('${cardId}')">View details →</button>`
+          : '';
+
         el.innerHTML = `
           <div class="kb-card-top">
             <div class="kb-card-title">${item.title}</div>
@@ -1757,12 +1830,15 @@
           </div>
           <div class="kb-card-note">${item.note}</div>
           <div class="kb-card-foot">
-            <span class="kb-card-date">${item.date}</span>
+            <div class="kb-card-left">
+              <span class="kb-card-date">${item.date}</span>
+              ${viewLink}
+            </div>
             <select class="kb-move-select" onchange="moveKbCard('${item.id}', this.value)" aria-label="Move stage">
-              <option value="scoping" ${item.stage==='scoping'?'selected':''}>Scoping / R&amp;D</option>
-              <option value="active" ${item.stage==='active'?'selected':''}>In Development</option>
-              <option value="testing" ${item.stage==='testing'?'selected':''}>Testing / Review</option>
-              <option value="shipped" ${item.stage==='shipped'?'selected':''}>Shipped / Done</option>
+              <option value="scoping"  ${item.stage==='scoping' ?'selected':''}>📝 Scoping</option>
+              <option value="active"   ${item.stage==='active'  ?'selected':''}>🔨 Active</option>
+              <option value="testing"  ${item.stage==='testing' ?'selected':''}>🧪 Testing</option>
+              <option value="shipped"  ${item.stage==='shipped' ?'selected':''}>🚀 Shipped</option>
             </select>
           </div>
         `;
@@ -1813,11 +1889,11 @@
   /* ── CLASS SCHEDULE BANNER ── */
   function updateTodayBanner() {
     const now = new Date();
-    const bd = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Dhaka'}));
-    const day = bd.getDay(); // 0=Sun
+    const bd = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }));
+    const day = bd.getDay();
     const h = bd.getHours(), m = bd.getMinutes();
     const nowMins = h * 60 + m;
-    const timeStr = bd.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true});
+    const timeStr = bd.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
     const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
     const schedule = {
