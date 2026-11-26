@@ -67,26 +67,16 @@
       padding: 12px 16px;
       font-size: 14px; font-weight: 500;
       color: var(--muted); cursor: pointer; transition: all 0.15s;
+      white-space: nowrap;
     }
     nav button:hover { color: var(--text); }
     nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
 
     /* ── LAYOUT ── */
-    main { max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+    main { max-width: 860px; margin: 0 auto; padding: 32px 24px; transition: max-width 0.2s; }
+    main.wide { max-width: 1180px; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-
-    /* ── STAT ROW ── */
-    .stats-row {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 12px; margin-bottom: 30px;
-    }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow);
-    }
-    .stat-card .num { font-size: 26px; font-weight: 700; }
-    .stat-card .lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
     /* ── SECTION LABEL ── */
     .section-label {
@@ -94,11 +84,12 @@
       letter-spacing: 0.09em; color: var(--muted); margin: 28px 0 12px;
       display: flex; align-items: center; gap: 8px;
     }
+    .section-label:first-child { margin-top: 0; }
     .section-label::after {
       content: ''; flex: 1; height: 1px; background: var(--border);
     }
 
-    /* ── PROJECT CARD (new design) ── */
+    /* ── PROJECT CARD ── */
     .pcard {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius); box-shadow: var(--shadow);
@@ -135,6 +126,7 @@
     }
     .b-done    { background: var(--green-light); color: var(--green); }
     .b-ongoing { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .b-review  { background: var(--accent-light); color: var(--accent); border: 1px solid #bfdbfe; }
     .b-paused  { background: var(--gray-light); color: var(--gray); }
     .b-shipped { background: var(--purple-light); color: var(--purple); }
 
@@ -148,6 +140,8 @@
     .tag.go  { background: #d1fae5; color: #065f46; }
     .tag.oo  { background: #f3e8ff; color: #6b21a8; }
     .tag.ans { background: #fee2e6; color: #9f1239; }
+    .tag.fl  { background: #e0f2fe; color: #0369a1; }
+    .tag.cf  { background: #ffedd5; color: #c2410c; }
 
     /* toggle button */
     .pcard-toggle {
@@ -182,15 +176,9 @@
       animation: dot-blink 1.2s infinite ease-in-out;
     }
     @keyframes pulse-glow {
-      0% {
-        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.6);
-      }
-      70% {
-        box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
-      }
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.6); }
+      70% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
     }
     @keyframes dot-blink {
       0%, 100% { opacity: 1; }
@@ -273,61 +261,6 @@
     }
     .finding p { color: var(--muted); line-height: 1.5; }
 
-    /* ── TIMETABLE ── */
-    .tt-wrap {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
-    }
-    .tt-head { padding: 20px 24px 14px; border-bottom: 1px solid var(--border); }
-    .tt-head h2 { font-size: 17px; font-weight: 600; }
-    .tt-head p { font-size: 13px; color: var(--muted); margin-top: 3px; }
-    table.tt { width: 100%; border-collapse: collapse; }
-    table.tt th {
-      background: var(--gray-light); font-size: 12px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      padding: 10px 16px; text-align: left; color: var(--muted);
-      border-bottom: 1px solid var(--border);
-    }
-    table.tt td {
-      padding: 11px 16px; font-size: 13px;
-      border-bottom: 1px solid var(--border); vertical-align: middle;
-    }
-    table.tt tr:last-child td { border-bottom: none; }
-    table.tt tr:hover td { background: var(--bg); }
-    .tt-time { font-weight: 600; white-space: nowrap; }
-    .cc {
-      display: inline-block; padding: 3px 9px; border-radius: 5px;
-      font-size: 12px; font-weight: 600; margin: 2px 0;
-    }
-    .cc-cmn   { background: #dbeafe; color: #1d4ed8; }
-    .cc-c430  { background: #d1fae5; color: #065f46; }
-    .cc-c445  { background: #fef9c3; color: #854d0e; }
-    .cc-c425  { background: #f3e8ff; color: #6b21a8; }
-    .cc-empty { color: var(--muted); font-size: 12px; }
-
-    .today-box {
-      background: var(--accent-light); border: 1px solid #bfdbfe;
-      border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
-      font-size: 13px; color: #1e40af;
-    }
-    .today-box.inclass { background: #fef9c3; border-color: #fbbf24; color: #92400e; }
-
-    /* ── ABOUT ── */
-    .about-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px;
-    }
-    .about-card h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
-    .about-card p { font-size: 14px; color: var(--muted); margin-bottom: 14px; line-height: 1.7; }
-    .about-links { display: flex; gap: 10px; flex-wrap: wrap; }
-    .about-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--gray-light); color: var(--text); text-decoration: none;
-      font-size: 13px; font-weight: 500; padding: 7px 14px;
-      border-radius: 7px; border: 1px solid var(--border); transition: all 0.15s;
-    }
-    .about-link:hover { background: var(--accent-light); color: var(--accent); }
-
     /* ── CHANNEL STATUS GRID ── */
     .channel-grid {
       display: grid;
@@ -384,7 +317,7 @@
     .feat-status.blocked { background: var(--purple-light); color: var(--purple); }
     .feat-desc   { font-size: 12px; color: var(--muted); }
 
-    /* ── DEVLOG TOGGLE (reuses older-toggle style) ── */
+    /* ── DEVLOG & OLDER TOGGLE ── */
     .devlog-toggle {
       display: flex; align-items: center; justify-content: space-between;
       width: 100%; background: transparent; border: none;
@@ -395,12 +328,11 @@
     }
     .devlog-toggle:hover { color: var(--text); }
 
-    /* ── OLDER PROJECTS TOGGLE ── */
     .older-toggle {
       display: flex; align-items: center; justify-content: space-between;
       width: 100%; background: var(--surface);
       border: 1px dashed var(--border); border-radius: var(--radius);
-      padding: 13px 18px; margin: 8px 0 4px;
+      padding: 13px 18px; margin: 16px 0 4px;
       font-size: 14px; font-weight: 500; color: var(--muted);
       cursor: pointer; transition: all 0.15s;
     }
@@ -408,26 +340,146 @@
     .older-chevron { font-size: 13px; transition: transform 0.2s; }
     .older-chevron.open { transform: rotate(180deg); }
 
+    /* ── KANBAN BOARD ── */
+    .kb-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap; margin-bottom: 18px;
+    }
+    .kb-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .kb-filter {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 13px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .kb-filter:hover { color: var(--text); border-color: #cfcfca; }
+    .kb-filter.active {
+      background: var(--accent); color: #ffffff; border-color: var(--accent);
+    }
+    .kb-reset {
+      background: none; border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 11px;
+      font-size: 12px; color: var(--muted); cursor: pointer;
+    }
+    .kb-reset:hover { background: var(--gray-light); color: var(--text); }
+
+    .kb-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 10px;
+    }
+    .kb-board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(250px, 1fr));
+      gap: 14px;
+      min-width: 1020px;
+      align-items: start;
+    }
+    .kb-col {
+      background: #ededeb;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      min-height: 360px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .kb-col.drag-over {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+    .kb-col-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px; padding: 0 2px;
+    }
+    .kb-col-title {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .kb-count {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1px 8px;
+      font-size: 11px; font-weight: 600; color: var(--muted);
+    }
+    .kb-cards { display: flex; flex-direction: column; gap: 10px; }
+
+    .kb-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 13px;
+      box-shadow: var(--shadow);
+      cursor: grab;
+      transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+    }
+    .kb-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .kb-card.dragging { opacity: 0.45; cursor: grabbing; }
+    .kb-card-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 8px; margin-bottom: 5px;
+    }
+    .kb-card-title { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.35; }
+    .kb-card-note { font-size: 12px; color: var(--muted); line-height: 1.45; margin-bottom: 9px; }
+    .kb-card-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 6px; flex-wrap: wrap;
+    }
+    .kb-card-date { font-size: 11px; color: var(--muted); }
+    .kb-move-select {
+      font-size: 11px; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 5px; padding: 2px 5px; cursor: pointer;
+    }
+
+    /* ── TIMETABLE ── */
+    .tt-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .tt-head { padding: 20px 24px 14px; border-bottom: 1px solid var(--border); }
+    .tt-head h2 { font-size: 17px; font-weight: 600; }
+    .tt-head p { font-size: 13px; color: var(--muted); margin-top: 3px; }
     .tt-table-scroll {
       width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
+    table.tt { width: 100%; border-collapse: collapse; }
+    table.tt th {
+      background: var(--gray-light); font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 10px 16px; text-align: left; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    table.tt td {
+      padding: 11px 16px; font-size: 13px;
+      border-bottom: 1px solid var(--border); vertical-align: middle;
+    }
+    table.tt tr:last-child td { border-bottom: none; }
+    table.tt tr:hover td { background: var(--bg); }
+    .tt-time { font-weight: 600; white-space: nowrap; }
+    .cc {
+      display: inline-block; padding: 3px 9px; border-radius: 5px;
+      font-size: 12px; font-weight: 600; margin: 2px 0;
+    }
+    .cc-cmn   { background: #dbeafe; color: #1d4ed8; }
+    .cc-c430  { background: #d1fae5; color: #065f46; }
+    .cc-c445  { background: #fef9c3; color: #854d0e; }
+    .cc-c425  { background: #f3e8ff; color: #6b21a8; }
+    .cc-empty { color: var(--muted); font-size: 12px; }
+
+    .today-box {
+      background: var(--accent-light); border: 1px solid #bfdbfe;
+      border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
+      font-size: 13px; color: #1e40af;
+    }
+    .today-box.inclass { background: #fef9c3; border-color: #fbbf24; color: #92400e; }
 
     @media (max-width: 640px) {
-      body {
-        overflow-x: auto;
-        min-width: 100%;
-      }
-      header, nav {
-        padding-left: 16px;
-        padding-right: 16px;
-        min-width: fit-content;
-      }
-      main {
-        padding: 20px 12px;
-        min-width: fit-content;
-      }
+      header, nav { padding-left: 16px; padding-right: 16px; }
+      nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      main { padding: 20px 12px; }
       .pcard-top { grid-template-columns: auto 1fr; }
       .pcard-toggle { display: none; }
       .channel-grid {
@@ -436,18 +488,13 @@
         -webkit-overflow-scrolling: touch;
         padding-bottom: 6px;
       }
-      .ch-item {
-        min-width: 140px;
-        flex-shrink: 0;
-      }
+      .ch-item { min-width: 140px; flex-shrink: 0; }
       .feat-grid {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         padding-bottom: 6px;
       }
-      .feat-row {
-        min-width: 520px;
-      }
+      .feat-row { min-width: 520px; }
     }
   </style>
 </head>
@@ -458,22 +505,191 @@
   <p>Muhtasim Hossain · AI/ML Engineer at Metamorphosis Ltd</p>
   <div class="header-meta">
     <span class="pill pill-green">Active — June 2026 to now</span>
-    <span class="pill pill-gray">10 work items · June → October 2026</span>
+    <span class="pill pill-gray">17 work items · June → November 2026</span>
   </div>
 </header>
 
 <nav>
   <button class="active" onclick="switchTab('work',this)">💼 Work</button>
+  <button onclick="switchTab('kanban',this)">📋 Kanban</button>
   <button onclick="switchTab('classes',this)">🎓 Class Schedule</button>
 </nav>
 
-<main>
+<main id="main-container">
 
 <!-- ═══════════════ TAB 1 — WORK ═══════════════ -->
 <div id="tab-work" class="tab-content active">
 
-  <!-- ══ ONGOING ══ -->
-  <div class="section-label">🔵 Ongoing — October 2026</div>
+  <!-- ══ NOVEMBER 2026 ══ -->
+  <div class="section-label">🔵 Active &amp; Recent — October – November 2026</div>
+
+  <!-- MetaPOS -->
+  <div class="pcard" id="card-metapos">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#e0f2fe;">🛒</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          MetaPOS — Mobile Point of Sale
+          <span style="background:#dbeafe;color:#1d4ed8;font-size:11px;padding:2px 7px;border-radius:4px;font-weight:700;">v1.0.3</span>
+          <span class="badge b-ongoing">● Ongoing</span>
+        </div>
+        <div class="pcard-subtitle">Offline-first bilingual (Bengali &amp; English) Flutter POS app engineered for Amar Ekushey Boi Mela &amp; high-throughput retail, synced with Odoo 19 via JSON-RPC.</div>
+        <div class="pcard-tags">
+          <span class="tag fl">Flutter / Dart</span>
+          <span class="tag">Riverpod 2.6</span>
+          <span class="tag">SQLite v4</span>
+          <span class="tag oo">Odoo 19</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Nov 22–25 · GitHub</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-metapos')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Multi-cart walk-in concurrency</span>
+      <span class="win-chip">Live camera barcode &amp; QR scanner</span>
+      <span class="win-chip">End-to-end returns &amp; refunds</span>
+      <span class="win-chip">58/80mm ESC/POS thermal printing</span>
+      <span class="win-chip">Latent offline-first sync</span>
+      <span class="win-chip">Android 15+ SafeArea &amp; stress tested</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Built and hardened MetaPOS from v1.0.0 through v1.0.3+2004: multi-cart tabs, hardware camera scanning (`mobile_scanner`), full Odoo 19 returns/refunds, interactive KPI drill-down dashboard, Bluetooth ESC/POS thermal receipt printing, and automatic offline SQLite queuing. Purged all mock presets/devices and connected live Odoo 19 sale-details telemetry.</div>
+      </div>
+      <div class="body-section">
+        <div class="body-label">Recent releases</div>
+        <ul class="cl">
+          <li><span class="cl-date">Nov 22</span><span class="cl-dot g"></span><span class="cl-msg">v1.0.0 — Multi-cart concurrency, live camera scanner, Odoo 19 returns, KPI dashboard, thermal printing</span></li>
+          <li><span class="cl-date">Nov 24</span><span class="cl-dot g"></span><span class="cl-msg">v1.0.1 — In-app sales report sheet, TTL caching, 300ms search debouncing, purged mock devices &amp; QA fixes</span></li>
+          <li><span class="cl-date">Nov 25</span><span class="cl-dot a"></span><span class="cl-msg">v1.0.3 — Dynamic POS session/payment binding, user-friendly error messages, latent offline mode, Android 15+ SafeArea fix</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- GDFL Secondary Sales (Shokti+) -->
+  <div class="pcard" id="card-gdfl">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#dcfce7;">📦</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          GDFL Secondary Sales App (Shokti+)
+          <span class="badge b-review">🧪 Play Store Closed Testing</span>
+        </div>
+        <div class="pcard-subtitle">Secondary sales mobile app (<code>com.grameendanone.shoktiplus</code>) for Grameen Danone Foods Ltd — automated Google Play CI/CD pipeline, Firebase push notifications, and release hardening.</div>
+        <div class="pcard-tags">
+          <span class="tag fl">Flutter</span>
+          <span class="tag">Firebase FCM</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Google Play Console</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Nov 9–25 · Local + GitHub</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-gdfl')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Play Store CD pipeline (signed AAB)</span>
+      <span class="win-chip">Firebase Cloud Messaging wired</span>
+      <span class="win-chip">v1.1.0 in 14-day Closed Testing</span>
+      <span class="win-chip">v1.3.0 ready on production branch</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Set up the automated Play Store CD pipeline (`staging-playstore` → signed `.aab` + `mapping.txt`), wired Firebase Cloud Messaging (`PushNotificationService`), authored the Google Play publishing guide &amp; foreground service location demo video, and conducted a full code &amp; security audit (`REVIEW.md`).</div>
+      </div>
+      <div class="body-section">
+        <div class="body-label">Progress &amp; next steps</div>
+        <ul class="cl">
+          <li><span class="cl-date">Nov 11–12</span><span class="cl-dot g"></span><span class="cl-msg">Configured AAB artifact upload, Play Console publishing guide, and foreground service storyboard</span></li>
+          <li><span class="cl-date">Nov 25</span><span class="cl-dot a"></span><span class="cl-msg">Wired FCM push notifications, configured `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` secret, documented Play Store CD runbook</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile WMS App for Odoo -->
+  <div class="pcard" id="card-wms">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#fef3c7;">🏭</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Mobile WMS App for Odoo 19
+          <span class="badge b-shipped">⬆ Ready for Handover</span>
+        </div>
+        <div class="pcard-subtitle">Production-grade Android warehouse management app (Flutter) and native Odoo 19 REST connector (<code>meta_wms_api</code>) with GS1 camera barcode scanning and offline physical inventory counts.</div>
+        <div class="pcard-tags">
+          <span class="tag fl">Flutter / BLoC</span>
+          <span class="tag oo">Odoo 19</span>
+          <span class="tag">ML Kit / GS1</span>
+          <span class="tag">OpenAPI 3.0</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Nov 4–19 · GitHub (private)</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-wms')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Offline sync &amp; physical inventory count</span>
+      <span class="win-chip">GS1 camera barcode scanner</span>
+      <span class="win-chip">Verified on OnePlus Nord N200</span>
+      <span class="win-chip">Colleague SETUP.md &amp; walkthroughs</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Architected and built both the Flutter warehouse client (`mobile/`) and the `meta_wms_api` Odoo 19 connector (`odoo/`). Includes a modular GS1 scanner package, receipts/deliveries operations, physical inventory counting with offline sync, OpenAPI 3.0 spec, physical device verification, and onboarding documentation (`SETUP.md`) with screen recordings.</div>
+      </div>
+      <div class="body-section">
+        <div class="body-label">Key milestones</div>
+        <ul class="cl">
+          <li><span class="cl-date">Nov 4</span><span class="cl-dot g"></span><span class="cl-msg">Completed core architecture, GS1 scanner, auth/operations slices, OpenAPI spec, and OnePlus Nord N200 device verification</span></li>
+          <li><span class="cl-date">Nov 9</span><span class="cl-dot g"></span><span class="cl-msg">Added on-device walkthrough screen recordings, GIFs, and screenshots</span></li>
+          <li><span class="cl-date">Nov 19</span><span class="cl-dot g"></span><span class="cl-msg">Implemented offline sync, physical inventory count, dashboard features, and model field safety fixes</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MetaFSM Field Service Mobile App -->
+  <div class="pcard" id="card-fsm">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#ede9fe;">🔧</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          MetaFSM — Field Service Mobile App
+          <span class="badge b-review">🧪 E2E Tested (POC)</span>
+        </div>
+        <div class="pcard-subtitle">Field Service Management mobile client (Flutter) and companion Odoo 19 Enterprise module (<code>metafsm_mobile</code>) extending <code>industry_fsm</code> for field technicians.</div>
+        <div class="pcard-tags">
+          <span class="tag fl">Flutter</span>
+          <span class="tag oo">Odoo 19 EE</span>
+          <span class="tag py">Python E2E</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Nov 11–14 · Local</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-fsm')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Companion Odoo 19 EE module</span>
+      <span class="win-chip">23/23 backend E2E tests passing</span>
+      <span class="win-chip">Full Design Document authored</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Authored the Field Service Mobile App Design Document for Odoo 19 Enterprise, built the `metafsm_mobile` companion Odoo module + `metafsm_app` Flutter client (camera, QR scanner, secure storage), and ran automated E2E verification (`run_all_tests.py` / `run_e2e_tests.sh`) with all 23 tests passing on `metafsm_dev`.</div>
+      </div>
+    </div>
+  </div>
 
   <!-- Meta Omnichannel -->
   <div class="pcard open" id="card-omni">
@@ -484,7 +700,7 @@
           Meta Omnichannel Platform
           <span class="badge b-ongoing">● Ongoing</span>
         </div>
-        <div class="pcard-subtitle">Unified messaging platform connecting WhatsApp, Messenger, Telegram, and Slack into one agent inbox — with live analytics, AI e-com assistant, and human-takeover system. Took over from a colleague in August and have been the sole developer since.</div>
+        <div class="pcard-subtitle">Unified messaging platform connecting Messenger, Telegram, Slack, and Meta Comments into one agent inbox — with live analytics, human takeover, API keys management, and full dark mode.</div>
         <div class="pcard-tags">
           <span class="tag ts">TypeScript / Next.js</span>
           <span class="tag go">Go</span>
@@ -493,11 +709,11 @@
           <a class="demo-link-btn" href="http://203.82.194.35:3001/panel/dashboard" target="_blank" rel="noopener noreferrer">
             <span class="pulse-dot"></span> live demo link ↗
           </a>
-          <span style="font-size:11px;color:var(--muted);align-self:center;">Aug 10 – Present · GitHub (private)</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Aug 10 – Nov 4 · GitHub (private)</span>
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-omni')">
-        Details <span class="chevron">▾</span>
+        Hide <span class="chevron">▾</span>
       </button>
     </div>
     <div class="pcard-body">
@@ -528,7 +744,7 @@
             <div class="ch-icon">💙</div>
             <div class="ch-name">Meta Comments</div>
             <div class="ch-badge ch-badge-live">✓ Done</div>
-            <div class="ch-note">Facebook/Instagram post comment webhook &amp; reply handler added (Oct 8)</div>
+            <div class="ch-note">FB/IG post comment webhook &amp; reply handler (Oct 8)</div>
           </div>
           <div class="ch-item ch-next">
             <div class="ch-icon">🎵</div>
@@ -553,13 +769,25 @@
             <span class="feat-dot feat-live"></span>
             <span class="feat-name">Team Inbox</span>
             <span class="feat-status live">Live</span>
-            <span class="feat-desc">Unified inbox for all channels; conversations assigned to agents</span>
+            <span class="feat-desc">Unified inbox with triage, real-time sorting, and Day/Night dark mode (Nov 4)</span>
           </div>
           <div class="feat-row">
             <span class="feat-dot feat-live"></span>
             <span class="feat-name">Meta Comments</span>
             <span class="feat-status live">Done</span>
             <span class="feat-desc">Post comment ingestion &amp; reply dispatch integrated into omnichannel (Oct 8)</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">API Keys &amp; Sync UI</span>
+            <span class="feat-status live">Done</span>
+            <span class="feat-desc">User-facing API keys page, dynamic token storage &amp; Meta connection test (Oct 12)</span>
+          </div>
+          <div class="feat-row">
+            <span class="feat-dot feat-live"></span>
+            <span class="feat-name">Docs &amp; Launch Pack</span>
+            <span class="feat-status live">Done</span>
+            <span class="feat-desc">IEEE 830 PRD/SRS, k6 stress test report, executive briefing &amp; 24s launch film (Oct 17–19)</span>
           </div>
           <div class="feat-row">
             <span class="feat-dot feat-live"></span>
@@ -571,25 +799,13 @@
             <span class="feat-dot feat-live"></span>
             <span class="feat-name">Human Takeover</span>
             <span class="feat-status live">Live</span>
-            <span class="feat-desc">Agent can claim and reply to any session; AI pauses automatically</span>
+            <span class="feat-desc">Global AI On/Off toggle with human-only fallback &amp; agent session claiming</span>
           </div>
           <div class="feat-row">
             <span class="feat-dot feat-live"></span>
             <span class="feat-name">E-com Chat Widget</span>
             <span class="feat-status live">Live</span>
-            <span class="feat-desc">Embeddable customer chat widget with real-time polling</span>
-          </div>
-          <div class="feat-row">
-            <span class="feat-dot feat-live"></span>
-            <span class="feat-name">Odoo Sync</span>
-            <span class="feat-status live">Live</span>
-            <span class="feat-desc">Contacts and CRM leads synced from Odoo (Go bridge)</span>
-          </div>
-          <div class="feat-row">
-            <span class="feat-dot feat-inprog"></span>
-            <span class="feat-name">AI Auto-Reply</span>
-            <span class="feat-status inprog">Being removed</span>
-            <span class="feat-desc">Client requirement changed — shifting to human-only inbox</span>
+            <span class="feat-desc">Baatighar demo storefront with Bengali Unicode search &amp; Odoo ERP link (Oct 17)</span>
           </div>
           <div class="feat-row">
             <span class="feat-dot feat-next"></span>
@@ -618,32 +834,27 @@
         <div class="body-section">
           <div class="body-label">Key milestones</div>
           <ul class="cl">
-            <li><span class="cl-date">Aug 10–15</span><span class="cl-dot g"></span><span class="cl-msg">Onboarded: local dev setup, fixed auth issues, documented system, produced diff report with deployment recommendations</span></li>
-            <li><span class="cl-date">Aug 20</span><span class="cl-dot g"></span><span class="cl-msg">Switched AI backend to LiteLLM proxy with model routing; added conversation reopen; migrated to GitHub Actions CI/CD</span></li>
-            <li><span class="cl-date">Sep 8–9</span><span class="cl-dot g"></span><span class="cl-msg">Added agent dashboard for live session monitoring and human takeover; AI renders markdown; e-com widget public; live analytics hooked up</span></li>
-            <li><span class="cl-date">Sep 13</span><span class="cl-dot g"></span><span class="cl-msg">Major refactor — migrated Odoo sync from Java to Go, removed Kafka &amp; ClickHouse, bridged gateway to NestJS via HTTP; v2 UI merged</span></li>
-            <li><span class="cl-date">Oct 1–7</span><span class="cl-dot a"></span><span class="cl-msg">Channel expansion R&amp;D: scoped Viber ($100/mo), TikTok (DSPR review required), architecture prepared for post comment handling; AI removal decision made</span></li>
-            <li><span class="cl-date">Oct 8</span><span class="cl-dot g"></span><span class="cl-msg">Completed Meta comments integration: post comments ingestion and reply workflow added to omnichannel</span></li>
+            <li><span class="cl-date">Aug 10–Sep 13</span><span class="cl-dot g"></span><span class="cl-msg">Onboarded, migrated Odoo sync Java → Go, removed Kafka/ClickHouse, shipped v2 UI &amp; live analytics</span></li>
+            <li><span class="cl-date">Oct 8</span><span class="cl-dot g"></span><span class="cl-msg">Added global AI On/Off toggle and Facebook Page post comments webhook, live sync &amp; reply API</span></li>
+            <li><span class="cl-date">Oct 12</span><span class="cl-dot g"></span><span class="cl-msg">Built user-facing API keys page with dynamic token storage, real Meta connection test &amp; inbox real-time fixes</span></li>
+            <li><span class="cl-date">Oct 17–19</span><span class="cl-dot g"></span><span class="cl-msg">Configured Baatighar demo + Bengali search, ran k6 stress tests, wrote IEEE 830 PRD/SRS, executive PDF &amp; 24s launch film</span></li>
+            <li><span class="cl-date">Nov 4</span><span class="cl-dot g"></span><span class="cl-msg">Full UI/UX readability overhaul: Day/Night &amp; full dark mode, inbox-triage across inbox, dashboard, comments &amp; API keys</span></li>
           </ul>
         </div>
 
         <div class="body-section">
-          <div class="body-label">R&amp;D Findings — Channel Expansion (Oct 2026)</div>
+          <div class="body-label">R&amp;D Findings — Channel Expansion</div>
           <div class="finding">
             <div class="finding-title">🟣 Viber</div>
             <p>~$100/month for API key via Viber Business partner programme. Webhook uses HMAC-SHA256, rate limit 500 req/10s. Defer until client confirms budget.</p>
           </div>
           <div class="finding">
             <div class="finding-title">🎵 TikTok Messaging + Comments</div>
-            <p>Possible but requires TikTok Developer App approval + DSPR maturity review (data inventory, privacy notice, subprocessor list). LLMs must be declared as subprocessors. Reply window 48h. Architecture already supports it — next step is to connect the channel.</p>
+            <p>Possible but requires TikTok Developer App approval + DSPR maturity review (data inventory, privacy notice, subprocessor list). Reply window 48h. Architecture already supports it.</p>
           </div>
           <div class="finding">
             <div class="finding-title">💙 Meta Post Comments</div>
             <p><strong>Implemented (Oct 8):</strong> Leveraged Meta webhook infrastructure to ingest page post comments and deliver responses directly through omnichannel.</p>
-          </div>
-          <div class="finding" style="border-color:#fca5a5;">
-            <div class="finding-title">🔴 AI Agent Removal</div>
-            <p>Per latest client requirements the AI auto-reply agent is being <strong>removed</strong>. Platform shifts to a fully human-operated inbox. LiteLLM proxy and e-com session handling will be stripped out.</p>
           </div>
         </div>
 
@@ -651,7 +862,6 @@
           <div class="body-label">Next steps</div>
           <ul class="next-steps">
             <li>Connect TikTok channel (messaging + comments) — approval pipeline scoped</li>
-            <li>Remove AI auto-reply agent; switch to human-only inbox</li>
             <li>Decide on Viber based on client budget (~$100/mo)</li>
           </ul>
         </div>
@@ -661,15 +871,183 @@
     </div>
   </div>
 
+  <!-- Odoo Helpdesk Mobile Suite -->
+  <div class="pcard" id="card-helpdesk">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#dcfce7;">🎫</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Odoo Helpdesk Mobile Suite
+          <span class="badge b-shipped">⬆ Shipped · APK Released</span>
+        </div>
+        <div class="pcard-subtitle">Dual-role Flutter client (Customer Portal &amp; Employee Hub) + native Odoo 19 REST API (<code>helpdesk_mobile_api</code>) connected to 24/7 tender-server backend.</div>
+        <div class="pcard-tags">
+          <span class="tag fl">Flutter / Riverpod</span>
+          <span class="tag oo">Odoo 19 REST</span>
+          <span class="tag">OpenAPI 3.0</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Oct 28–31 · GitHub</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-helpdesk')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Dual-role Customer + Employee Hub</span>
+      <span class="win-chip">Dynamic Odoo 19 schema reflection</span>
+      <span class="win-chip">0 static analysis issues</span>
+      <span class="win-chip">APK released on 24/7 backend</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Built a complete Flutter mobile suite and native Odoo 19 REST API module (`helpdesk_mobile_api`). Features strict team stage workflow steppers, `hr.employee` assignment, human-friendly chatter/audit logs, and permanent deployment pointing to `https://tender.metamorphosis.com.bd` with `helpdeskapp_311026_v1.apk` published.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- M M Mahbub Hasan Portfolio & CMS -->
+  <div class="pcard" id="card-portfolio">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#ffedd5;">🌐</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          M M Mahbub Hasan Portfolio &amp; CMS
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">Full-stack portfolio and thought leadership CMS deployed on Cloudflare Workers (OpenNext) with D1 SQLite database, R2 storage, and live inquiry notifications.</div>
+        <div class="pcard-tags">
+          <span class="tag ts">Next.js 16</span>
+          <span class="tag">Payload CMS 3</span>
+          <span class="tag cf">Cloudflare D1 &amp; R2</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Oct 24 · GitHub (private)</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-portfolio')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Cloudflare Workers + D1 + R2</span>
+      <span class="win-chip">Live CMS inquiry notification bell</span>
+      <span class="win-chip">Mobile-first editorial light/dark theme</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Built and configured a production Payload CMS v3 + Next.js 16 site tailored for Cloudflare Workers via OpenNext, complete with D1 migrations, R2 edge media delivery, dynamic Inquiries collection with unread admin alerts, and zero horizontal overflow on mobile.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rico Meta Ads & CRM (CAPI) -->
+  <div class="pcard" id="card-capi">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#dbeafe;">📣</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Rico Meta Ads &amp; CRM (CAPI) Module
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">Bi-directional Meta (Facebook &amp; Instagram Lead Ads) and Odoo 19 CRM Conversions API integration for Conversion Leads Optimization.</div>
+        <div class="pcard-tags">
+          <span class="tag oo">Odoo 19</span>
+          <span class="tag py">Python</span>
+          <span class="tag">Meta CAPI</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Oct 15 · GitHub (private)</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-capi')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Real-time Lead Ads + CAPI signals</span>
+      <span class="win-chip">SHA-256 PII privacy hashing</span>
+      <span class="win-chip">Audit logs &amp; demo lead simulator</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Developed `rico_meta_ads_crm` for Odoo 19: captures Instant Form leads with attribution, hashes PII with SHA-256, transmits CRM stage conversions back to Meta Dataset with deduplication safeguards, and includes an interactive lead simulator wizard + Meta API setup guide for client demos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Odoo Upgrader -->
+  <div class="pcard" id="card-upgrader">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#f3e8ff;">⚡</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          Odoo Upgrader Framework
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">Portable, autonomous Odoo ERP module upgrade framework (18 → 19+) with AST/XML transforms, static YAML rule checks, and live <code>odoo-bin</code> validation.</div>
+        <div class="pcard-tags">
+          <span class="tag py">Python CLI</span>
+          <span class="tag oo">Odoo 18→19</span>
+          <span class="tag">AI Agent Skills</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Oct 12 · GitHub</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-upgrader')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">AST/XML automated transforms</span>
+      <span class="win-chip">Live odoo-bin install validation</span>
+      <span class="win-chip">Portable /upgrade-odoo agent skills</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Evolved the earlier validator into a full portable CLI + AI coding agent skill package (`./install.sh`) supporting Antigravity, Claude Code, Gemini CLI, and Cursor—automating `&lt;tree&gt;` → `&lt;list&gt;`, `models.Constraint`, and OWL migration with diagnostic reporting.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ══ OLDER PROJECTS COLLAPSIBLE ══ -->
   <button class="older-toggle" id="older-btn" onclick="toggleOlder()">
-    <span>📁 View older projects</span>
+    <span>📁 View older projects (June – Early October 2026)</span>
     <span class="older-chevron" id="older-chevron">▾</span>
   </button>
 
   <div id="older-projects" style="display:none;">
 
-  <div class="section-label">✅ Completed — August 2026</div>
+  <div class="section-label">✅ Completed — August – Early October 2026</div>
+
+  <!-- AI4BT Global Summit -->
+  <div class="pcard" id="card-ai4bt">
+    <div class="pcard-top">
+      <div class="pcard-icon" style="background:#dbeafe;">🌍</div>
+      <div class="pcard-main">
+        <div class="pcard-title">
+          AI4BT Global Summit Website
+          <span class="badge b-done">✓ Done</span>
+        </div>
+        <div class="pcard-subtitle">Official summit web presence with Media Alliance partner logo wall, press coverage integrations, and About AI4BT overview pages.</div>
+        <div class="pcard-tags">
+          <span class="tag ts">Vite / Web</span>
+          <span style="font-size:11px;color:var(--muted);align-self:center;">Sep 28 – Oct 1 · Local</span>
+        </div>
+      </div>
+      <button class="pcard-toggle" onclick="toggleCard('card-ai4bt')">
+        Details <span class="chevron">▾</span>
+      </button>
+    </div>
+    <div class="pcard-wins">
+      <span class="win-chip">Media partner logo wall</span>
+      <span class="win-chip">About AI4BT &amp; press coverage</span>
+    </div>
+    <div class="pcard-body">
+      <div class="body-section">
+        <div class="body-label">What was done</div>
+        <div class="hbox">Built the About AI4BT page, registered Vite cleanUrls routes, and integrated media alliance vector logos and coverage stories (TBS, Textile Today, Channel 24, Ekushey Sangbad, TBN24, Protidiner Bangladesh).</div>
+      </div>
+    </div>
+  </div>
 
   <!-- Odoo 18→19 Migration -->
   <div class="pcard" id="card-migration">
@@ -749,7 +1127,6 @@
     </div>
   </div>
 
-  <!-- ══ COMPLETED — JULY ══ -->
   <div class="section-label">✅ Completed — July 2026</div>
 
   <!-- BDJobs Scraper -->
@@ -849,18 +1226,17 @@
       </button>
     </div>
     <div class="pcard-wins">
-      <span class="win-chip">R&D to deployment in 2 days</span>
+      <span class="win-chip">R&amp;D to deployment in 2 days</span>
       <span class="win-chip">Live on Metamorphosis VPS</span>
     </div>
     <div class="pcard-body">
       <div class="body-section">
         <div class="body-label">What was done</div>
-        <div class="hbox">Quick R&D task from Sadiq bhai. Designed and implemented an Odoo-native short URL redirect system. Pushed to GitHub and deployed to the production VPS on the same day.</div>
+        <div class="hbox">Quick R&amp;D task from Sadiq bhai. Designed and implemented an Odoo-native short URL redirect system. Pushed to GitHub and deployed to the production VPS on the same day.</div>
       </div>
     </div>
   </div>
 
-  <!-- ══ COMPLETED — JUNE/JULY ══ -->
   <div class="section-label">✅ Completed — June / Early July 2026</div>
 
   <!-- Odoo Agentic Installer -->
@@ -933,7 +1309,57 @@
 
 </div>
 
-<!-- ═══════════════ TAB 2 — CLASSES ═══════════════ -->
+<!-- ═══════════════ TAB 2 — KANBAN ═══════════════ -->
+<div id="tab-kanban" class="tab-content">
+  <div class="kb-toolbar">
+    <div class="kb-filters">
+      <button class="kb-filter active" onclick="filterKanban('all', this)">All</button>
+      <button class="kb-filter" onclick="filterKanban('mobile', this)">📱 Mobile Apps</button>
+      <button class="kb-filter" onclick="filterKanban('odoo', this)">⚙️ Odoo</button>
+      <button class="kb-filter" onclick="filterKanban('web', this)">🌐 Web / Platform</button>
+      <button class="kb-filter" onclick="filterKanban('rnd', this)">🧪 R&amp;D</button>
+    </div>
+    <button class="kb-reset" onclick="resetKanban()" title="Reset board to latest repository state">↺ Reset board</button>
+  </div>
+
+  <div class="kb-scroll">
+    <div class="kb-board" id="kb-board">
+      <div class="kb-col" data-stage="scoping" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'scoping')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">📝 Scoping / R&amp;D</span>
+          <span class="kb-count" id="count-scoping">0</span>
+        </div>
+        <div class="kb-cards" id="col-scoping"></div>
+      </div>
+
+      <div class="kb-col" data-stage="active" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'active')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">🔨 In Development</span>
+          <span class="kb-count" id="count-active">0</span>
+        </div>
+        <div class="kb-cards" id="col-active"></div>
+      </div>
+
+      <div class="kb-col" data-stage="testing" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'testing')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">🧪 Testing / Review</span>
+          <span class="kb-count" id="count-testing">0</span>
+        </div>
+        <div class="kb-cards" id="col-testing"></div>
+      </div>
+
+      <div class="kb-col" data-stage="shipped" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'shipped')">
+        <div class="kb-col-head">
+          <span class="kb-col-title">🚀 Shipped / Done</span>
+          <span class="kb-count" id="count-shipped">0</span>
+        </div>
+        <div class="kb-cards" id="col-shipped"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TAB 3 — CLASSES ═══════════════ -->
 <div id="tab-classes" class="tab-content">
 
   <div class="today-box" id="today-box">
@@ -1025,6 +1451,7 @@
     document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + id).classList.add('active');
     btn.classList.add('active');
+    document.getElementById('main-container').classList.toggle('wide', id === 'kanban');
   }
 
   function toggleOlder() {
@@ -1034,7 +1461,7 @@
     const isOpen = panel.style.display !== 'none';
     panel.style.display = isOpen ? 'none' : 'block';
     chevron.classList.toggle('open', !isOpen);
-    btn.querySelector('span').textContent = isOpen ? '📁 View older projects' : '📂 Hide older projects';
+    btn.querySelector('span').textContent = isOpen ? '📁 View older projects (June – Early October 2026)' : '📂 Hide older projects';
   }
 
   function toggleDevlog() {
@@ -1049,8 +1476,6 @@
     const card = document.getElementById(id);
     card.classList.toggle('open');
     const btn = card.querySelector('.pcard-toggle');
-    btn.textContent = card.classList.contains('open') ? '' : '';
-    // re-render chevron
     const ch = document.createElement('span');
     ch.className = 'chevron';
     ch.textContent = '▾';
@@ -1058,6 +1483,145 @@
     btn.appendChild(ch);
   }
 
+  /* ── KANBAN LOGIC ── */
+  const KB_STORAGE_KEY = 'muhtasim_kanban_v1';
+  const DEFAULT_KB_ITEMS = [
+    // Scoping / R&D
+    { id: 'kb-tiktok', title: 'Omnichannel — TikTok Channel', cat: 'web', tag: 'Omnichannel', tagClass: 'ts', stage: 'scoping', date: 'Oct–Nov', note: 'DSPR maturity review & developer app approval scoped; architecture ready.' },
+    { id: 'kb-viber', title: 'Omnichannel — Viber Channel', cat: 'web', tag: 'Pending Budget', tagClass: 'oo', stage: 'scoping', date: 'Oct', note: 'Webhook spec mapped; awaiting client approval on ~$100/mo API key cost.' },
+    { id: 'kb-jarvis', title: 'J.A.R.V.I.S. R&D', cat: 'rnd', tag: 'AI / Memory', tagClass: 'py', stage: 'scoping', date: 'Jul 4', note: 'LLM memory architecture ADR drafted & codebase initialized (paused).' },
+
+    // In Development
+    { id: 'kb-metapos', title: 'MetaPOS (Mobile POS)', cat: 'mobile', tag: 'Flutter · v1.0.3', tagClass: 'fl', stage: 'active', date: 'Nov 25', note: 'Live POS session binding, Android 15+ SafeArea fix, latent offline mode & thermal printing.' },
+    { id: 'kb-omni', title: 'Meta Omnichannel Platform', cat: 'web', tag: 'Next.js · Go', tagClass: 'ts', stage: 'active', date: 'Nov 4', note: 'Full dark mode overhaul, Meta Comments, API keys UI, stress tests & launch video.' },
+
+    // Testing / Review
+    { id: 'kb-gdfl', title: 'GDFL Shokti+ Secondary Sales', cat: 'mobile', tag: 'Play Console', tagClass: 'fl', stage: 'testing', date: 'Nov 25', note: 'v1.1.0 in 14-day Play Store Closed Testing; FCM wired & staging-playstore CD ready for v1.3.0.' },
+    { id: 'kb-fsm', title: 'MetaFSM Field Service App', cat: 'mobile', tag: 'Flutter · Odoo 19', tagClass: 'oo', stage: 'testing', date: 'Nov 14', note: '23/23 Odoo 19 backend E2E tests passing on metafsm_dev; Flutter POC ready.' },
+    { id: 'kb-wms', title: 'Mobile WMS App for Odoo 19', cat: 'mobile', tag: 'Flutter · GS1', tagClass: 'fl', stage: 'testing', date: 'Nov 19', note: 'Offline physical inventory count & GS1 scanner verified on device; ready for team handover.' },
+
+    // Shipped / Done
+    { id: 'kb-helpdesk', title: 'Odoo Helpdesk Mobile Suite', cat: 'mobile', tag: 'APK Released', tagClass: 'fl', stage: 'shipped', date: 'Oct 31', note: 'Dual-role Flutter app + Odoo 19 REST API deployed on 24/7 tender-server.' },
+    { id: 'kb-portfolio', title: 'M M Mahbub Hasan Portfolio CMS', cat: 'web', tag: 'Cloudflare', tagClass: 'cf', stage: 'shipped', date: 'Oct 24', note: 'Next.js 16 + Payload CMS on Cloudflare Workers, D1 & R2 with live inquiry alerts.' },
+    { id: 'kb-capi', title: 'Rico Meta Ads & CRM (CAPI)', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Oct 15', note: 'Bi-directional Meta Lead Ads + CAPI module with SHA-256 PII hashing & demo simulator.' },
+    { id: 'kb-upgrader', title: 'Odoo Upgrader Framework', cat: 'odoo', tag: 'Python CLI', tagClass: 'py', stage: 'shipped', date: 'Oct 12', note: 'Autonomous 18→19+ AST/XML upgrade CLI + portable AI coding agent skills.' },
+    { id: 'kb-ai4bt', title: 'AI4BT Global Summit Site', cat: 'web', tag: 'Web', tagClass: 'ts', stage: 'shipped', date: 'Oct 1', note: 'About AI4BT pages, cleanUrls routing & media partner logo wall.' },
+    { id: 'kb-migration', title: 'Odoo 18 → 19 Migration (127)', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Aug 8', note: 'Converted 127 Odoo EE modules & built compatibility validator.' },
+    { id: 'kb-takaful', title: 'General Takaful Module', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Aug', note: '9-model Odoo 19 POC for Amãna Takaful prospect with PDF certificates.' },
+    { id: 'kb-scraper', title: 'BDJobs & e-GP Tender Scraper', cat: 'web', tag: 'FastAPI', tagClass: 'py', stage: 'shipped', date: 'Jul 22', note: 'Live at tender.metamorphosis.com.bd with GitHub Actions CI/CD.' },
+    { id: 'kb-uniwatch', title: 'UniWatch Deadline Monitor', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Jul 19', note: 'Australian uni program change monitor shipped to RICO client.' },
+    { id: 'kb-shorturl', title: 'Odoo Short URL Maker', cat: 'odoo', tag: 'Odoo', tagClass: 'oo', stage: 'shipped', date: 'Jul 22', note: 'URL shortener & redirect system deployed on tender-server.' },
+    { id: 'kb-installer', title: 'Odoo Agentic Installer', cat: 'rnd', tag: 'Ansible', tagClass: 'ans', stage: 'shipped', date: 'Jul 22', note: 'Zero-touch Python + Ansible Odoo installer + OpenRouter AI patch.' }
+  ];
+
+  let kbFilter = 'all';
+  let draggedId = null;
+
+  function loadKbState() {
+    try {
+      const saved = localStorage.getItem(KB_STORAGE_KEY);
+      if (!saved) return DEFAULT_KB_ITEMS.map(x => ({...x}));
+      const map = JSON.parse(saved);
+      return DEFAULT_KB_ITEMS.map(item => ({
+        ...item,
+        stage: map[item.id] || item.stage
+      }));
+    } catch {
+      return DEFAULT_KB_ITEMS.map(x => ({...x}));
+    }
+  }
+
+  let kbItems = loadKbState();
+
+  function saveKbState() {
+    const map = {};
+    kbItems.forEach(i => { map[i.id] = i.stage; });
+    try { localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(map)); } catch {}
+  }
+
+  function renderKanban() {
+    const stages = ['scoping', 'active', 'testing', 'shipped'];
+    stages.forEach(st => {
+      const col = document.getElementById('col-' + st);
+      const filtered = kbItems.filter(i => i.stage === st && (kbFilter === 'all' || i.cat === kbFilter));
+      document.getElementById('count-' + st).textContent = filtered.length;
+      col.innerHTML = '';
+      filtered.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'kb-card';
+        el.draggable = true;
+        el.dataset.id = item.id;
+        el.addEventListener('dragstart', e => {
+          draggedId = item.id;
+          el.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        el.addEventListener('dragend', () => {
+          draggedId = null;
+          el.classList.remove('dragging');
+          document.querySelectorAll('.kb-col').forEach(c => c.classList.remove('drag-over'));
+        });
+
+        el.innerHTML = `
+          <div class="kb-card-top">
+            <div class="kb-card-title">${item.title}</div>
+            <span class="tag ${item.tagClass}">${item.tag}</span>
+          </div>
+          <div class="kb-card-note">${item.note}</div>
+          <div class="kb-card-foot">
+            <span class="kb-card-date">${item.date}</span>
+            <select class="kb-move-select" onchange="moveKbCard('${item.id}', this.value)" aria-label="Move stage">
+              <option value="scoping" ${item.stage==='scoping'?'selected':''}>Scoping / R&amp;D</option>
+              <option value="active" ${item.stage==='active'?'selected':''}>In Development</option>
+              <option value="testing" ${item.stage==='testing'?'selected':''}>Testing / Review</option>
+              <option value="shipped" ${item.stage==='shipped'?'selected':''}>Shipped / Done</option>
+            </select>
+          </div>
+        `;
+        col.appendChild(el);
+      });
+    });
+  }
+
+  function moveKbCard(id, newStage) {
+    const item = kbItems.find(x => x.id === id);
+    if (!item) return;
+    item.stage = newStage;
+    saveKbState();
+    renderKanban();
+  }
+
+  function kbDragOver(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('drag-over');
+  }
+
+  function kbDragLeave(e) {
+    e.currentTarget.classList.remove('drag-over');
+  }
+
+  function kbDrop(e, stage) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    if (draggedId) moveKbCard(draggedId, stage);
+  }
+
+  function filterKanban(cat, btn) {
+    kbFilter = cat;
+    document.querySelectorAll('.kb-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderKanban();
+  }
+
+  function resetKanban() {
+    try { localStorage.removeItem(KB_STORAGE_KEY); } catch {}
+    kbItems = DEFAULT_KB_ITEMS.map(x => ({...x}));
+    renderKanban();
+  }
+
+  renderKanban();
+
+  /* ── CLASS SCHEDULE BANNER ── */
   function updateTodayBanner() {
     const now = new Date();
     const bd = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Dhaka'}));
