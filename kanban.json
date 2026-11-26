@@ -1,0 +1,192 @@
+[
+  {
+    "id": "kb-tiktok",
+    "title": "Omnichannel — TikTok Channel",
+    "cat": "web",
+    "tag": "Omnichannel",
+    "tagClass": "ts",
+    "stage": "scoping",
+    "date": "Oct–Nov",
+    "note": "DSPR maturity review & developer app approval scoped; architecture ready."
+  },
+  {
+    "id": "kb-viber",
+    "title": "Omnichannel — Viber Channel",
+    "cat": "web",
+    "tag": "Pending Budget",
+    "tagClass": "oo",
+    "stage": "scoping",
+    "date": "Oct",
+    "note": "Webhook spec mapped; awaiting client approval on ~$100/mo API key cost."
+  },
+  {
+    "id": "kb-jarvis",
+    "title": "J.A.R.V.I.S. R&D",
+    "cat": "rnd",
+    "tag": "AI / Memory",
+    "tagClass": "py",
+    "stage": "scoping",
+    "date": "Jul 4",
+    "note": "LLM memory architecture ADR drafted & codebase initialized (paused)."
+  },
+  {
+    "id": "kb-metapos",
+    "title": "MetaPOS (Mobile POS)",
+    "cat": "mobile",
+    "tag": "Flutter · v1.0.3",
+    "tagClass": "fl",
+    "stage": "active",
+    "date": "Nov 25",
+    "note": "Live POS session binding, Android 15+ SafeArea fix, latent offline mode & thermal printing."
+  },
+  {
+    "id": "kb-omni",
+    "title": "Meta Omnichannel Platform",
+    "cat": "web",
+    "tag": "Next.js · Go",
+    "tagClass": "ts",
+    "stage": "active",
+    "date": "Nov 4",
+    "note": "Full dark mode overhaul, Meta Comments, API keys UI, stress tests & launch video."
+  },
+  {
+    "id": "kb-gdfl",
+    "title": "GDFL Shokti+ Secondary Sales",
+    "cat": "mobile",
+    "tag": "Play Console",
+    "tagClass": "fl",
+    "stage": "testing",
+    "date": "Nov 25",
+    "note": "v1.1.0 in 14-day Play Store Closed Testing; FCM wired & staging-playstore CD ready for v1.3.0."
+  },
+  {
+    "id": "kb-fsm",
+    "title": "MetaFSM Field Service App",
+    "cat": "mobile",
+    "tag": "Flutter · Odoo 19",
+    "tagClass": "oo",
+    "stage": "testing",
+    "date": "Nov 14",
+    "note": "23/23 Odoo 19 backend E2E tests passing on metafsm_dev; Flutter POC ready."
+  },
+  {
+    "id": "kb-wms",
+    "title": "Mobile WMS App for Odoo 19",
+    "cat": "mobile",
+    "tag": "Flutter · GS1",
+    "tagClass": "fl",
+    "stage": "testing",
+    "date": "Nov 19",
+    "note": "Offline physical inventory count & GS1 scanner verified on device; ready for team handover."
+  },
+  {
+    "id": "kb-helpdesk",
+    "title": "Odoo Helpdesk Mobile Suite",
+    "cat": "mobile",
+    "tag": "APK Released",
+    "tagClass": "fl",
+    "stage": "shipped",
+    "date": "Oct 31",
+    "note": "Dual-role Flutter app + Odoo 19 REST API deployed on 24/7 tender-server."
+  },
+  {
+    "id": "kb-portfolio",
+    "title": "M M Mahbub Hasan Portfolio CMS",
+    "cat": "web",
+    "tag": "Cloudflare",
+    "tagClass": "cf",
+    "stage": "shipped",
+    "date": "Oct 24",
+    "note": "Next.js 16 + Payload CMS on Cloudflare Workers, D1 & R2 with live inquiry alerts."
+  },
+  {
+    "id": "kb-capi",
+    "title": "Rico Meta Ads & CRM (CAPI)",
+    "cat": "odoo",
+    "tag": "Odoo 19",
+    "tagClass": "oo",
+    "stage": "shipped",
+    "date": "Oct 15",
+    "note": "Bi-directional Meta Lead Ads + CAPI module with SHA-256 PII hashing & demo simulator."
+  },
+  {
+    "id": "kb-upgrader",
+    "title": "Odoo Upgrader Framework",
+    "cat": "odoo",
+    "tag": "Python CLI",
+    "tagClass": "py",
+    "stage": "shipped",
+    "date": "Oct 12",
+    "note": "Autonomous 18→19+ AST/XML upgrade CLI + portable AI coding agent skills."
+  },
+  {
+    "id": "kb-ai4bt",
+    "title": "AI4BT Global Summit Site",
+    "cat": "web",
+    "tag": "Web",
+    "tagClass": "ts",
+    "stage": "shipped",
+    "date": "Oct 1",
+    "note": "About AI4BT pages, cleanUrls routing & media partner logo wall."
+  },
+  {
+    "id": "kb-migration",
+    "title": "Odoo 18 → 19 Migration (127)",
+    "cat": "odoo",
+    "tag": "Odoo 19",
+    "tagClass": "oo",
+    "stage": "shipped",
+    "date": "Aug 8",
+    "note": "Converted 127 Odoo EE modules & built compatibility validator."
+  },
+  {
+    "id": "kb-takaful",
+    "title": "General Takaful Module",
+    "cat": "odoo",
+    "tag": "Odoo 19",
+    "tagClass": "oo",
+    "stage": "shipped",
+    "date": "Aug",
+    "note": "9-model Odoo 19 POC for Amãna Takaful prospect with PDF certificates."
+  },
+  {
+    "id": "kb-scraper",
+    "title": "BDJobs & e-GP Tender Scraper",
+    "cat": "web",
+    "tag": "FastAPI",
+    "tagClass": "py",
+    "stage": "shipped",
+    "date": "Jul 22",
+    "note": "Live at tender.metamorphosis.com.bd with GitHub Actions CI/CD."
+  },
+  {
+    "id": "kb-uniwatch",
+    "title": "UniWatch Deadline Monitor",
+    "cat": "odoo",
+    "tag": "Odoo 19",
+    "tagClass": "oo",
+    "stage": "shipped",
+    "date": "Jul 19",
+    "note": "Australian uni program change monitor shipped to RICO client."
+  },
+  {
+    "id": "kb-shorturl",
+    "title": "Odoo Short URL Maker",
+    "cat": "odoo",
+    "tag": "Odoo",
+    "tagClass": "oo",
+    "stage": "shipped",
+    "date": "Jul 22",
+    "note": "URL shortener & redirect system deployed on tender-server."
+  },
+  {
+    "id": "kb-installer",
+    "title": "Odoo Agentic Installer",
+    "cat": "rnd",
+    "tag": "Ansible",
+    "tagClass": "ans",
+    "stage": "shipped",
+    "date": "Jul 22",
+    "note": "Zero-touch Python + Ansible Odoo installer + OpenRouter AI patch."
+  }
+]

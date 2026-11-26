@@ -362,6 +362,33 @@
       font-size: 12px; color: var(--muted); cursor: pointer;
     }
     .kb-reset:hover { background: var(--gray-light); color: var(--text); }
+    .kb-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .kb-save-btn {
+      background: var(--green); color: #ffffff; border: none;
+      border-radius: 6px; padding: 5px 12px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: background 0.15s, opacity 0.15s;
+    }
+    .kb-save-btn:hover { background: #15803d; }
+    .kb-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .kb-save-btn.unsaved { animation: pulse-glow 2s infinite ease-in-out; }
+    .kb-auth-bar {
+      display: none; align-items: center; justify-content: space-between;
+      gap: 10px; flex-wrap: wrap;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;
+      font-size: 12px;
+    }
+    .kb-auth-bar.open { display: flex; }
+    .kb-auth-input {
+      flex: 1; min-width: 220px; padding: 6px 10px;
+      border: 1px solid var(--border); border-radius: 6px;
+      font-size: 12px; font-family: monospace;
+    }
+    .kb-status-msg { font-size: 12px; color: var(--muted); }
+    .kb-status-msg.ok { color: var(--green); font-weight: 500; }
+    .kb-status-msg.err { color: var(--red); font-weight: 500; }
 
     .kb-scroll {
       width: 100%;
@@ -1319,7 +1346,21 @@
       <button class="kb-filter" onclick="filterKanban('web', this)">🌐 Web / Platform</button>
       <button class="kb-filter" onclick="filterKanban('rnd', this)">🧪 R&amp;D</button>
     </div>
-    <button class="kb-reset" onclick="resetKanban()" title="Reset board to latest repository state">↺ Reset board</button>
+    <div class="kb-actions">
+      <span class="kb-status-msg" id="kb-status-msg"></span>
+      <button class="kb-save-btn" id="kb-save-btn" style="display:none;" onclick="saveToGitHub()">💾 Save to GitHub</button>
+      <button class="kb-reset" id="kb-unlock-btn" onclick="toggleAuthBar()">🔒 Unlock Sync</button>
+      <button class="kb-reset" onclick="resetKanban()" title="Reload board from GitHub">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="kb-auth-bar" id="kb-auth-bar">
+    <span style="color:var(--muted);">Paste a fine-grained GitHub PAT (<code>whats-muhtasim-upto</code> · Contents: Read &amp; write) to save changes for everyone:</span>
+    <div style="display:flex;gap:6px;flex:1;min-width:240px;">
+      <input type="password" class="kb-auth-input" id="kb-pat-input" placeholder="github_pat_..." />
+      <button class="kb-save-btn" onclick="savePat()">Unlock</button>
+      <button class="kb-reset" id="kb-logout-btn" style="display:none;" onclick="clearPat()">Clear Token</button>
+    </div>
   </div>
 
   <div class="kb-scroll">
@@ -1483,24 +1524,22 @@
     btn.appendChild(ch);
   }
 
-  /* ── KANBAN LOGIC ── */
+  /* ── KANBAN LOGIC (GitHub-backed kanban.json + local draft) ── */
   const KB_STORAGE_KEY = 'muhtasim_kanban_v1';
+  const KB_PAT_KEY = 'muhtasim_gh_pat';
+  const GH_OWNER = 'nasif43';
+  const GH_REPO = 'whats-muhtasim-upto';
+  const GH_PATH = 'kanban.json';
+
   const DEFAULT_KB_ITEMS = [
-    // Scoping / R&D
     { id: 'kb-tiktok', title: 'Omnichannel — TikTok Channel', cat: 'web', tag: 'Omnichannel', tagClass: 'ts', stage: 'scoping', date: 'Oct–Nov', note: 'DSPR maturity review & developer app approval scoped; architecture ready.' },
     { id: 'kb-viber', title: 'Omnichannel — Viber Channel', cat: 'web', tag: 'Pending Budget', tagClass: 'oo', stage: 'scoping', date: 'Oct', note: 'Webhook spec mapped; awaiting client approval on ~$100/mo API key cost.' },
     { id: 'kb-jarvis', title: 'J.A.R.V.I.S. R&D', cat: 'rnd', tag: 'AI / Memory', tagClass: 'py', stage: 'scoping', date: 'Jul 4', note: 'LLM memory architecture ADR drafted & codebase initialized (paused).' },
-
-    // In Development
     { id: 'kb-metapos', title: 'MetaPOS (Mobile POS)', cat: 'mobile', tag: 'Flutter · v1.0.3', tagClass: 'fl', stage: 'active', date: 'Nov 25', note: 'Live POS session binding, Android 15+ SafeArea fix, latent offline mode & thermal printing.' },
     { id: 'kb-omni', title: 'Meta Omnichannel Platform', cat: 'web', tag: 'Next.js · Go', tagClass: 'ts', stage: 'active', date: 'Nov 4', note: 'Full dark mode overhaul, Meta Comments, API keys UI, stress tests & launch video.' },
-
-    // Testing / Review
     { id: 'kb-gdfl', title: 'GDFL Shokti+ Secondary Sales', cat: 'mobile', tag: 'Play Console', tagClass: 'fl', stage: 'testing', date: 'Nov 25', note: 'v1.1.0 in 14-day Play Store Closed Testing; FCM wired & staging-playstore CD ready for v1.3.0.' },
     { id: 'kb-fsm', title: 'MetaFSM Field Service App', cat: 'mobile', tag: 'Flutter · Odoo 19', tagClass: 'oo', stage: 'testing', date: 'Nov 14', note: '23/23 Odoo 19 backend E2E tests passing on metafsm_dev; Flutter POC ready.' },
     { id: 'kb-wms', title: 'Mobile WMS App for Odoo 19', cat: 'mobile', tag: 'Flutter · GS1', tagClass: 'fl', stage: 'testing', date: 'Nov 19', note: 'Offline physical inventory count & GS1 scanner verified on device; ready for team handover.' },
-
-    // Shipped / Done
     { id: 'kb-helpdesk', title: 'Odoo Helpdesk Mobile Suite', cat: 'mobile', tag: 'APK Released', tagClass: 'fl', stage: 'shipped', date: 'Oct 31', note: 'Dual-role Flutter app + Odoo 19 REST API deployed on 24/7 tender-server.' },
     { id: 'kb-portfolio', title: 'M M Mahbub Hasan Portfolio CMS', cat: 'web', tag: 'Cloudflare', tagClass: 'cf', stage: 'shipped', date: 'Oct 24', note: 'Next.js 16 + Payload CMS on Cloudflare Workers, D1 & R2 with live inquiry alerts.' },
     { id: 'kb-capi', title: 'Rico Meta Ads & CRM (CAPI)', cat: 'odoo', tag: 'Odoo 19', tagClass: 'oo', stage: 'shipped', date: 'Oct 15', note: 'Bi-directional Meta Lead Ads + CAPI module with SHA-256 PII hashing & demo simulator.' },
@@ -1516,27 +1555,176 @@
 
   let kbFilter = 'all';
   let draggedId = null;
+  let kbItems = DEFAULT_KB_ITEMS.map(x => ({...x}));
+  let hasUnsavedChanges = false;
+  let lastKnownSha = null;
 
-  function loadKbState() {
-    try {
-      const saved = localStorage.getItem(KB_STORAGE_KEY);
-      if (!saved) return DEFAULT_KB_ITEMS.map(x => ({...x}));
-      const map = JSON.parse(saved);
-      return DEFAULT_KB_ITEMS.map(item => ({
-        ...item,
-        stage: map[item.id] || item.stage
-      }));
-    } catch {
-      return DEFAULT_KB_ITEMS.map(x => ({...x}));
+  function setStatusMsg(text, cls) {
+    const el = document.getElementById('kb-status-msg');
+    el.textContent = text;
+    el.className = 'kb-status-msg' + (cls ? ' ' + cls : '');
+  }
+
+  function getPat() {
+    try { return localStorage.getItem(KB_PAT_KEY) || ''; } catch { return ''; }
+  }
+
+  function updateSyncUI() {
+    const hasPat = !!getPat();
+    const saveBtn = document.getElementById('kb-save-btn');
+    const unlockBtn = document.getElementById('kb-unlock-btn');
+    const logoutBtn = document.getElementById('kb-logout-btn');
+
+    saveBtn.style.display = hasPat ? 'inline-flex' : 'none';
+    saveBtn.classList.toggle('unsaved', hasPat && hasUnsavedChanges);
+    unlockBtn.textContent = hasPat ? '🔓 Sync Unlocked' : '🔒 Unlock Sync';
+    logoutBtn.style.display = hasPat ? 'inline-block' : 'none';
+  }
+
+  function toggleAuthBar() {
+    const bar = document.getElementById('kb-auth-bar');
+    bar.classList.toggle('open');
+    if (bar.classList.contains('open')) {
+      document.getElementById('kb-pat-input').value = getPat();
     }
   }
 
-  let kbItems = loadKbState();
+  function savePat() {
+    const val = document.getElementById('kb-pat-input').value.trim();
+    if (!val) return;
+    try { localStorage.setItem(KB_PAT_KEY, val); } catch {}
+    document.getElementById('kb-auth-bar').classList.remove('open');
+    updateSyncUI();
+    setStatusMsg('Sync unlocked. Move cards and click Save to GitHub.', 'ok');
+  }
 
-  function saveKbState() {
+  function clearPat() {
+    try { localStorage.removeItem(KB_PAT_KEY); } catch {}
+    document.getElementById('kb-pat-input').value = '';
+    document.getElementById('kb-auth-bar').classList.remove('open');
+    updateSyncUI();
+    setStatusMsg('Token cleared.', '');
+  }
+
+  async function initKanban() {
+    let baseItems = DEFAULT_KB_ITEMS.map(x => ({...x}));
+    try {
+      const res = await fetch(`./${GH_PATH}?t=${Date.now()}`);
+      if (res.ok) {
+        const remoteItems = await res.json();
+        if (Array.isArray(remoteItems) && remoteItems.length) {
+          baseItems = remoteItems;
+        }
+      }
+    } catch {}
+
+    // Overlay any local unsaved stage edits
+    try {
+      const saved = localStorage.getItem(KB_STORAGE_KEY);
+      if (saved) {
+        const map = JSON.parse(saved);
+        kbItems = baseItems.map(item => ({
+          ...item,
+          stage: map[item.id] || item.stage
+        }));
+        hasUnsavedChanges = true;
+      } else {
+        kbItems = baseItems;
+        hasUnsavedChanges = false;
+      }
+    } catch {
+      kbItems = baseItems;
+    }
+
+    // Grab current SHA quietly if unlocked
+    if (getPat()) {
+      fetchRemoteSha().then(sha => { lastKnownSha = sha; }).catch(() => {});
+    }
+
+    updateSyncUI();
+    renderKanban();
+  }
+
+  async function fetchRemoteSha() {
+    const pat = getPat();
+    if (!pat) return null;
+    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}?t=${Date.now()}`, {
+      headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.sha || null;
+  }
+
+  async function saveToGitHub() {
+    const pat = getPat();
+    if (!pat) { toggleAuthBar(); return; }
+    const saveBtn = document.getElementById('kb-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+    setStatusMsg('Syncing to GitHub...', '');
+
+    try {
+      const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}?t=${Date.now()}`, {
+        headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+      });
+      if (!getRes.ok) {
+        throw new Error(`GitHub auth/fetch failed (${getRes.status}). Check your PAT.`);
+      }
+      const fileData = await getRes.json();
+      if (lastKnownSha && fileData.sha !== lastKnownSha) {
+        const proceed = confirm('kanban.json was updated on GitHub since you loaded this page. Overwrite with your local board?');
+        if (!proceed) {
+          saveBtn.disabled = false;
+          saveBtn.textContent = '💾 Save to GitHub';
+          setStatusMsg('Save cancelled.', '');
+          return;
+        }
+      }
+
+      const contentStr = JSON.stringify(kbItems, null, 2) + '\n';
+      const contentB64 = btoa(unescape(encodeURIComponent(contentStr)));
+
+      const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${pat}`,
+          Accept: 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'chore: update kanban board from web',
+          content: contentB64,
+          sha: fileData.sha
+        })
+      });
+
+      if (!putRes.ok) {
+        const errBody = await putRes.json().catch(() => ({}));
+        throw new Error(errBody.message || `Save failed (${putRes.status})`);
+      }
+
+      const putData = await putRes.json();
+      lastKnownSha = putData.content?.sha || null;
+      hasUnsavedChanges = false;
+      try { localStorage.removeItem(KB_STORAGE_KEY); } catch {}
+      updateSyncUI();
+      setStatusMsg('✓ Saved to GitHub! Live in ~30s.', 'ok');
+    } catch (err) {
+      setStatusMsg(err.message || 'Failed to save to GitHub.', 'err');
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = '💾 Save to GitHub';
+    }
+  }
+
+  function saveKbLocalDraft() {
     const map = {};
     kbItems.forEach(i => { map[i.id] = i.stage; });
     try { localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(map)); } catch {}
+    hasUnsavedChanges = true;
+    updateSyncUI();
+    if (getPat()) setStatusMsg('Unsaved changes — click Save to GitHub.', '');
   }
 
   function renderKanban() {
@@ -1585,9 +1773,9 @@
 
   function moveKbCard(id, newStage) {
     const item = kbItems.find(x => x.id === id);
-    if (!item) return;
+    if (!item || item.stage === newStage) return;
     item.stage = newStage;
-    saveKbState();
+    saveKbLocalDraft();
     renderKanban();
   }
 
@@ -1615,11 +1803,12 @@
 
   function resetKanban() {
     try { localStorage.removeItem(KB_STORAGE_KEY); } catch {}
-    kbItems = DEFAULT_KB_ITEMS.map(x => ({...x}));
-    renderKanban();
+    hasUnsavedChanges = false;
+    setStatusMsg('Reloaded from GitHub.', '');
+    initKanban();
   }
 
-  renderKanban();
+  initKanban();
 
   /* ── CLASS SCHEDULE BANNER ── */
   function updateTodayBanner() {
