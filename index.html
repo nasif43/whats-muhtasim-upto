@@ -87,7 +87,11 @@
       background: var(--green-bg); color: var(--green);
       border: 1px solid #bbf7d0;
     }
-    .pill-green::before { content: '●'; font-size: 7px; }
+    .pill-green::before {
+      content: ''; display: inline-block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; flex-shrink: 0;
+    }
     .pill-muted {
       background: var(--surface-2); color: var(--muted);
       border: 1px solid var(--border);
@@ -141,27 +145,21 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--r-lg);
-      box-shadow: var(--shadow-sm);
       margin-bottom: 12px; overflow: hidden;
-      transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+      transition: border-color 0.15s, transform 0.15s;
     }
     .pcard:hover {
-      box-shadow: var(--shadow-md);
       border-color: var(--border-strong);
       transform: translateY(-1px);
     }
     .pcard-top {
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: 1fr auto;
       gap: 14px;
       padding: 16px 20px 12px;
       align-items: start;
     }
-    .pcard-icon {
-      width: 38px; height: 38px; border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 19px; flex-shrink: 0;
-    }
+    /* removed .pcard-icon — emoji icon block banned (impeccable craft-floor) */
     .pcard-title {
       font-size: 14.5px; font-weight: 600; color: var(--text);
       display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
@@ -247,7 +245,11 @@
       border-radius: 20px; font-size: 11.5px; padding: 2px 10px;
       color: var(--text-2);
     }
-    .win-chip::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 10px; }
+    .win-chip::before {
+      content: ''; display: inline-block;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green); flex-shrink: 0;
+    }
 
     /* expandable body */
     .pcard-body {
@@ -282,7 +284,7 @@
 
     /* highlight box */
     .hbox {
-      background: var(--accent-bg); border-left: 3px solid var(--accent);
+      background: var(--accent-bg); border-left: 1px solid var(--accent);
       border-radius: 4px; padding: 10px 13px;
       font-size: 12.5px; color: #1e40af; line-height: 1.6;
     }
@@ -575,7 +577,47 @@
     }
     .today-box.inclass { background: var(--amber-bg); border-color: #fbbf24; color: #92400e; }
 
-    /* ── RESPONSIVE ── */
+    /* ── ICONS (Lucide SVG, stroke-width 1.5) ── */
+    .icon {
+      width: 14px; height: 14px; display: inline-block;
+      vertical-align: -2px; flex-shrink: 0;
+      stroke: currentColor; stroke-width: 1.5;
+      stroke-linecap: round; stroke-linejoin: round;
+      fill: none;
+    }
+    .icon-sm { width: 12px; height: 12px; }
+
+    /* ── BADGE DOT ── */
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; display: inline-block;
+    }
+    .b-done    .badge-dot { background: var(--green); }
+    .b-ongoing .badge-dot { background: var(--orange); }
+    .b-review  .badge-dot { background: var(--accent); }
+    .b-paused  .badge-dot { background: var(--gray); }
+    .b-shipped .badge-dot { background: var(--purple); }
+
+    /* ── CHANNEL MONOGRAM (replaces emoji ch-icon) ── */
+    .ch-mono {
+      width: 30px; height: 30px; border-radius: 6px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 0;
+    }
+    .ch-live    .ch-mono { background: var(--green); }
+    .ch-next    .ch-mono { background: var(--accent); }
+    .ch-blocked .ch-mono { background: var(--purple); }
+    .ch-broken  .ch-mono { background: var(--red); }
+
+    /* ── KANBAN COLUMN DOT (replaces emoji column titles) ── */
+    .col-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block;
+    }
+    .kb-col[data-stage="scoping"]  .col-dot { background: var(--gray); }
+    .kb-col[data-stage="active"]   .col-dot { background: var(--accent); }
+    .kb-col[data-stage="testing"]  .col-dot { background: var(--amber); }
+    .kb-col[data-stage="shipped"]  .col-dot { background: var(--green); }
+
+    /* ── KB COLUMN TOP BORDER — keep only 3px top (column accent, not a card) ── */ */
     @media (max-width: 640px) {
       header { padding: 16px 16px 14px; }
       nav { padding: 0 16px; overflow-x: auto; }
@@ -595,6 +637,74 @@
 </head>
 <body>
 
+<!-- ── SVG ICON SPRITE (Lucide, stroke-width 1.5) ── -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-kanban" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/>
+    <rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>
+  </symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24">
+    <rect x="2" y="7" width="20" height="14" rx="2"/>
+    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+    <line x1="12" y1="12" x2="12" y2="12.01"/>
+  </symbol>
+  <symbol id="i-graduation-cap" viewBox="0 0 24 24">
+    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24">
+    <path d="m6 9 6 6 6-6"/>
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24">
+    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+  </symbol>
+  <symbol id="i-refresh-cw" viewBox="0 0 24 24">
+    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+    <path d="M21 3v5h-5"/>
+    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+    <path d="M8 16H3v5"/>
+  </symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </symbol>
+  <symbol id="i-unlock" viewBox="0 0 24 24">
+    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+  </symbol>
+  <symbol id="i-save" viewBox="0 0 24 24">
+    <path d="M15.2 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.8Z"/>
+    <path d="M15 3v6H9V3"/><path d="M9 15h6"/>
+  </symbol>
+  <symbol id="i-external-link" viewBox="0 0 24 24">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24">
+    <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+    <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
+    <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+    <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+  </symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24">
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+  </symbol>
+  <symbol id="i-folder-open" viewBox="0 0 24 24">
+    <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
+  </symbol>
+  <symbol id="i-info" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24">
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+  </symbol>
+  <symbol id="i-book-open" viewBox="0 0 24 24">
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+  </symbol>
+</svg>
+
 <header>
   <div class="header-inner">
     <h1>What's <span>Muhtasim</span> Upto?</h1>
@@ -608,9 +718,9 @@
 
 <nav>
   <div class="nav-inner">
-    <button onclick="switchTab('kanban',this)" class="active">📋 Kanban</button>
-    <button onclick="switchTab('work',this)">💼 Work</button>
-    <button onclick="switchTab('classes',this)">🎓 Class Schedule</button>
+    <button onclick="switchTab('kanban',this)" class="active"><svg class="icon"><use href="#i-kanban"/></svg> Kanban</button>
+    <button onclick="switchTab('work',this)"><svg class="icon"><use href="#i-briefcase"/></svg> Work</button>
+    <button onclick="switchTab('classes',this)"><svg class="icon"><use href="#i-graduation-cap"/></svg> Class Schedule</button>
   </div>
 </nav>
 
@@ -621,16 +731,16 @@
   <div class="kb-toolbar">
     <div class="kb-filters">
       <button class="kb-filter active" onclick="filterKanban('all', this)">All</button>
-      <button class="kb-filter" onclick="filterKanban('mobile', this)">📱 Mobile Apps</button>
-      <button class="kb-filter" onclick="filterKanban('odoo', this)">⚙️ Odoo</button>
-      <button class="kb-filter" onclick="filterKanban('web', this)">🌐 Web / Platform</button>
-      <button class="kb-filter" onclick="filterKanban('rnd', this)">🧪 R&amp;D</button>
+      <button class="kb-filter" onclick="filterKanban('mobile', this)">Mobile Apps</button>
+      <button class="kb-filter" onclick="filterKanban('odoo', this)">Odoo</button>
+      <button class="kb-filter" onclick="filterKanban('web', this)">Web / Platform</button>
+      <button class="kb-filter" onclick="filterKanban('rnd', this)">R&amp;D</button>
     </div>
     <div class="kb-actions">
       <span class="kb-status-msg" id="kb-status-msg"></span>
-      <button class="kb-save-btn" id="kb-save-btn" style="display:none;" onclick="saveToGitHub()">💾 Save to GitHub</button>
-      <button class="kb-reset" id="kb-unlock-btn" onclick="toggleAuthBar()">🔒 Unlock Sync</button>
-      <button class="kb-reset" onclick="resetKanban()" title="Reload board from GitHub">↺ Reset</button>
+      <button class="kb-save-btn" id="kb-save-btn" style="display:none;" onclick="saveToGitHub()"><svg class="icon"><use href="#i-save"/></svg> Save to GitHub</button>
+      <button class="kb-reset" id="kb-unlock-btn" onclick="toggleAuthBar()"><svg class="icon"><use href="#i-lock"/></svg> Unlock Sync</button>
+      <button class="kb-reset" onclick="resetKanban()" title="Reload board from GitHub"><svg class="icon"><use href="#i-refresh-cw"/></svg> Reset</button>
     </div>
   </div>
 
@@ -647,7 +757,7 @@
     <div class="kb-board" id="kb-board">
       <div class="kb-col" data-stage="scoping" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'scoping')">
         <div class="kb-col-head">
-          <span class="kb-col-title">📝 Scoping / R&amp;D</span>
+          <span class="kb-col-title"><span class="col-dot"></span> Scoping / R&amp;D</span>
           <span class="kb-count" id="count-scoping">0</span>
         </div>
         <div class="kb-cards" id="col-scoping"></div>
@@ -655,7 +765,7 @@
 
       <div class="kb-col" data-stage="active" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'active')">
         <div class="kb-col-head">
-          <span class="kb-col-title">🔨 In Development</span>
+          <span class="kb-col-title"><span class="col-dot"></span> In Development</span>
           <span class="kb-count" id="count-active">0</span>
         </div>
         <div class="kb-cards" id="col-active"></div>
@@ -663,7 +773,7 @@
 
       <div class="kb-col" data-stage="testing" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'testing')">
         <div class="kb-col-head">
-          <span class="kb-col-title">🧪 Testing / Review</span>
+          <span class="kb-col-title"><span class="col-dot"></span> Testing / Review</span>
           <span class="kb-count" id="count-testing">0</span>
         </div>
         <div class="kb-cards" id="col-testing"></div>
@@ -671,7 +781,7 @@
 
       <div class="kb-col" data-stage="shipped" ondragover="kbDragOver(event)" ondragleave="kbDragLeave(event)" ondrop="kbDrop(event,'shipped')">
         <div class="kb-col-head">
-          <span class="kb-col-title">🚀 Shipped / Done</span>
+          <span class="kb-col-title"><span class="col-dot"></span> Shipped / Done</span>
           <span class="kb-count" id="count-shipped">0</span>
         </div>
         <div class="kb-cards" id="col-shipped"></div>
@@ -684,17 +794,16 @@
 <div id="tab-work" class="tab-content">
 
   <!-- ══ NOVEMBER 2026 ══ -->
-  <div class="section-label">🔵 Active &amp; Recent — October – November 2026</div>
+  <div class="section-label">Active &amp; Recent — October – November 2026</div>
 
   <!-- MetaPOS -->
   <div class="pcard" id="card-metapos">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#e0f2fe;">🛒</div>
       <div class="pcard-main">
         <div class="pcard-title">
           MetaPOS — Mobile Point of Sale
           <span style="background:#dbeafe;color:#1d4ed8;font-size:10.5px;padding:2px 7px;border-radius:4px;font-weight:700;">v1.0.3</span>
-          <span class="badge b-ongoing">● Ongoing</span>
+          <span class="badge b-ongoing"><span class="badge-dot"></span> Ongoing</span>
         </div>
         <div class="pcard-subtitle">Offline-first bilingual (Bengali &amp; English) Flutter POS app engineered for Amar Ekushey Boi Mela &amp; high-throughput retail, synced with Odoo 19 via JSON-RPC.</div>
         <div class="pcard-tags">
@@ -706,7 +815,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-metapos')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -736,11 +845,10 @@
   <!-- GDFL Secondary Sales (Shokti+) -->
   <div class="pcard" id="card-gdfl">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#dcfce7;">📦</div>
       <div class="pcard-main">
         <div class="pcard-title">
           GDFL Secondary Sales App (Shokti+)
-          <span class="badge b-review">🧪 Play Store Closed Testing</span>
+          <span class="badge b-review"><span class="badge-dot"></span> Play Store Closed Testing</span>
         </div>
         <div class="pcard-subtitle">Secondary sales mobile app (<code>com.grameendanone.shoktiplus</code>) for Grameen Danone Foods Ltd — automated Google Play CI/CD pipeline, Firebase push notifications, and release hardening.</div>
         <div class="pcard-tags">
@@ -752,7 +860,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-gdfl')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -779,11 +887,10 @@
   <!-- Mobile WMS App for Odoo -->
   <div class="pcard" id="card-wms">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#fef3c7;">🏭</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Mobile WMS App for Odoo 19
-          <span class="badge b-shipped">⬆ Ready for Handover</span>
+          <span class="badge b-shipped"><span class="badge-dot"></span> Handover Ready</span>
         </div>
         <div class="pcard-subtitle">Production-grade Android warehouse management app (Flutter) and native Odoo 19 REST connector (<code>meta_wms_api</code>) with GS1 camera barcode scanning and offline physical inventory counts.</div>
         <div class="pcard-tags">
@@ -795,7 +902,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-wms')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -823,11 +930,10 @@
   <!-- MetaFSM Field Service Mobile App -->
   <div class="pcard" id="card-fsm">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#ede9fe;">🔧</div>
       <div class="pcard-main">
         <div class="pcard-title">
           MetaFSM — Field Service Mobile App
-          <span class="badge b-review">🧪 E2E Tested (POC)</span>
+          <span class="badge b-review"><span class="badge-dot"></span> E2E Tested (POC)</span>
         </div>
         <div class="pcard-subtitle">Field Service Management mobile client (Flutter) and companion Odoo 19 Enterprise module (<code>metafsm_mobile</code>) extending <code>industry_fsm</code> for field technicians.</div>
         <div class="pcard-tags">
@@ -838,7 +944,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-fsm')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -857,11 +963,10 @@
   <!-- Meta Omnichannel -->
   <div class="pcard open" id="card-omni">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#dbeafe;">💬</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Meta Omnichannel Platform
-          <span class="badge b-ongoing">● Ongoing</span>
+          <span class="badge b-ongoing"><span class="badge-dot"></span> Ongoing</span>
         </div>
         <div class="pcard-subtitle">Unified messaging platform connecting Messenger, Telegram, Slack, and Meta Comments into one agent inbox — with live analytics, human takeover, API keys management, and full dark mode.</div>
         <div class="pcard-tags">
@@ -870,13 +975,13 @@
           <span class="tag">NestJS</span>
           <span class="tag py">LiteLLM</span>
           <a class="demo-link-btn" href="http://203.82.194.35:3001/panel/dashboard" target="_blank" rel="noopener noreferrer">
-            <span class="pulse-dot"></span> live demo ↗
+            <span class="pulse-dot"></span> live demo <svg class="icon icon-sm"><use href="#i-external-link"/></svg>
           </a>
           <span style="font-size:11px;color:var(--muted);align-self:center;">Aug 10 – Nov 4 · GitHub (private)</span>
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-omni')">
-        Hide <span class="chevron">▾</span>
+        Hide <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-body">
@@ -886,39 +991,39 @@
         <div class="body-label">Channel Status</div>
         <div class="channel-grid">
           <div class="ch-item ch-live">
-            <div class="ch-icon">📘</div>
+            <div class="ch-mono">M</div>
             <div class="ch-name">Messenger</div>
-            <div class="ch-badge ch-badge-live">✓ Live</div>
+            <div class="ch-badge ch-badge-live">Live</div>
             <div class="ch-note">Historical sync + echo filtering done</div>
           </div>
           <div class="ch-item ch-live">
-            <div class="ch-icon">✈️</div>
+            <div class="ch-mono">Tg</div>
             <div class="ch-name">Telegram</div>
-            <div class="ch-badge ch-badge-live">✓ Live</div>
+            <div class="ch-badge ch-badge-live">Live</div>
             <div class="ch-note">Webhook with secret path verification</div>
           </div>
           <div class="ch-item ch-live">
-            <div class="ch-icon">💼</div>
+            <div class="ch-mono">Sl</div>
             <div class="ch-name">Slack</div>
-            <div class="ch-badge ch-badge-live">✓ Live</div>
+            <div class="ch-badge ch-badge-live">Live</div>
             <div class="ch-note">Signing secret verified</div>
           </div>
           <div class="ch-item ch-live">
-            <div class="ch-icon">💙</div>
+            <div class="ch-mono">C</div>
             <div class="ch-name">Meta Comments</div>
-            <div class="ch-badge ch-badge-live">✓ Done</div>
+            <div class="ch-badge ch-badge-live">Done</div>
             <div class="ch-note">FB/IG post comment webhook &amp; reply handler (Oct 8)</div>
           </div>
           <div class="ch-item ch-next">
-            <div class="ch-icon">🎵</div>
+            <div class="ch-mono">Tk</div>
             <div class="ch-name">TikTok</div>
-            <div class="ch-badge ch-badge-next">→ Up next</div>
+            <div class="ch-badge ch-badge-next">Up next</div>
             <div class="ch-note">DSPR review scoped; architecture ready</div>
           </div>
           <div class="ch-item ch-blocked">
-            <div class="ch-icon">🟣</div>
+            <div class="ch-mono">V</div>
             <div class="ch-name">Viber</div>
-            <div class="ch-badge ch-badge-blocked">⚑ Pending budget</div>
+            <div class="ch-badge ch-badge-blocked">Pending budget</div>
             <div class="ch-note">~$100/mo API access cost</div>
           </div>
         </div>
@@ -988,8 +1093,8 @@
       <!-- ── DEV LOG (COLLAPSIBLE) ── -->
       <div class="body-section" style="padding-bottom:0;">
         <button class="devlog-toggle" id="devlog-btn" onclick="toggleDevlog()">
-          <span>📋 Developer log — milestones &amp; R&amp;D findings</span>
-          <span class="older-chevron" id="devlog-chevron">▾</span>
+          <span><svg class="icon"><use href="#i-list"/></svg> Developer log — milestones &amp; R&amp;D findings</span>
+          <svg class="icon older-chevron" id="devlog-chevron"><use href="#i-chevron-down"/></svg>
         </button>
       </div>
       <div id="devlog-panel" style="display:none;">
@@ -1008,15 +1113,15 @@
         <div class="body-section">
           <div class="body-label">R&amp;D Findings — Channel Expansion</div>
           <div class="finding">
-            <div class="finding-title">🟣 Viber</div>
+            <div class="finding-title">Viber</div>
             <p>~$100/month for API key via Viber Business partner programme. Webhook uses HMAC-SHA256, rate limit 500 req/10s. Defer until client confirms budget.</p>
           </div>
           <div class="finding">
-            <div class="finding-title">🎵 TikTok Messaging + Comments</div>
+            <div class="finding-title">TikTok Messaging + Comments</div>
             <p>Possible but requires TikTok Developer App approval + DSPR maturity review (data inventory, privacy notice, subprocessor list). Reply window 48h. Architecture already supports it.</p>
           </div>
           <div class="finding">
-            <div class="finding-title">💙 Meta Post Comments</div>
+            <div class="finding-title">Meta Post Comments</div>
             <p><strong>Implemented (Oct 8):</strong> Leveraged Meta webhook infrastructure to ingest page post comments and deliver responses directly through omnichannel.</p>
           </div>
         </div>
@@ -1037,11 +1142,10 @@
   <!-- Odoo Helpdesk Mobile Suite -->
   <div class="pcard" id="card-helpdesk">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#dcfce7;">🎫</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Odoo Helpdesk Mobile Suite
-          <span class="badge b-shipped">⬆ Shipped · APK Released</span>
+          <span class="badge b-shipped"><span class="badge-dot"></span> Shipped · APK Released</span>
         </div>
         <div class="pcard-subtitle">Dual-role Flutter client (Customer Portal &amp; Employee Hub) + native Odoo 19 REST API (<code>helpdesk_mobile_api</code>) connected to 24/7 tender-server backend.</div>
         <div class="pcard-tags">
@@ -1052,7 +1156,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-helpdesk')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1072,11 +1176,10 @@
   <!-- M M Mahbub Hasan Portfolio & CMS -->
   <div class="pcard" id="card-portfolio">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#ffedd5;">🌐</div>
       <div class="pcard-main">
         <div class="pcard-title">
           M M Mahbub Hasan Portfolio &amp; CMS
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">Full-stack portfolio and thought leadership CMS deployed on Cloudflare Workers (OpenNext) with D1 SQLite database, R2 storage, and live inquiry notifications.</div>
         <div class="pcard-tags">
@@ -1087,7 +1190,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-portfolio')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1106,11 +1209,10 @@
   <!-- Rico Meta Ads & CRM (CAPI) -->
   <div class="pcard" id="card-capi">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#dbeafe;">📣</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Rico Meta Ads &amp; CRM (CAPI) Module
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">Bi-directional Meta (Facebook &amp; Instagram Lead Ads) and Odoo 19 CRM Conversions API integration for Conversion Leads Optimization.</div>
         <div class="pcard-tags">
@@ -1121,7 +1223,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-capi')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1140,11 +1242,10 @@
   <!-- Odoo Upgrader -->
   <div class="pcard" id="card-upgrader">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#f3e8ff;">⚡</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Odoo Upgrader Framework
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">Portable, autonomous Odoo ERP module upgrade framework (18 → 19+) with AST/XML transforms, static YAML rule checks, and live <code>odoo-bin</code> validation.</div>
         <div class="pcard-tags">
@@ -1155,7 +1256,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-upgrader')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1173,22 +1274,21 @@
 
   <!-- ══ OLDER PROJECTS COLLAPSIBLE ══ -->
   <button class="older-toggle" id="older-btn" onclick="toggleOlder()">
-    <span>📁 View older projects (June – Early October 2026)</span>
-    <span class="older-chevron" id="older-chevron">▾</span>
+    <span style="display:inline-flex;align-items:center;gap:7px;"><svg class="icon"><use href="#i-folder"/></svg> View older projects (June – Early October 2026)</span>
+    <svg class="icon older-chevron" id="older-chevron"><use href="#i-chevron-down"/></svg>
   </button>
 
   <div id="older-projects" style="display:none;">
 
-  <div class="section-label">✅ Completed — August – Early October 2026</div>
+  <div class="section-label">Completed — August – Early October 2026</div>
 
   <!-- AI4BT Global Summit -->
   <div class="pcard" id="card-ai4bt">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#dbeafe;">🌍</div>
       <div class="pcard-main">
         <div class="pcard-title">
           AI4BT Global Summit Website
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">Official summit web presence with Media Alliance partner logo wall, press coverage integrations, and About AI4BT overview pages.</div>
         <div class="pcard-tags">
@@ -1197,7 +1297,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-ai4bt')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1215,12 +1315,11 @@
   <!-- Odoo 18→19 Migration -->
   <div class="pcard" id="card-migration">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#f3e8ff;">⚙️</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Odoo 18 → 19 Module Migration
           <span style="background:#fee2e2;color:#b91c1c;font-size:10.5px;padding:2px 7px;border-radius:4px;font-weight:700;">127 modules</span>
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">Converted 127 Odoo Enterprise Edition modules from v18 to v19 compatibility. Built a dedicated upgrade validator tool to automate future compatibility checks.</div>
         <div class="pcard-tags">
@@ -1230,7 +1329,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-migration')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1258,11 +1357,10 @@
   <!-- General Takaful -->
   <div class="pcard" id="card-takaful">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#fef9c3;">🛡️</div>
       <div class="pcard-main">
         <div class="pcard-title">
           General Takaful Management Module
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">Full Odoo 19 demo module covering the Islamic insurance operating cycle — quotations, policies, claims, and retakaful — built for the Amãna Takaful prospect.</div>
         <div class="pcard-tags">
@@ -1272,7 +1370,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-takaful')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1290,16 +1388,15 @@
     </div>
   </div>
 
-  <div class="section-label">✅ Completed — July 2026</div>
+  <div class="section-label">Completed — July 2026</div>
 
   <!-- BDJobs Scraper -->
   <div class="pcard" id="card-scraper">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#ffe4e6;">📋</div>
       <div class="pcard-main">
         <div class="pcard-title">
           BDJobs &amp; e-GP Tender Scraper
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">Scrapes bdjobs.com and egp.gov.bd daily for ERP/software tenders. Deployed live with a web dashboard at tender.metamorphosis.com.bd.</div>
         <div class="pcard-tags">
@@ -1309,7 +1406,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-scraper')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1337,11 +1434,10 @@
   <!-- UniWatch -->
   <div class="pcard" id="card-uni">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#fef9c3;">🎓</div>
       <div class="pcard-main">
         <div class="pcard-title">
           UniWatch — University Deadline Monitor
-          <span class="badge b-shipped">⬆ Shipped to client</span>
+          <span class="badge b-shipped"><span class="badge-dot"></span> Shipped to client</span>
         </div>
         <div class="pcard-subtitle">Monitors 5+ Australian university websites for application deadline and content changes. Alerts when a page updates. Built initially as a standalone app, then rebuilt as a native Odoo 19 module for the RICO client.</div>
         <div class="pcard-tags">
@@ -1351,7 +1447,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-uni')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1371,11 +1467,10 @@
   <!-- Odoo Short URL -->
   <div class="pcard" id="card-url">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#dbeafe;">🔗</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Odoo Short URL Maker
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">URL shortener and redirect system for Odoo e-commerce. Deployed to tender.metamorphosis.com.bd/web the same day it was built.</div>
         <div class="pcard-tags">
@@ -1385,7 +1480,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-url')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1400,16 +1495,15 @@
     </div>
   </div>
 
-  <div class="section-label">✅ Completed — June / Early July 2026</div>
+  <div class="section-label">Completed — June / Early July 2026</div>
 
   <!-- Odoo Agentic Installer -->
   <div class="pcard" id="card-installer">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#d1fae5;">🤖</div>
       <div class="pcard-main">
         <div class="pcard-title">
           Odoo Agentic Installer
-          <span class="badge b-done">✓ Done</span>
+          <span class="badge b-done"><span class="badge-dot"></span> Done</span>
         </div>
         <div class="pcard-subtitle">An AI-driven Python + Ansible agent that installs Odoo Community on any Linux server with zero manual steps and no Docker dependency. Also patched Odoo's default AI to use OpenRouter instead of hardcoded OpenAI/Gemini.</div>
         <div class="pcard-tags">
@@ -1419,7 +1513,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-installer')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1438,11 +1532,10 @@
   <!-- JARVIS -->
   <div class="pcard" id="card-jarvis">
     <div class="pcard-top">
-      <div class="pcard-icon" style="background:#f3e8ff;">🧠</div>
       <div class="pcard-main">
         <div class="pcard-title">
           J.A.R.V.I.S. R&amp;D
-          <span class="badge b-paused">⏸ Paused</span>
+          <span class="badge b-paused"><span class="badge-dot"></span> Paused</span>
         </div>
         <div class="pcard-subtitle">Research into LLM memory architectures for a persistent internal AI assistant. Architecture drafted, codebase initialized — backgrounded pending further direction.</div>
         <div class="pcard-tags">
@@ -1452,7 +1545,7 @@
         </div>
       </div>
       <button class="pcard-toggle" onclick="toggleCard('card-jarvis')">
-        Details <span class="chevron">▾</span>
+        Details <svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>
       </button>
     </div>
     <div class="pcard-wins">
@@ -1476,7 +1569,7 @@
 <div id="tab-classes" class="tab-content">
 
   <div class="today-box" id="today-box">
-    📅 <span id="today-text">Loading...</span>
+    <svg class="icon"><use href="#i-calendar"/></svg> <span id="today-text">Loading...</span>
   </div>
 
   <div class="tt-wrap">
@@ -1551,7 +1644,7 @@
       <div><span class="cc cc-c445">CSC445</span> &nbsp;CS elective</div>
       <div><span class="cc cc-c425">CSC425</span> &nbsp;CS elective</div>
     </div>
-    <p style="font-size:11.5px;color:var(--muted);margin-top:12px;">ℹ️ Personal schedule covers Sunday through Wednesday. No scheduled classes on Thursday, Friday, or Saturday.</p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:12px;display:flex;align-items:center;gap:6px;"><svg class="icon icon-sm"><use href="#i-info"/></svg> Personal schedule covers Sunday through Wednesday. No scheduled classes on Thursday, Friday, or Saturday.</p>
   </div>
 
 </div>
@@ -1593,9 +1686,9 @@
     const isOpen = panel.style.display !== 'none';
     panel.style.display = isOpen ? 'none' : 'block';
     chevron.classList.toggle('open', !isOpen);
-    btn.querySelector('span').textContent = isOpen
-      ? '📁 View older projects (June – Early October 2026)'
-      : '📂 Hide older projects';
+    btn.querySelector('span').innerHTML = isOpen
+      ? '<svg class="icon"><use href="#i-folder"/></svg> View older projects (June – Early October 2026)'
+      : '<svg class="icon"><use href="#i-folder-open"/></svg> Hide older projects';
   }
 
   function toggleDevlog() {
@@ -1610,11 +1703,8 @@
     const card = document.getElementById(id);
     card.classList.toggle('open');
     const btn = card.querySelector('.pcard-toggle');
-    const ch = document.createElement('span');
-    ch.className = 'chevron';
-    ch.textContent = '▾';
-    btn.textContent = card.classList.contains('open') ? 'Hide ' : 'Details ';
-    btn.appendChild(ch);
+    btn.innerHTML = (card.classList.contains('open') ? 'Hide ' : 'Details ')
+      + '<svg class="icon icon-sm chevron"><use href="#i-chevron-down"/></svg>';
   }
 
   /* ── KANBAN LOGIC (GitHub-backed kanban.json + local draft) ── */
@@ -1684,14 +1774,14 @@
     document.getElementById('kb-pat-input').value = '';
     document.getElementById('kb-auth-bar').classList.remove('open');
     document.getElementById('kb-logout-btn').style.display = '';
-    document.getElementById('kb-unlock-btn').textContent = '🔓 Sync Unlocked';
+    document.getElementById('kb-unlock-btn').innerHTML = '<svg class="icon"><use href="#i-unlock"/></svg> Sync Unlocked';
     setStatusMsg('Token saved. Click Save to sync.', 'ok');
   }
 
   function clearPat() {
     try { localStorage.removeItem(KB_PAT_KEY); } catch {}
     document.getElementById('kb-logout-btn').style.display = 'none';
-    document.getElementById('kb-unlock-btn').textContent = '🔒 Unlock Sync';
+    document.getElementById('kb-unlock-btn').innerHTML = '<svg class="icon"><use href="#i-lock"/></svg> Unlock Sync';
     setStatusMsg('Token cleared.', '');
   }
 
@@ -1701,7 +1791,7 @@
     try { pat = localStorage.getItem(KB_PAT_KEY) || ''; } catch {}
     if (pat) {
       document.getElementById('kb-logout-btn').style.display = '';
-      document.getElementById('kb-unlock-btn').textContent = '🔓 Sync Unlocked';
+      document.getElementById('kb-unlock-btn').innerHTML = '<svg class="icon"><use href="#i-unlock"/></svg> Sync Unlocked';
     }
 
     // Try local draft first
@@ -1785,7 +1875,7 @@
       hasUnsavedChanges = false;
       btn.classList.remove('unsaved');
       btn.style.display = 'none';
-      setStatusMsg('Saved to GitHub ✓', 'ok');
+      setStatusMsg('Saved to GitHub', 'ok');
     } catch (e) {
       setStatusMsg('Save failed: ' + e.message, 'err');
     } finally {
@@ -1820,7 +1910,7 @@
         const cardId = kbIdToCardId(item.id);
         const workCard = document.getElementById(cardId);
         const viewLink = workCard
-          ? `<button class="kb-view-btn" onclick="viewInWork('${cardId}')">View details →</button>`
+          ? `<button class="kb-view-btn" onclick="viewInWork('${cardId}')">View details <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg></button>`
           : '';
 
         el.innerHTML = `
@@ -1835,10 +1925,10 @@
               ${viewLink}
             </div>
             <select class="kb-move-select" onchange="moveKbCard('${item.id}', this.value)" aria-label="Move stage">
-              <option value="scoping"  ${item.stage==='scoping' ?'selected':''}>📝 Scoping</option>
-              <option value="active"   ${item.stage==='active'  ?'selected':''}>🔨 Active</option>
-              <option value="testing"  ${item.stage==='testing' ?'selected':''}>🧪 Testing</option>
-              <option value="shipped"  ${item.stage==='shipped' ?'selected':''}>🚀 Shipped</option>
+              <option value="scoping"  ${item.stage==='scoping' ?'selected':''}>Scoping</option>
+              <option value="active"   ${item.stage==='active'  ?'selected':''}>Active</option>
+              <option value="testing"  ${item.stage==='testing' ?'selected':''}>Testing</option>
+              <option value="shipped"  ${item.stage==='shipped' ?'selected':''}>Shipped</option>
             </select>
           </div>
         `;
@@ -1920,11 +2010,11 @@
     }
     if (cur) {
       box.classList.add('inclass');
-      txt.innerHTML = `📚 <strong>In class right now:</strong> ${cur.l} &nbsp;·&nbsp; ${timeStr} (BD)`;
+      txt.innerHTML = `<strong>In class right now:</strong> ${cur.l} &nbsp;·&nbsp; ${timeStr} (BD)`;
     } else if (nxt) {
       txt.innerHTML = `Today is <strong>${dayNames[day]}</strong>. Next class: <strong>${nxt.l}</strong> &nbsp;·&nbsp; ${timeStr} (BD)`;
     } else {
-      txt.innerHTML = `Today is <strong>${dayNames[day]}</strong> — classes done for the day. ${timeStr} (BD) 🌙`;
+      txt.innerHTML = `Today is <strong>${dayNames[day]}</strong> — classes done for the day. ${timeStr} (BD)`;
     }
   }
 
